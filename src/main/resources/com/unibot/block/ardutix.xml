@@ -1,0 +1,410 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE BlockLangDef SYSTEM "lang_def.dtd">
+<BlockLangDef>
+
+	<BlockConnectorShapes>
+		<BlockConnectorShape shape-type="number"
+			shape-number="1" />
+		<BlockConnectorShape shape-type="number-list"
+			shape-number="2" />
+		<BlockConnectorShape shape-type="number-inv"
+			shape-number="3" />
+		<BlockConnectorShape shape-type="boolean"
+			shape-number="4" />
+		<BlockConnectorShape shape-type="boolean-list"
+			shape-number="5" />
+		<BlockConnectorShape shape-type="boolean-inv"
+			shape-number="6" />
+		<BlockConnectorShape shape-type="string"
+			shape-number="7" />
+		<BlockConnectorShape shape-type="string-list"
+			shape-number="8" />
+		<BlockConnectorShape shape-type="string-inv"
+			shape-number="9" />
+		<BlockConnectorShape shape-type="poly"
+			shape-number="10" />
+		<BlockConnectorShape shape-type="poly-list"
+			shape-number="11" />
+		<BlockConnectorShape shape-type="poly-inv"
+			shape-number="12" />
+		<BlockConnectorShape shape-type="proc-param"
+			shape-number="13" />
+		<BlockConnectorShape shape-type="cmd"
+			shape-number="14" />
+		<BlockConnectorShape shape-type="robot"
+			shape-number="15" />
+	</BlockConnectorShapes>
+
+	<BlockGenuses>
+
+
+
+		<BlockGenus name="string" kind="data" color="0 184 255"
+			initlabel="bg.string" editable-label="yes">
+			<BlockConnectors>
+				<BlockConnector connector-type="string"
+					connector-kind="plug" position-type="mirror" />
+			</BlockConnectors>
+		</BlockGenus>
+
+		<BlockGenus name="object" kind="data" color="0 184 255"
+			initlabel="bg.object" editable-label="yes">
+			<BlockConnectors>
+				<BlockConnector connector-type="poly" connector-kind="plug"
+					position-type="mirror" />
+			</BlockConnectors>
+		</BlockGenus>
+
+
+		<BlockGenus name="number" kind="data" color="0 184 255"
+			initlabel="bg.number" editable-label="yes">
+			<BlockConnectors>
+				<BlockConnector connector-type="number"
+					connector-kind="plug" position-type="mirror" />
+			</BlockConnectors>
+		</BlockGenus>
+
+		<BlockGenus name="number-float" kind="data" color="0 184 255"
+			initlabel="bg.number-float" editable-label="yes">
+			<BlockConnectors>
+				<BlockConnector connector-type="number"
+					connector-kind="plug" position-type="mirror" />
+			</BlockConnectors>
+		</BlockGenus>
+
+		<BlockGenus name="true" kind="data" initlabel="bg.true"
+			color="0 184 255">
+			<description>
+				<text>
+					Reports the boolean true.
+				</text>
+			</description>
+			<BlockConnectors>
+				<BlockConnector connector-kind="plug" connector-type="boolean"
+					position-type="mirror" />
+			</BlockConnectors>
+		</BlockGenus>
+
+		<BlockGenus name="false" kind="data" initlabel="bg.false"
+			color="0 184 255">
+			<description>
+				<text>
+					Reports the boolean false.
+				</text>
+			</description>
+			<BlockConnectors>
+				<BlockConnector connector-kind="plug" connector-type="boolean"
+					position-type="mirror" />
+			</BlockConnectors>
+		</BlockGenus>
+
+		<BlockGenus name="template_data_int_mavariable1[]" kind="data"   color="255 255 255" initlabel="mavariable1[]">
+<BlockConnectors>
+<BlockConnector connector-type="poly" connector-kind="socket" position-type="bottom">
+<DefaultArg genus-name="object" label="maclasse" />
+</BlockConnector>
+</BlockConnectors>
+</BlockGenus>
+
+<BlockGenus name="template_data_String_mavariable2" kind="data"   color="255 255 255" initlabel="mavariable2">
+<BlockConnectors>
+<BlockConnector connector-type="poly" connector-kind="socket" position-type="bottom">
+<DefaultArg genus-name="object" label="maclasse" />
+</BlockConnector>
+</BlockConnectors>
+</BlockGenus>
+
+<BlockGenus name="template_constructor_MiniRobot2" kind="command"   color="255 255 255" initlabel="MiniRobot2">
+<BlockConnectors>
+<BlockConnector connector-type="poly" connector-kind="socket" position-type="bottom">
+<DefaultArg genus-name="object" label="maclasse" />
+</BlockConnector>
+</BlockConnectors>
+</BlockGenus>
+
+<BlockGenus name="template_command_initialise" kind="command"   color="255 255 255" initlabel="initialise">
+<BlockConnectors>
+<BlockConnector connector-type="poly" connector-kind="socket" position-type="bottom">
+<DefaultArg genus-name="object" label="maclasse" />
+</BlockConnector>
+</BlockConnectors>
+</BlockGenus>
+
+<BlockGenus name="template_command_avance" kind="command"   color="255 255 255" initlabel="avance">
+<BlockConnectors>
+<BlockConnector connector-type="poly" connector-kind="socket" position-type="bottom">
+<DefaultArg genus-name="object" label="maclasse" />
+</BlockConnector>
+</BlockConnectors>
+</BlockGenus>
+
+<BlockGenus name="template_command_recule" kind="command"   color="255 255 255" initlabel="recule">
+<BlockConnectors>
+<BlockConnector connector-type="poly" connector-kind="socket" position-type="bottom">
+<DefaultArg genus-name="object" label="maclasse" />
+</BlockConnector>
+</BlockConnectors>
+</BlockGenus>
+
+<BlockGenus name="template_command_arrete" kind="command"   color="255 255 255" initlabel="arrete">
+<BlockConnectors>
+<BlockConnector connector-type="poly" connector-kind="socket" position-type="bottom">
+<DefaultArg genus-name="object" label="maclasse" />
+</BlockConnector>
+</BlockConnectors>
+</BlockGenus>
+
+<BlockGenus name="template_command_tourneDroite" kind="command"   color="255 255 255" initlabel="tourneDroite">
+<BlockConnectors>
+<BlockConnector connector-type="poly" connector-kind="socket" position-type="bottom">
+<DefaultArg genus-name="object" label="maclasse" />
+</BlockConnector>
+</BlockConnectors>
+</BlockGenus>
+
+<BlockGenus name="template_command_tourneGauche" kind="command"   color="255 255 255" initlabel="tourneGauche">
+<BlockConnectors>
+<BlockConnector connector-type="poly" connector-kind="socket" position-type="bottom">
+<DefaultArg genus-name="object" label="maclasse" />
+</BlockConnector>
+</BlockConnectors>
+</BlockGenus>
+
+<BlockGenus name="template_command_pasADroite" kind="command"   color="255 255 255" initlabel="pasADroite">
+<BlockConnectors>
+<BlockConnector connector-type="poly" connector-kind="socket" position-type="bottom">
+<DefaultArg genus-name="object" label="maclasse" />
+</BlockConnector>
+</BlockConnectors>
+</BlockGenus>
+
+<BlockGenus name="template_command_pasAGauche" kind="command"   color="255 255 255" initlabel="pasAGauche">
+<BlockConnectors>
+<BlockConnector connector-type="poly" connector-kind="socket" position-type="bottom">
+<DefaultArg genus-name="object" label="maclasse" />
+</BlockConnector>
+</BlockConnectors>
+</BlockGenus>
+
+<BlockGenus name="template_function_ antenneGauche" kind="function"   color="255 255 255" initlabel=" antenneGauche">
+<BlockConnectors>
+<BlockConnector connector-type="poly" connector-kind="socket" position-type="bottom">
+<DefaultArg genus-name="object" label="maclasse" />
+</BlockConnector>
+</BlockConnectors>
+</BlockGenus>
+
+<BlockGenus name="template_function_ antenneDroite" kind="function"   color="255 255 255" initlabel=" antenneDroite">
+<BlockConnectors>
+<BlockConnector connector-type="poly" connector-kind="socket" position-type="bottom">
+<DefaultArg genus-name="object" label="maclasse" />
+</BlockConnector>
+</BlockConnectors>
+</BlockGenus>
+
+<BlockGenus name="template_function_ oeilGauche" kind="function"   color="255 255 255" initlabel=" oeilGauche">
+<BlockConnectors>
+<BlockConnector connector-type="poly" connector-kind="socket" position-type="bottom">
+<DefaultArg genus-name="object" label="maclasse" />
+</BlockConnector>
+</BlockConnectors>
+</BlockGenus>
+
+<BlockGenus name="template_function_ oeilDroit" kind="function"   color="255 255 255" initlabel=" oeilDroit">
+<BlockConnectors>
+<BlockConnector connector-type="poly" connector-kind="socket" position-type="bottom">
+<DefaultArg genus-name="object" label="maclasse" />
+</BlockConnector>
+</BlockConnectors>
+</BlockGenus>
+
+<BlockGenus name="template_function_ oeilGaucheJV" kind="function"   color="255 255 255" initlabel=" oeilGaucheJV">
+<BlockConnectors>
+<BlockConnector connector-type="poly" connector-kind="socket" position-type="bottom">
+<DefaultArg genus-name="object" label="maclasse" />
+</BlockConnector>
+</BlockConnectors>
+</BlockGenus>
+
+<BlockGenus name="template_function_ oeilDroitJV" kind="function"   color="255 255 255" initlabel=" oeilDroitJV">
+<BlockConnectors>
+<BlockConnector connector-type="poly" connector-kind="socket" position-type="bottom">
+<DefaultArg genus-name="object" label="maclasse" />
+</BlockConnector>
+</BlockConnectors>
+</BlockGenus>
+
+<BlockGenus name="template_function_ zeroG" kind="function"   color="255 255 255" initlabel=" zeroG">
+<BlockConnectors>
+<BlockConnector connector-type="poly" connector-kind="socket" position-type="bottom">
+<DefaultArg genus-name="object" label="maclasse" />
+</BlockConnector>
+</BlockConnectors>
+</BlockGenus>
+
+<BlockGenus name="template_function_ zeroD" kind="function"   color="255 255 255" initlabel=" zeroD">
+<BlockConnectors>
+<BlockConnector connector-type="poly" connector-kind="socket" position-type="bottom">
+<DefaultArg genus-name="object" label="maclasse" />
+</BlockConnector>
+</BlockConnectors>
+</BlockGenus>
+
+<BlockGenus name="template_command_allumeR" kind="command"   color="255 255 255" initlabel="allumeR">
+<BlockConnectors>
+<BlockConnector connector-type="poly" connector-kind="socket" position-type="bottom">
+<DefaultArg genus-name="object" label="maclasse" />
+</BlockConnector>
+</BlockConnectors>
+</BlockGenus>
+
+<BlockGenus name="template_command_allumeV" kind="command"   color="255 255 255" initlabel="allumeV">
+<BlockConnectors>
+<BlockConnector connector-type="poly" connector-kind="socket" position-type="bottom">
+<DefaultArg genus-name="object" label="maclasse" />
+</BlockConnector>
+</BlockConnectors>
+</BlockGenus>
+
+<BlockGenus name="template_command_eteintR" kind="command"   color="255 255 255" initlabel="eteintR">
+<BlockConnectors>
+<BlockConnector connector-type="poly" connector-kind="socket" position-type="bottom">
+<DefaultArg genus-name="object" label="maclasse" />
+</BlockConnector>
+</BlockConnectors>
+</BlockGenus>
+
+<BlockGenus name="template_command_eteintV" kind="command"   color="255 255 255" initlabel="eteintV">
+<BlockConnectors>
+<BlockConnector connector-type="poly" connector-kind="socket" position-type="bottom">
+<DefaultArg genus-name="object" label="maclasse" />
+</BlockConnector>
+</BlockConnectors>
+</BlockGenus>
+
+<BlockGenus name="template_function_ boutonGauche" kind="function"   color="255 255 255" initlabel=" boutonGauche">
+<BlockConnectors>
+<BlockConnector connector-type="poly" connector-kind="socket" position-type="bottom">
+<DefaultArg genus-name="object" label="maclasse" />
+</BlockConnector>
+</BlockConnectors>
+</BlockGenus>
+
+<BlockGenus name="template_function_ boutonDroit" kind="function"   color="255 255 255" initlabel=" boutonDroit">
+<BlockConnectors>
+<BlockConnector connector-type="poly" connector-kind="socket" position-type="bottom">
+<DefaultArg genus-name="object" label="maclasse" />
+</BlockConnector>
+</BlockConnectors>
+</BlockGenus>
+
+<BlockGenus name="template_command_vitesseGauche" kind="command"   color="255 255 255" initlabel="vitesseGauche">
+<BlockConnectors>
+<BlockConnector connector-type="poly" connector-kind="socket" position-type="bottom">
+<DefaultArg genus-name="object" label="maclasse" />
+</BlockConnector>
+<BlockConnector connector-type="number" connector-kind="socket" >
+<DefaultArg genus-name="number" label="var_0" />
+</BlockConnector>
+</BlockConnectors>
+</BlockGenus>
+
+<BlockGenus name="template_command_vitesseDroite" kind="command"   color="255 255 255" initlabel="vitesseDroite">
+<BlockConnectors>
+<BlockConnector connector-type="poly" connector-kind="socket" position-type="bottom">
+<DefaultArg genus-name="object" label="maclasse" />
+</BlockConnector>
+<BlockConnector connector-type="number" connector-kind="socket" >
+<DefaultArg genus-name="number" label="var_0" />
+</BlockConnector>
+</BlockConnectors>
+</BlockGenus>
+
+<BlockGenus name="template_function_ obstacle" kind="function"   color="255 255 255" initlabel=" obstacle">
+<BlockConnectors>
+<BlockConnector connector-type="poly" connector-kind="socket" position-type="bottom">
+<DefaultArg genus-name="object" label="maclasse" />
+</BlockConnector>
+</BlockConnectors>
+</BlockGenus>
+
+<BlockGenus name="template_function_ distance" kind="function"   color="255 255 255" initlabel=" distance">
+<BlockConnectors>
+<BlockConnector connector-type="poly" connector-kind="socket" position-type="bottom">
+<DefaultArg genus-name="object" label="maclasse" />
+</BlockConnector>
+</BlockConnectors>
+</BlockGenus>
+
+<BlockGenus name="template_command_son" kind="command"   color="255 255 255" initlabel="son">
+<BlockConnectors>
+<BlockConnector connector-type="poly" connector-kind="socket" position-type="bottom">
+<DefaultArg genus-name="object" label="maclasse" />
+</BlockConnector>
+<BlockConnector connector-type="number" connector-kind="socket" >
+<DefaultArg genus-name="number" label="var_0" />
+</BlockConnector>
+</BlockConnectors>
+</BlockGenus>
+
+
+		
+	</BlockGenuses>
+
+	<BlockFamilies>
+	</BlockFamilies>
+
+	<BlockDrawerSets>
+		<BlockDrawerSet name="factory" type="stack" location="southwest"
+			window-per-drawer="no" drawer-draggable="no">
+
+
+			<BlockDrawer button-color="204 102 51" name="bd.planetrobotMaker">
+
+<BlockGenusMember>template_data_int_mavariable1[]</BlockGenusMember>
+<BlockGenusMember>template_data_String_mavariable2</BlockGenusMember>
+<BlockGenusMember>template_constructor_MiniRobot2</BlockGenusMember>
+<BlockGenusMember>template_command_initialise</BlockGenusMember>
+<BlockGenusMember>template_command_avance</BlockGenusMember>
+<BlockGenusMember>template_command_recule</BlockGenusMember>
+<BlockGenusMember>template_command_arrete</BlockGenusMember>
+<BlockGenusMember>template_command_tourneDroite</BlockGenusMember>
+<BlockGenusMember>template_command_tourneGauche</BlockGenusMember>
+<BlockGenusMember>template_command_pasADroite</BlockGenusMember>
+<BlockGenusMember>template_command_pasAGauche</BlockGenusMember>
+<BlockGenusMember>template_function_ antenneGauche</BlockGenusMember>
+<BlockGenusMember>template_function_ antenneDroite</BlockGenusMember>
+<BlockGenusMember>template_function_ oeilGauche</BlockGenusMember>
+<BlockGenusMember>template_function_ oeilDroit</BlockGenusMember>
+<BlockGenusMember>template_function_ oeilGaucheJV</BlockGenusMember>
+<BlockGenusMember>template_function_ oeilDroitJV</BlockGenusMember>
+<BlockGenusMember>template_function_ zeroG</BlockGenusMember>
+<BlockGenusMember>template_function_ zeroD</BlockGenusMember>
+<BlockGenusMember>template_command_allumeR</BlockGenusMember>
+<BlockGenusMember>template_command_allumeV</BlockGenusMember>
+<BlockGenusMember>template_command_eteintR</BlockGenusMember>
+<BlockGenusMember>template_command_eteintV</BlockGenusMember>
+<BlockGenusMember>template_function_ boutonGauche</BlockGenusMember>
+<BlockGenusMember>template_function_ boutonDroit</BlockGenusMember>
+<BlockGenusMember>template_command_vitesseGauche</BlockGenusMember>
+<BlockGenusMember>template_command_vitesseDroite</BlockGenusMember>
+<BlockGenusMember>template_function_ obstacle</BlockGenusMember>
+<BlockGenusMember>template_function_ distance</BlockGenusMember>
+<BlockGenusMember>template_command_son</BlockGenusMember>
+			</BlockDrawer>
+
+
+
+
+		</BlockDrawerSet>
+	</BlockDrawerSets>
+
+	<Pages drawer-with-page="yes">
+		<Page page-name="UniBot" page-width="400" />
+	</Pages>
+	<TrashCan>
+		<OpenTrashImage>com/unibot/block/trash_open.png</OpenTrashImage>
+		<ClosedTrashImage>com/unibot/block/trash.png</ClosedTrashImage>
+	</TrashCan>
+
+</BlockLangDef>

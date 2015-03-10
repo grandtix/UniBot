@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project default="create_run_jar" name="Create Runnable Jar for Project UniBot">
+    <!--this file was created by Eclipse Runnable JAR Export Wizard-->
+    <!--ANT 1.7 is required                                        -->
+    <target name="create_run_jar">
+        <jar destfile="J:/Arduino/tools/UniBot/tool/UniBot.jar" filesetmanifest="mergewithoutmain">
+            <manifest>
+                <attribute name="Main-Class" value="com.unibot.Main"/>
+                <attribute name="Class-Path" value="."/>
+            </manifest>
+            <fileset dir="C:/Users/freetix/workspace/UniBot/target/test-classes"/>
+            <fileset dir="C:/Users/freetix/workspace/UniBot/target/classes"/>
+            <zipfileset excludes="META-INF/*.SF" src="C:/Users/freetix/workspace/UniBot/lib/pdeArduino.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="C:/Users/freetix/workspace/UniBot/lib/pdeProcessing.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="C:/Users/freetix/workspace/UniBot/lib/pdeMode.jar"/>
+            <fileset dir="C:/Users/freetix/workspace/openblocks/target/test-classes"/>
+            <fileset dir="C:/Users/freetix/workspace/openblocks/target/classes"/>
+            <zipfileset excludes="META-INF/*.SF" src="C:/Users/freetix/workspace/openblocks/lib/jcommon-1.0.0-rc1.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="C:/Users/freetix/workspace/openblocks/lib/jfreechart-1.0.0-rc1.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="C:/Users/freetix/workspace/openblocks/lib/TableLayout.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="C:/Users/freetix/Documents/eclipse/plugins/org.junit_4.11.0.v201303080030/junit.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="C:/Users/freetix/Documents/eclipse/plugins/org.hamcrest.core_1.3.0.v201303031735.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="C:/Users/freetix/workspace/UniBot/lib/miglayout15-swing.jar"/>
+        </jar>
+    	<copyfile dest="C:/Program Files (x86)/processing-2.2.1/tools/UniBot/tool/UniBot.jar" src="J:/Arduino/tools/UniBot/tool/UniBot.jar"/>
+       
+    </target>
+</project>
