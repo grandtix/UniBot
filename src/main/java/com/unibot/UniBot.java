@@ -85,7 +85,7 @@ public class UniBot implements Tool, OpenblocksFrameListener
 	
 	public void didGenerate(String source) {
 		System.out.println(source);
-		UniBot.editor.setText(source);
+		UniBot.editor.getCurrentTab().setText(source);
 		System.out.println(UniBot.editor.getClass().toString());
 		if (UniBot.editor.getClass().toString().equals("class processing.app.Editor"))
 				UniBot.editor.handleExport(false);

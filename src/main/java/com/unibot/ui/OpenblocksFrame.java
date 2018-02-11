@@ -495,8 +495,7 @@ private void save()
 		boolean success;
 		success = true;
 		Translator translator = new Translator(workspace);
-		translator.setSketchFolderName(editor.getSketch().getCurrentCode()
-				.getFileName().replace("robot", "").replace(".pde", ""));
+		translator.setSketchFolderName(editor.getName().replace("robot", "").replace(".pde", ""));
 		translator.reset();
 
 		Iterable<RenderableBlock> renderableBlocks = workspace
@@ -725,16 +724,15 @@ private void save()
 		if (success) {
 
 			if (context.isInArduino())
-				UniBot.editor.setText(code.toString());
+				UniBot.editor.getCurrentTab().setText(code.toString());
 			else {
 				System.out.println(code.toString());
 			}
 			if (!translator.isFromArduino())
 				try {
-					editor.getSketch().getCurrentCode()
-							.setProgram(code.toString());
-					editor.getSketch().getCurrentCode().save();
-				} catch (IOException e) {
+					editor.getCurrentTab().setText(code.toString());
+				//tix2018	editor.getCurrentTab().gete;
+				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}

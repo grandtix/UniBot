@@ -3,10 +3,10 @@
 	<classpathentry including="**/*.java" kind="src" path="src/main/java"/>
 	<classpathentry excluding="**/*.java" kind="src" path="src/main/resources"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="lib/pde.jar"/>
 	<classpathentry kind="lib" path="lib/miglayout15-swing.jar"/>
 	<classpathentry kind="lib" path="lib/openBlock.jar"/>
-	<classpathentry kind="lib" path="lib/pdeArduino.jar"/>
-	<classpathentry kind="lib" path="lib/pdeProcessing.jar"/>
 	<classpathentry kind="lib" path="lib/pdeMode.jar"/>
+	<classpathentry kind="lib" path="lib/arduino-core.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
