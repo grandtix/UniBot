@@ -158,6 +158,7 @@ public class ManageLibraries extends JDialog {
 		BufferedReader br;
 		try {
 			File file = new File(((OpenblocksFrame) parentFrame).getPathConf());
+			System.out.println("yoo "+file.getAbsolutePath());
 			if (!file.exists())
 				file.createNewFile();
 

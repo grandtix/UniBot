@@ -11,9 +11,9 @@ import java.util.Set;
 
 import com.unibot.ui.listener.OpenblocksFrameListener;
 
-import edu.mit.blocks.controller.WorkspaceController;
-import edu.mit.blocks.renderable.RenderableBlock;
-import edu.mit.blocks.workspace.Workspace;
+import controller.WorkspaceController;
+import renderable.RenderableBlock;
+import workspace.Workspace;
 
 public class Context
 {
@@ -96,17 +96,18 @@ public class Context
 		workspaceController = new WorkspaceController();
 		workspaceController.resetWorkspace();
   		workspaceController.resetLanguage();
-		workspaceController.setLangResourceBundle(ResourceBundle.getBundle("com/unibot/block/unibot"));
-		workspaceController.setStyleList(list);
-		workspaceController.setLangDefDtd(this.getClass().getResourceAsStream(LANG_DTD_PATH));
+	//	workspaceController.setLangResourceBundle(ResourceBundle.getBundle("com/unibot/block/unibot"));
+	//	workspaceController.setStyleList(list);
+//		workspaceController.setLangDefDtd(this.getClass().getResourceAsStream(LANG_DTD_PATH));
 		//tix loading genuses from xml
-		workspaceController.setLangDefStream(this.getClass().getResourceAsStream(UNIBOT_LANG_PATH));
+  		System.out.println(this.getClass().getResource(UNIBOT_LANG_PATH).toString());
+		workspaceController.setLangDefFilePath(this.getClass().getResource(UNIBOT_LANG_PATH).toString().replaceAll("file:/", ""));
 		workspaceController.loadFreshWorkspace();
-		workspace = workspaceController.getWorkspace();
+	//	workspace =  new Workspace();
 		workspaceChanged = false;
 		highlightBlockSet = new HashSet<RenderableBlock>();
 		ofls = new HashSet<OpenblocksFrameListener>();
-		this.workspace = workspaceController.getWorkspace();
+	//	this.workspace = workspaceController.getWorkspace();
 		
 		isInArduino = true;
 		

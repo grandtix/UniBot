@@ -3,8 +3,8 @@ package com.unibot.ui.listener;
 import com.unibot.core.Context;
 import com.unibot.ui.OpenblocksFrame;
 
-import edu.mit.blocks.workspace.WorkspaceEvent;
-import edu.mit.blocks.workspace.WorkspaceListener;
+import workspace.WorkspaceEvent;
+import workspace.WorkspaceListener;
 
 public class UniBotWorkspaceListener implements WorkspaceListener
 {

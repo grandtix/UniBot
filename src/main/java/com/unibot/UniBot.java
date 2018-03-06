@@ -60,6 +60,8 @@ public class UniBot implements Tool, OpenblocksFrameListener
 			UniBot.openblocksFrame.setVisible(true);
 			UniBot.openblocksFrame.toFront();
 			try {
+			
+				System.out.println("toto "+new File(this.getClass().getProtectionDomain().getCodeSource().getLocation().toURI().getPath()).getParent()+File.separatorChar+"librairies.conf");
 				UniBot.openblocksFrame.setPathConf(new File(this.getClass().getProtectionDomain().getCodeSource().getLocation().toURI().getPath()).getParent()+File.separatorChar+"librairies.conf");
 			} catch (URISyntaxException e) {
 				// TODO Auto-generated catch block

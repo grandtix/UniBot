@@ -54,12 +54,12 @@ import com.unibot.ui.listener.TeleverserCodeButtonListener;
 import com.unibot.ui.listener.UniBotWorkspaceListener;
 import com.unibot.util.LibraryLoader;
 
-import edu.mit.blocks.codeblocks.Block;
-import edu.mit.blocks.codeblocks.BlockGenus;
-import edu.mit.blocks.controller.WorkspaceController;
-import edu.mit.blocks.renderable.RenderableBlock;
-import edu.mit.blocks.workspace.PageDrawerLoadingUtils;
-import edu.mit.blocks.workspace.Workspace;
+import codeblocks.Block;
+import codeblocks.BlockGenus;
+import controller.WorkspaceController;
+import renderable.RenderableBlock;
+import workspace.PageDrawerLoadingUtils;
+import workspace.Workspace;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -141,7 +141,7 @@ public class OpenblocksFrame extends JFrame {
 		 * workspaceController.getWorkspacePanel();
 		 */
 
-		Workspace workspace = context.getWorkspace();
+		Workspace workspace = Workspace.getInstance();
 
 		// WTF I can't add worksapcelistener by workspace contrller
 		workspace.addWorkspaceListener(new UniBotWorkspaceListener(this));
@@ -747,9 +747,8 @@ private void save()
 	public void getFile(String path) {
 		InputStream stream = null;
 		if (path == null) {
-			context.getWorkspaceController().setLangDefDtd(
-					this.getClass().getResourceAsStream(
-							"/com/unibot/block/lang_def.dtd"));
+			context.getWorkspaceController().setLangDefFilePath(this.getClass().getResource(
+							"/com/unibot/block/lang_def.dtd").toString().replace("file:/",""));
 			FileNameExtensionFilter ffilter = new FileNameExtensionFilter(
 					uiMessageBundle.getString("unibot.libraryloader.suffix"),
 					"h");
@@ -772,7 +771,7 @@ private void save()
 			try {
 
 				builder = factory.newDocumentBuilder();
-				if (context.getWorkspaceController().getLangDefDtd() != null) {
+	/*			if (context.getWorkspaceController().getLangDefDtd() != null) {
 					builder.setEntityResolver(new EntityResolver() {
 						public InputSource resolveEntity(String publicId,
 								String systemId) throws SAXException,
@@ -782,17 +781,17 @@ private void save()
 						}
 					});
 				}
-
+*/
 				doc = builder.parse(stream);
 				// TODO modify the L10N text and style here
-				context.getWorkspaceController().ardublockLocalize(doc);
+	/*			context.getWorkspaceController().ardublockLocalize(doc);
 				context.getWorkspaceController().ardublockStyling(doc);
-
+*/
 				Element langDefRoot = doc.getDocumentElement();
 
-				BlockGenus.loadBlockGenera(context.getWorkspace(), langDefRoot);
-				PageDrawerLoadingUtils.loadBlockDrawerSets(context
-						.getWorkspace(), langDefRoot, context.getWorkspace()
+				BlockGenus.loadBlockGenera(/*context.getWorkspace(), */langDefRoot);
+				PageDrawerLoadingUtils.loadBlockDrawerSets(/*context
+						.getWorkspace(), */langDefRoot, context.getWorkspace()
 						.getFactoryManager());
 
 			} catch (ParserConfigurationException e1) {

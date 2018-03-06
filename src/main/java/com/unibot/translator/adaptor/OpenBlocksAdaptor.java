@@ -4,8 +4,8 @@ import com.unibot.translator.Translator;
 import com.unibot.translator.block.TranslatorBlock;
 import com.unibot.translator.block.TranslatorBlockFactory;
 
-import edu.mit.blocks.codeblocks.Block;
-import edu.mit.blocks.codeblocks.BlockConnector;
+import codeblocks.Block;
+import codeblocks.BlockConnector;
 
 public class OpenBlocksAdaptor implements BlockAdaptor
 {

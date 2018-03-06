@@ -14,8 +14,8 @@ import com.unibot.translator.block.exception.SocketNullException;
 import com.unibot.translator.block.exception.SubroutineNameDuplicatedException;
 import com.unibot.translator.block.exception.SubroutineNotDeclaredException;
 
-import edu.mit.blocks.codeblocks.Block;
-import edu.mit.blocks.workspace.Workspace;
+import codeblocks.Block;
+import workspace.Workspace;
 
 
 public class Translator
@@ -136,7 +136,7 @@ public class Translator
 		
 		
 		TranslatorBlockFactory translatorBlockFactory = new TranslatorBlockFactory();
-		Block block = workspace.getEnv().getBlock(blockId);
+		Block block = Block.getBlock(blockId);
 		
 		TranslatorBlock rootTranslatorBlock = translatorBlockFactory.buildTranslatorBlock(this, blockId, block.getGenusName(), "", "", block.getBlockLabel(), fromArduino, block.getBlockDescription());
 		
@@ -149,7 +149,7 @@ public class Translator
 		
 		
 		TranslatorBlockFactory translatorBlockFactory = new TranslatorBlockFactory();
-		Block block = workspace.getEnv().getBlock(blockId);
+		Block block = Block.getBlock(blockId);
 		
 		TranslatorBlock rootTranslatorBlock = translatorBlockFactory.buildTranslatorBlock(this, blockId, block.getGenusName(), "", "", block.getBlockLabel(),forglobal, block.getBlockDescription());
 		
@@ -289,7 +289,7 @@ public class Translator
 	}
 	
 	public Block getBlock(Long blockId) {
-		return workspace.getEnv().getBlock(blockId);
+		return Block.getBlock(blockId);
 	}
 
 	public void addStringVariable(String userVarName, String internalName)

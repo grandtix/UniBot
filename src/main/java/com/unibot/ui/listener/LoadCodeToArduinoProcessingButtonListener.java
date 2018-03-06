@@ -9,7 +9,7 @@ import javax.swing.JFrame;
 import com.unibot.core.Context;
 import com.unibot.ui.OpenblocksFrame;
 
-import edu.mit.blocks.workspace.Workspace;
+import workspace.Workspace;
 
 public class LoadCodeToArduinoProcessingButtonListener implements ActionListener
 {
@@ -27,7 +27,7 @@ public class LoadCodeToArduinoProcessingButtonListener implements ActionListener
 	{
 		this.parentFrame = frame;
 		this.context = context;
-		workspace = context.getWorkspaceController().getWorkspace();
+		workspace = context.getWorkspace();
 		uiMessageBundle = ResourceBundle.getBundle("com/unibot/block/unibot");
 	}
 	
