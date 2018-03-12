@@ -747,8 +747,7 @@ private void save()
 	public void getFile(String path) {
 		InputStream stream = null;
 		if (path == null) {
-			context.getWorkspaceController().setLangDefFilePath(this.getClass().getResource(
-							"/com/unibot/block/lang_def.dtd").toString().replace("file:/",""));
+			context.getWorkspaceController().setLangDefFileString("/com/unibot/block/lang_def.dtd");
 			FileNameExtensionFilter ffilter = new FileNameExtensionFilter(
 					uiMessageBundle.getString("unibot.libraryloader.suffix"),
 					"h");

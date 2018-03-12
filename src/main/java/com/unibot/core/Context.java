@@ -1,8 +1,11 @@
 package com.unibot.core;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -86,6 +89,23 @@ public class Context
 		functionOne(list);
 		
 	}
+	public String readFromJARFile(String filename)
+			throws IOException
+			{
+			  InputStream is = getClass().getResourceAsStream(filename);
+			  InputStreamReader isr = new InputStreamReader(is);
+			  BufferedReader br = new BufferedReader(isr);
+			  StringBuffer sb = new StringBuffer();
+			  String line;
+			  while ((line = br.readLine()) != null) 
+			  {
+			    sb.append(line);
+			  }
+			  br.close();
+			  isr.close();
+			  is.close();
+			  return sb.toString();
+			}
 	
 	public void functionZero()
 	{
@@ -100,8 +120,14 @@ public class Context
 	//	workspaceController.setStyleList(list);
 //		workspaceController.setLangDefDtd(this.getClass().getResourceAsStream(LANG_DTD_PATH));
 		//tix loading genuses from xml
-  		System.out.println(this.getClass().getResource(UNIBOT_LANG_PATH).toString());
-		workspaceController.setLangDefFilePath(this.getClass().getResource(UNIBOT_LANG_PATH).toString().replaceAll("file:/", ""));
+  		
+		try {
+
+			workspaceController.setLangDefFileString(readFromJARFile(UNIBOT_LANG_PATH));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		workspaceController.loadFreshWorkspace();
 	//	workspace =  new Workspace();
 		workspaceChanged = false;
