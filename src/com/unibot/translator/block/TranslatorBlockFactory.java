@@ -22,7 +22,7 @@ public class TranslatorBlockFactory
 	}
 	
 	
-	public TranslatorBlock buildTranslatorBlock(Translator translator, Long blockId, String blockName, String codePrefix, String codeSuffix, String label, boolean forGlobal, String description)
+	public TranslatorBlock buildTranslatorBlock(Translator translator, Long blockId, String blockName, String codePrefix, String codeSuffix, String label,  boolean forGlobal, String description)
 	{
 		
 		String className = PropertiesReader.getValue(blockName, BLOCK_MAPPING);
@@ -36,24 +36,25 @@ public class TranslatorBlockFactory
 		try
 		{
 			Class<?> blockClass = Class.forName(className);
-//			System.out.println("-->"+blockClass.toString()+"-"+className);
+			System.out.println("piopio-->"+blockClass.toString()+"-"+className);
 			if (className.equals("com.unibot.translator.block.CustomConstructorBlock"))
 			{	
 				Constructor<?> constructor = blockClass.getConstructor(Long.class, Translator.class, String.class, String.class, String.class, String.class);
 			TranslatorBlock ret = (TranslatorBlock)constructor.newInstance(blockId, translator, codePrefix, codeSuffix, label, description);
 			ret.setForGlobal(forGlobal);
-	//		System.out.println("for name 3");
+			System.out.println("for name 3");
 			return ret;
 			}
 			else
-			{
-				Constructor<?> constructor = blockClass.getConstructor(Long.class, Translator.class, String.class, String.class, String.class);
-				TranslatorBlock ret = (TranslatorBlock)constructor.newInstance(blockId, translator, codePrefix, codeSuffix, label);
-				ret.setForGlobal(forGlobal);
-	//			System.out.println("for name 4");
+			{				System.out.println("for name 4");
 
-			
-				return ret;
+				
+					Constructor<?> constructor = blockClass.getConstructor(Long.class, Translator.class, String.class, String.class, String.class);
+					TranslatorBlock ret = (TranslatorBlock)constructor.newInstance(blockId, translator, codePrefix, codeSuffix, label);
+					ret.setForGlobal(forGlobal);
+
+					return ret;
+				
 					
 			}
 		}
@@ -87,7 +88,7 @@ public class TranslatorBlockFactory
 //		if (className==null)
 //			if (className.startsWith("template_constructor"))
 //				className="";
-		//System.out.println("className: " + className);
+		System.out.println("className: " + className);
 		String longName = shortClassName.get(className);
 		if (longName != null)
 		{
@@ -97,25 +98,29 @@ public class TranslatorBlockFactory
 		try
 		{
 			//System.out.println("class name "+className+ " "+blockName);
-			Class<?> blockClass = Class.forName(className);
+			
 
-		//	System.out.println("2--> "+blockClass+"-"+className+"-"+blockName);
-		//		
+			System.out.println("2--> -"+className+"-"+blockName);
+		//	
+			Class<?> blockClass = Class.forName(className);
 			if (className==("com.unibot.translator.block.CustomConstructorBlock"))
 			{	
 				Constructor<?> constructor = blockClass.getConstructor(Long.class, Translator.class, String.class, String.class, String.class, String.class);
-			TranslatorBlock ret = (TranslatorBlock)constructor.newInstance(blockId, translator, codePrefix, codeSuffix, label, desc);
+			TranslatorBlock ret = (TranslatorBlock)constructor.newInstance(blockId, translator, codePrefix, codeSuffix, label,   desc);
 			//ret.setForGlobal(forGlobal);
-	//		System.out.println("forname 1");
+		System.out.println("forname 1");
 			return ret;
 			}
 			else
 			{
-				Constructor<?> constructor = blockClass.getConstructor(Long.class, Translator.class, String.class, String.class, String.class);
-				TranslatorBlock ret = (TranslatorBlock)constructor.newInstance(blockId, translator, codePrefix, codeSuffix, label);
-			//	ret.setForGlobal(forGlobal);
-//System.out.println("forname 2");	
+	
+					Constructor<?> constructor = blockClass.getConstructor(Long.class, Translator.class, String.class, String.class, String.class);
+					TranslatorBlock ret = (TranslatorBlock)constructor.newInstance(blockId, translator, codePrefix, codeSuffix, label);
+//	ret.setForGlobal(forGlobal);
+					
+System.out.println("forname 2");	
 return ret;
+
 					
 			}
 		}

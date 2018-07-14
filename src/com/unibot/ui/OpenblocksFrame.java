@@ -43,6 +43,7 @@ import com.unibot.translator.block.exception.BlockException;
 import com.unibot.translator.block.exception.SocketNullException;
 import com.unibot.translator.block.exception.SubroutineNameDuplicatedException;
 import com.unibot.translator.block.exception.SubroutineNotDeclaredException;
+import com.unibot.ui.listener.DisplayCodeButtonListener;
 import com.unibot.ui.listener.LoadCodeToArduinoProcessingButtonListener;
 import com.unibot.ui.listener.ManageImportCodeButtonListener;
 import com.unibot.ui.listener.NewABPButtonListener;
@@ -78,7 +79,7 @@ public class OpenblocksFrame extends JFrame {
 	private ResourceBundle uiMessageBundle;
 
 	private Editor editor;
-	private String pathConf = "";
+	private String pathConf = "librairies.conf";
 
 	public String getPathConf() {
 		return pathConf;
@@ -232,6 +233,20 @@ public class OpenblocksFrame extends JFrame {
 				buttons.add(generateButton);
 
 		}
+		else
+		{
+			JButton generateButton = new JButton();// uiMessageBundle.getString("unibot.ui.upload"));
+			generateButton
+			.setIcon(new ImageIcon(
+					OpenblocksFrame.class
+							.getResource("/com/unibot/block/dessinTeleverserProcessing.png")));
+	generateButton.setToolTipText("Téléverser le programme dans le monde virtuel");
+
+
+		generateButton.addActionListener(new DisplayCodeButtonListener(
+		this, context));	
+		buttons.add(generateButton);
+		}
 
 		// buttons.add(importButton);
 		buttons.add(manageImportButton);
@@ -247,7 +262,7 @@ public class OpenblocksFrame extends JFrame {
 			File file = new File(getPathConf());
 			if (!file.exists())
 				file.createNewFile();
-
+System.out.println(file.getAbsolutePath());
 			br = new BufferedReader(new FileReader(getPathConf()));
 			String line;
 
@@ -443,7 +458,7 @@ private void save()
 		WorkspaceController workspaceController = context
 				.getWorkspaceController();
 		String saveString = workspaceController.getSaveString();
-
+//
 		if (saveFilePath == null) {
 			int chooseResult;
 			chooseResult = fileChooser.showSaveDialog(this);
@@ -495,7 +510,12 @@ private void save()
 		boolean success;
 		success = true;
 		Translator translator = new Translator(workspace);
-		translator.setSketchFolderName(editor.getName().replace("robot", "").replace(".pde", ""));
+		try {
+			translator.setSketchFolderName(editor.getName().replace("robot", "").replace(".pde", ""));
+		} catch (Exception e4) {
+			// TODO si on est hors editeur
+			//e4.printStackTrace();
+		}
 		translator.reset();
 
 		Iterable<RenderableBlock> renderableBlocks = workspace
@@ -559,9 +579,7 @@ private void save()
 					}
 					subroutineBlockSet.add(renderableBlock);
 				}
-
 			}
-
 		}
 
 		if (setupBlockSet.size() == 0) {
@@ -580,8 +598,8 @@ private void save()
 					JOptionPane.ERROR_MESSAGE);
 			return;
 		}
-		if (loopBlockSet.size() > 1) {
 
+		if (loopBlockSet.size() > 1) {
 			for (RenderableBlock rb : loopBlockSet) {
 				context.highlightBlock(rb);
 			}
@@ -617,14 +635,13 @@ private void save()
 					tmp.append(translator.generateDrawCustomCode());
 					// tmp.append("\n}\n}\n");
 				}
+				
 				tmp.append(translator.translate(loopBlock.getBlockID()));
-
 			}
 			for (RenderableBlock renderableBlock : setupBlockSet) {
 				Block setBlock = renderableBlock.getBlock();
 				if (translator.isFromArduino()) {
 					code.append("//initialisation des données du programme\n");
-
 					code.append("void setup(){\n");
 				} else {
 					code.append("//methode appelée en thread par le programme principal\n");
@@ -655,7 +672,6 @@ private void save()
 			}
 
 			code.append(translator.generateMethodCustomCode());
-
 			code.insert(0, translator.genreateHeaderCommand());
 			if (translator.isFromArduino())
 				code.insert(0,
@@ -724,7 +740,12 @@ private void save()
 		if (success) {
 
 			if (context.isInArduino())
-				UniBot.editor.getCurrentTab().setText(code.toString());
+				try {
+					UniBot.editor.getCurrentTab().setText(code.toString());
+				} catch (Exception e1) {
+					// TODO gerer si on est hors editeur (eclipse ou exec directe)
+					System.out.println(code.toString());
+				}
 			else {
 				System.out.println(code.toString());
 			}
@@ -734,7 +755,7 @@ private void save()
 				//tix2018	editor.getCurrentTab().gete;
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
-					e.printStackTrace();
+					System.out.println(code.toString());
 				}
 			if (toTeleverser) {
 				context.didGenerate(code.toString());
@@ -745,6 +766,7 @@ private void save()
 	}
 
 	public void getFile(String path) {
+		System.out.println(path);
 		InputStream stream = null;
 		if (path == null) {
 			context.getWorkspaceController().setLangDefDtd(
@@ -772,7 +794,7 @@ private void save()
 			try {
 
 				builder = factory.newDocumentBuilder();
-				if (context.getWorkspaceController().getLangDefDtd() != null) {
+/*				if (context.getWorkspaceController().getLangDefDtd() != null) {
 					builder.setEntityResolver(new EntityResolver() {
 						public InputSource resolveEntity(String publicId,
 								String systemId) throws SAXException,
@@ -783,9 +805,14 @@ private void save()
 					});
 				}
 
-				doc = builder.parse(stream);
+	*/			doc = builder.parse(stream);
 				// TODO modify the L10N text and style here
-				context.getWorkspaceController().ardublockLocalize(doc);
+				try {
+					context.getWorkspaceController().ardublockLocalize(doc);
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				context.getWorkspaceController().ardublockStyling(doc);
 
 				Element langDefRoot = doc.getDocumentElement();
@@ -801,7 +828,7 @@ private void save()
 			} catch (SAXException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
-			} catch (IOException e1) {
+			} catch (Exception e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}

@@ -66,6 +66,8 @@
 <!ELEMENT DefaultArg EMPTY>
 <!ATTLIST DefaultArg genus-name CDATA #REQUIRED> 
 <!ATTLIST DefaultArg label CDATA #IMPLIED>
+<!ATTLIST DefaultArg ctype CDATA #IMPLIED>
+
 
 <!ELEMENT Stubs (Stub*)>
 <!--This defines a stub of a block, so that the block can exist as a single entity and have mini-references to it-->

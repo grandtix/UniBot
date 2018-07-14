@@ -43,7 +43,21 @@
 	<BlockGenuses>
 		<!-- Number -->
 
+		<BlockGenus name="char" kind="data" color="0 184 255"
+			initlabel="bg.char" editable-label="yes">
+			<BlockConnectors>
+				<BlockConnector connector-type="poly-list"
+					connector-kind="plug" position-type="mirror" />
+			</BlockConnectors>
+		</BlockGenus>
 
+		<BlockGenus name="byte" kind="data" color="0 184 255"
+			initlabel="bg.byte" editable-label="yes">
+			<BlockConnectors>
+				<BlockConnector connector-type="number-list"
+					connector-kind="plug" position-type="mirror" />
+			</BlockConnectors>
+		</BlockGenus>
 		<BlockGenus name="string" kind="data" color="0 184 255"
 			initlabel="bg.string" editable-label="yes">
 			<BlockConnectors>
@@ -358,7 +372,7 @@
 					<DefaultArg genus-name="variable_number" label="varname" />
 				</BlockConnector>
 				<BlockConnector connector-type="number"
-					connector-kind="socket" position-type="bottom">
+					connector-kind="socket" position-type="single">
 					<DefaultArg genus-name="number" label="0" />
 				</BlockConnector>
 			</BlockConnectors>
@@ -846,9 +860,39 @@
 				<BlockConnector connector-type="boolean"
 					connector-kind="plug" position-type="mirror" />
 				<BlockConnector connector-type="number"
-					connector-kind="socket" position-type="bottom" />
+					connector-kind="socket" position-type="single" />
 				<BlockConnector connector-type="number"
-					connector-kind="socket" position-type="bottom" />
+					connector-kind="socket" position-type="single" />
+			</BlockConnectors>
+		</BlockGenus>
+
+		<BlockGenus name="greaterS" kind="function" color="255 255 102"
+			initlabel="bg.greater">
+			<description>
+				<text>est strictement plus grand ?</text>
+			</description>
+			<BlockConnectors>
+				<BlockConnector connector-type="boolean"
+					connector-kind="plug" position-type="mirror" />
+				<BlockConnector connector-type="string"
+					connector-kind="socket" position-type="single" />
+				<BlockConnector connector-type="string"
+					connector-kind="socket" position-type="single" />
+			</BlockConnectors>
+		</BlockGenus>
+
+		<BlockGenus name="greaterP" kind="function" color="255 255 102"
+			initlabel="bg.greater">
+			<description>
+				<text>est strictement plus grand ?</text>
+			</description>
+			<BlockConnectors>
+				<BlockConnector connector-type="boolean"
+					connector-kind="plug" position-type="mirror" />
+				<BlockConnector connector-type="poly" connector-kind="socket"
+					position-type="single" />
+				<BlockConnector connector-type="poly" connector-kind="socket"
+					position-type="single" />
 			</BlockConnectors>
 		</BlockGenus>
 
@@ -861,9 +905,40 @@
 				<BlockConnector connector-type="boolean"
 					connector-kind="plug" position-type="mirror" />
 				<BlockConnector connector-type="number"
-					connector-kind="socket" position-type="bottom" />
+					connector-kind="socket" position-type="single" />
 				<BlockConnector connector-type="number"
-					connector-kind="socket" position-type="bottom" />
+					connector-kind="socket" position-type="single" />
+			</BlockConnectors>
+		</BlockGenus>
+
+
+		<BlockGenus name="lessS" kind="function" color="255 255 102"
+			initlabel="bg.less">
+			<description>
+				<text>est strictement plus petit?</text>
+			</description>
+			<BlockConnectors>
+				<BlockConnector connector-type="boolean"
+					connector-kind="plug" position-type="mirror" />
+				<BlockConnector connector-type="string"
+					connector-kind="socket" position-type="single" />
+				<BlockConnector connector-type="string"
+					connector-kind="socket" position-type="single" />
+			</BlockConnectors>
+		</BlockGenus>
+
+		<BlockGenus name="lessP" kind="function" color="255 255 102"
+			initlabel="bg.less">
+			<description>
+				<text>est strictement plus petit?</text>
+			</description>
+			<BlockConnectors>
+				<BlockConnector connector-type="boolean"
+					connector-kind="plug" position-type="mirror" />
+				<BlockConnector connector-type="poly" connector-kind="socket"
+					position-type="single" />
+				<BlockConnector connector-type="poly" connector-kind="socket"
+					position-type="single" />
 			</BlockConnectors>
 		</BlockGenus>
 
@@ -876,9 +951,54 @@
 				<BlockConnector connector-type="boolean"
 					connector-kind="plug" position-type="mirror" />
 				<BlockConnector connector-type="number"
-					connector-kind="socket" position-type="bottom" />
+					connector-kind="socket" position-type="single" />
 				<BlockConnector connector-type="number"
-					connector-kind="socket" position-type="bottom" />
+					connector-kind="socket" position-type="single" />
+			</BlockConnectors>
+		</BlockGenus>
+		
+		<BlockGenus name="equalB" kind="function" color="255 255 102"
+			initlabel="bg.equal">
+			<description>
+				<text>ont la meme valeur?</text>
+			</description>
+			<BlockConnectors>
+				<BlockConnector connector-type="boolean"
+					connector-kind="plug" position-type="mirror" />
+				<BlockConnector connector-type="boolean"
+					connector-kind="socket" position-type="single" />
+				<BlockConnector connector-type="boolean"
+					connector-kind="socket" position-type="single" />
+			</BlockConnectors>
+		</BlockGenus>
+
+		<BlockGenus name="equalS" kind="function" color="255 255 102"
+			initlabel="bg.equal">
+			<description>
+				<text>ont la meme valeur?</text>
+			</description>
+			<BlockConnectors>
+				<BlockConnector connector-type="boolean"
+					connector-kind="plug" position-type="mirror" />
+				<BlockConnector connector-type="string"
+					connector-kind="socket" position-type="single" />
+				<BlockConnector connector-type="string"
+					connector-kind="socket" position-type="single" />
+			</BlockConnectors>
+		</BlockGenus>
+
+		<BlockGenus name="equalP" kind="function" color="255 255 102"
+			initlabel="bg.equal">
+			<description>
+				<text>ont la meme valeur?</text>
+			</description>
+			<BlockConnectors>
+				<BlockConnector connector-type="boolean"
+					connector-kind="plug" position-type="mirror" />
+				<BlockConnector connector-type="poly" connector-kind="socket"
+					position-type="single" />
+				<BlockConnector connector-type="poly" connector-kind="socket"
+					position-type="single" />
 			</BlockConnectors>
 		</BlockGenus>
 
@@ -891,9 +1011,42 @@
 				<BlockConnector connector-type="boolean"
 					connector-kind="plug" position-type="mirror" />
 				<BlockConnector connector-type="number"
-					connector-kind="socket" position-type="bottom" />
+					connector-kind="socket" position-type="single" />
 				<BlockConnector connector-type="number"
-					connector-kind="socket" position-type="bottom" />
+					connector-kind="socket" position-type="single" />
+			</BlockConnectors>
+		</BlockGenus>
+
+
+
+
+		<BlockGenus name="greater_equalS" kind="function" color="255 255 102"
+			initlabel="bg.greater_equal">
+			<description>
+				<text>est plus grand ou egale?</text>
+			</description>
+			<BlockConnectors>
+				<BlockConnector connector-type="boolean"
+					connector-kind="plug" position-type="mirror" />
+				<BlockConnector connector-type="string"
+					connector-kind="socket" position-type="single" />
+				<BlockConnector connector-type="string"
+					connector-kind="socket" position-type="single" />
+			</BlockConnectors>
+		</BlockGenus>
+
+		<BlockGenus name="greater_equalP" kind="function" color="255 255 102"
+			initlabel="bg.greater_equal">
+			<description>
+				<text>est plus grand ou egale?</text>
+			</description>
+			<BlockConnectors>
+				<BlockConnector connector-type="boolean"
+					connector-kind="plug" position-type="mirror" />
+				<BlockConnector connector-type="poly" connector-kind="socket"
+					position-type="single" />
+				<BlockConnector connector-type="poly" connector-kind="socket"
+					position-type="single" />
 			</BlockConnectors>
 		</BlockGenus>
 
@@ -906,9 +1059,41 @@
 				<BlockConnector connector-type="boolean"
 					connector-kind="plug" position-type="mirror" />
 				<BlockConnector connector-type="number"
-					connector-kind="socket" position-type="bottom" />
+					connector-kind="socket" position-type="single" />
 				<BlockConnector connector-type="number"
-					connector-kind="socket" position-type="bottom" />
+					connector-kind="socket" position-type="single" />
+			</BlockConnectors>
+		</BlockGenus>
+
+
+
+		<BlockGenus name="less_equalS" kind="function" color="255 255 102"
+			initlabel="bg.less_equal">
+			<description>
+				<text>est plus petit ou egale?</text>
+			</description>
+			<BlockConnectors>
+				<BlockConnector connector-type="boolean"
+					connector-kind="plug" position-type="mirror" />
+				<BlockConnector connector-type="string"
+					connector-kind="socket" position-type="single" />
+				<BlockConnector connector-type="string"
+					connector-kind="socket" position-type="single" />
+			</BlockConnectors>
+		</BlockGenus>
+
+		<BlockGenus name="less_equalP" kind="function" color="255 255 102"
+			initlabel="bg.less_equal">
+			<description>
+				<text>est plus petit ou egale?</text>
+			</description>
+			<BlockConnectors>
+				<BlockConnector connector-type="boolean"
+					connector-kind="plug" position-type="mirror" />
+				<BlockConnector connector-type="poly" connector-kind="socket"
+					position-type="single" />
+				<BlockConnector connector-type="poly" connector-kind="socket"
+					position-type="single" />
 			</BlockConnectors>
 		</BlockGenus>
 
@@ -921,13 +1106,56 @@
 				<BlockConnector connector-type="boolean"
 					connector-kind="plug" position-type="mirror" />
 				<BlockConnector connector-type="number"
-					connector-kind="socket" position-type="bottom" />
+					connector-kind="socket" position-type="single" />
 				<BlockConnector connector-type="number"
-					connector-kind="socket" position-type="bottom" />
+					connector-kind="socket" position-type="single" />
 			</BlockConnectors>
 		</BlockGenus>
 
+		<BlockGenus name="not_equalB" kind="function" color="255 255 102"
+			initlabel="bg.not_equal">
+			<description>
+				<text>ne son pas egaux?</text>
+			</description>
+			<BlockConnectors>
+				<BlockConnector connector-type="boolean"
+					connector-kind="plug" position-type="mirror" />
+				<BlockConnector connector-type="boolean"
+					connector-kind="socket" position-type="single" />
+				<BlockConnector connector-type="boolean"
+					connector-kind="socket" position-type="single" />
+			</BlockConnectors>
+		</BlockGenus>
 
+		<BlockGenus name="not_equalS" kind="function" color="255 255 102"
+			initlabel="bg.not_equal">
+			<description>
+				<text>ne son pas egaux?</text>
+			</description>
+			<BlockConnectors>
+				<BlockConnector connector-type="boolean"
+					connector-kind="plug" position-type="mirror" />
+				<BlockConnector connector-type="string"
+					connector-kind="socket" position-type="single" />
+				<BlockConnector connector-type="string"
+					connector-kind="socket" position-type="single" />
+			</BlockConnectors>
+		</BlockGenus>
+
+		<BlockGenus name="not_equalP" kind="function" color="255 255 102"
+			initlabel="bg.not_equal">
+			<description>
+				<text>ne son pas egaux?</text>
+			</description>
+			<BlockConnectors>
+				<BlockConnector connector-type="boolean"
+					connector-kind="plug" position-type="mirror" />
+				<BlockConnector connector-type="poly" connector-kind="socket"
+					position-type="single" />
+				<BlockConnector connector-type="poly" connector-kind="socket"
+					position-type="single" />
+			</BlockConnectors>
+		</BlockGenus>
 
 		<!-- Utility -->
 		<BlockGenus name="delay" kind="command" color="153 153 153"
@@ -936,7 +1164,8 @@
 				<text>pause du programme en millisecondes toto</text>
 			</description>
 			<BlockConnectors>
-				<BlockConnector connector-type="number" connector-kind="socket" label="bc.milliseconds">
+				<BlockConnector connector-type="number"
+					connector-kind="socket" label="bc.milliseconds">
 					<DefaultArg genus-name="number" label="1000" />
 				</BlockConnector>
 			</BlockConnectors>
@@ -946,44 +1175,19 @@
 				</Image>
 			</Images>
 		</BlockGenus>
-<!-- 
-		<BlockGenus name="pause" kind="command" color="153 153 153"
-		
-			initlabel="bg.pause">
-			<description>
-				<text>pause du programme en millisecondes et ta soeur</text>
-			</description>
-			<BlockConnectors>
-				<BlockConnector connector-type="number" connector-kind="socket" label="bc.milliseconds">
-					<DefaultArg genus-name="number" label="1000" />
-				</BlockConnector>
-			</BlockConnectors>
-			<Images>
-				<Image block-location="center">
-					<FileLocation>com/unibot/block/dessinToArduino.png</FileLocation>
-				</Image>
-			</Images>
-		</BlockGenus>
-
-
- 
-		<BlockGenus name="nouveau robotMartien()" kind="command"
-			color="78 127 78" initlabel="bg.delay">
-			<description>
-				<text>C:\Users\freetix\Documents\Arduino\libraries\robotMartien\robotMartien.h</text>
-			</description>
-			<BlockConnectors>
-				<BlockConnector connector-type="poly" connector-kind="socket" label="toto">
-					<DefaultArg genus-name="robotMartien" label="robotmartien" />
-				</BlockConnector>
-			</BlockConnectors>
-			<Images>
-				<Image block-location="center">
-					<FileLocation>C:\Users\freetix\Documents\Arduino\libraries\robotMartien/img/robotMartien.png </FileLocation>
-				</Image>
-			</Images>
-		</BlockGenus>
--->
+		<!-- <BlockGenus name="pause" kind="command" color="153 153 153" initlabel="bg.pause"> 
+			<description> <text>pause du programme en millisecondes et ta soeur</text> 
+			</description> <BlockConnectors> <BlockConnector connector-type="number" 
+			connector-kind="socket" label="bc.milliseconds"> <DefaultArg genus-name="number" 
+			label="1000" /> </BlockConnector> </BlockConnectors> <Images> <Image block-location="center"> 
+			<FileLocation>com/unibot/block/dessinToArduino.png</FileLocation> </Image> 
+			</Images> </BlockGenus> <BlockGenus name="nouveau robotMartien()" kind="command" 
+			color="78 127 78" initlabel="bg.delay"> <description> <text>C:\Users\freetix\Documents\Arduino\libraries\robotMartien\robotMartien.h</text> 
+			</description> <BlockConnectors> <BlockConnector connector-type="poly" connector-kind="socket" 
+			label="toto"> <DefaultArg genus-name="robotMartien" label="robotmartien" 
+			/> </BlockConnector> </BlockConnectors> <Images> <Image block-location="center"> 
+			<FileLocation>C:\Users\freetix\Documents\Arduino\libraries\robotMartien/img/robotMartien.png 
+			</FileLocation> </Image> </Images> </BlockGenus> -->
 
 
 
@@ -1072,6 +1276,37 @@
 			</BlockConnectors>
 		</BlockGenus>
 
+
+		<BlockGenus name="maptix" kind="command" color="153 153 153"
+			initlabel="bg.map">
+			<description>
+				<text>map</text>
+			</description>
+			<BlockConnectors>
+				<BlockConnector connector-type="poly" connector-kind="socket"
+					position-type="bottom" />
+				<BlockConnector connector-type="number"
+					connector-kind="socket" label="bc.value" />
+				<BlockConnector connector-type="number"
+					connector-kind="socket" label="bc.from">
+					<DefaultArg genus-name="number" label="0" />
+				</BlockConnector>
+				<BlockConnector connector-type="number"
+					connector-kind="socket">
+					<DefaultArg genus-name="number" label="1023" />
+				</BlockConnector>
+				<BlockConnector connector-type="number"
+					connector-kind="socket" label="bc.to">
+					<DefaultArg genus-name="number" label="0" />
+				</BlockConnector>
+				<BlockConnector connector-type="number"
+					connector-kind="socket">
+					<DefaultArg genus-name="number" label="255" />
+				</BlockConnector>
+			</BlockConnectors>
+		</BlockGenus>
+
+
 		<BlockGenus name="map" kind="data" color="153 153 153"
 			initlabel="bg.map">
 			<description>
@@ -1152,6 +1387,28 @@
 			<FamilyMember>not_equal</FamilyMember>
 		</BlockFamily>
 		<BlockFamily>
+			
+			<FamilyMember>equalB</FamilyMember>
+
+			<FamilyMember>not_equalB</FamilyMember>
+		</BlockFamily>
+		<BlockFamily>
+			<FamilyMember>greaterS</FamilyMember>
+			<FamilyMember>lessS</FamilyMember>
+			<FamilyMember>equalS</FamilyMember>
+			<FamilyMember>greater_equalS</FamilyMember>
+			<FamilyMember>less_equalS</FamilyMember>
+			<FamilyMember>not_equalS</FamilyMember>
+		</BlockFamily>
+		<BlockFamily>
+			<FamilyMember>greaterP</FamilyMember>
+			<FamilyMember>lessP</FamilyMember>
+			<FamilyMember>equalP</FamilyMember>
+			<FamilyMember>greater_equalP</FamilyMember>
+			<FamilyMember>less_equalP</FamilyMember>
+			<FamilyMember>not_equalP</FamilyMember>
+		</BlockFamily>
+		<BlockFamily>
 			<FamilyMember>sin</FamilyMember>
 			<FamilyMember>cos</FamilyMember>
 			<FamilyMember>tan</FamilyMember>
@@ -1193,6 +1450,9 @@
 				<BlockGenusMember>true</BlockGenusMember>
 				<BlockGenusMember>false</BlockGenusMember>
 				<BlockGenusMember>string</BlockGenusMember>
+				<BlockGenusMember>char</BlockGenusMember>
+				<BlockGenusMember>byte</BlockGenusMember>
+
 			</BlockDrawer>
 			<BlockDrawer button-color="255 255 0" name="bd.planetTests">
 				<BlockGenusMember>ifelse</BlockGenusMember>
@@ -1200,19 +1460,20 @@
 				<BlockGenusMember>while</BlockGenusMember>
 				<BlockGenusMember>repeat_times</BlockGenusMember>
 				<BlockGenusMember>repeat_delay</BlockGenusMember>
-				<BlockGenusMember>greater</BlockGenusMember>
-				<BlockGenusMember>less</BlockGenusMember>
 				<BlockGenusMember>equal</BlockGenusMember>
-				<BlockGenusMember>greater_equal</BlockGenusMember>
-				<BlockGenusMember>less_equal</BlockGenusMember>
-				<BlockGenusMember>not_equal</BlockGenusMember>
+				<BlockGenusMember>equalB</BlockGenusMember>
+				<BlockGenusMember>equalS</BlockGenusMember>
+				<BlockGenusMember>equalP</BlockGenusMember>
+				<!-- <BlockGenusMember>less</BlockGenusMember> <BlockGenusMember>equal</BlockGenusMember> 
+					<BlockGenusMember>greater_equal</BlockGenusMember> <BlockGenusMember>less_equal</BlockGenusMember> 
+					<BlockGenusMember>not_equal</BlockGenusMember> -->
 			</BlockDrawer>
 			<BlockDrawer button-color="204 204 204" name="bd.time"
 				type="factory">
-		<!-- 		<BlockGenusMember>pause</BlockGenusMember>
-		-->		<BlockGenusMember>millis</BlockGenusMember>
+				<!-- <BlockGenusMember>pause</BlockGenusMember> -->
+				<BlockGenusMember>millis</BlockGenusMember>
 				<BlockGenusMember>delay</BlockGenusMember>
-				
+
 				<!-- <BlockGenusMember>delay_microseconds</BlockGenusMember> -->
 			</BlockDrawer>
 			<BlockDrawer button-color="35 255 35" name="bd.planetOperations">
@@ -1242,6 +1503,8 @@
 				<BlockGenusMember>serial_println_number</BlockGenusMember>
 
 				<BlockGenusMember>map_common</BlockGenusMember>
+				<BlockGenusMember>maptix</BlockGenusMember>
+
 				<BlockGenusMember>map</BlockGenusMember>
 
 				<BlockGenusMember>addText</BlockGenusMember>

@@ -473,7 +473,7 @@ public class BlockGenus {
 	 * */
     private static void loadGenusDescription(NodeList descriptions, BlockGenus genus, String attribName) {
         Node description;        
-		ResourceBundle bundle = ResourceBundle.getBundle("com/unibot/block/unibot");	
+		ResourceBundle bundle = ResourceBundle.getBundle("com/ardublock/block/ardublock");	
 		for (int k = 0; k < descriptions.getLength(); k++) {
 			description = descriptions.item(k);	
 			if (description.getNodeName().equals("text") && !attribName.equals(null)) {
@@ -886,11 +886,11 @@ public class BlockGenus {
                         /// LOAD BLOCK CONNECTOR INFORMATION ///
                         loadBlockConnectorInformation(workspace, genusChild.getChildNodes(), newGenus);
                         //if genus has two connectors both of bottom position type than this block is an infix operator
-                        if (newGenus.sockets != null && newGenus.sockets.size() == 2
-                                && newGenus.sockets.get(0).getPositionType() == BlockConnector.PositionType.BOTTOM
-                                && newGenus.sockets.get(1).getPositionType() == BlockConnector.PositionType.BOTTOM) {
+                        if (newGenus.sockets != null && newGenus.sockets.size() >0
+                                && newGenus.sockets.get(0).getPositionType() == BlockConnector.PositionType.BOTTOM) {
                             newGenus.isInfix = true;
                         }
+                        
                     } else if (genusChild.getNodeName().equals("Images")) {
                         /// LOAD BLOCK IMAGES ///
                         loadBlockImages(genusChild.getChildNodes(), newGenus);

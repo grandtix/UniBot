@@ -44,6 +44,7 @@ import javax.xml.xpath.XPathExpression;
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathConstants;
 
+import org.w3c.dom.DOMException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -117,9 +118,6 @@ public class WorkspaceController {
     
     public void setLangDefDtd(InputStream is) {
     	langDefDtd = is;
-    }
-    public InputStream getLangDefDtd() {
-    	return langDefDtd;
     }
     
     public void setLangResourceBundle(ResourceBundle bundle) {
@@ -223,10 +221,17 @@ public class WorkspaceController {
 				
         		// System.out.println("Translating BlockGenu:" + name);
 				
-        		String altName = langResourceBundle.getString("bg." + name);
-        		if (altName != null) {
-        			elm.setAttribute("initlabel", altName);
-        		}
+        		String altName;
+				try {
+					altName = langResourceBundle.getString("bg." + name);
+					if (altName != null) {
+						elm.setAttribute("initlabel", altName);
+					}
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					//tix
+					elm.setAttribute("initlabel", name);
+				}
 				NodeList descriptions = elm.getElementsByTagName("description");
 				Element description = (Element)descriptions.item(0);
 				if (description != null) {
@@ -255,10 +260,16 @@ public class WorkspaceController {
         	for (int i = 0 ; i < nodes.getLength(); i++) {
         		Element elm = (Element)nodes.item(i);
         		String name = elm.getAttribute("name");
-        		String altName = langResourceBundle.getString(name);
-        		if (altName != null) {
-        			elm.setAttribute("name", altName);
-        		}
+        		try {
+					String altName = langResourceBundle.getString(name);
+					if (altName != null) {
+						elm.setAttribute("name", altName);
+					}
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					//tix
+					elm.setAttribute("name", name);
+				}
         	}
         	nodes = doc.getElementsByTagName("BlockConnector");
         	for (int i = 0 ; i < nodes.getLength(); i++) {
@@ -435,6 +446,32 @@ public class WorkspaceController {
         try {
             builder = factory.newDocumentBuilder();
             doc = builder.parse(new File(path));
+
+            // XXX here, we could be strict and only allow valid documents...
+            // validate(doc);
+            final Element projectRoot = doc.getDocumentElement();
+            //load the canvas (or pages and page blocks if any) blocks from the save file
+            //also load drawers, or any custom drawers from file.  if no custom drawers
+            //are present in root, then the default set of drawers is loaded from
+            //langDefRoot
+            workspace.loadWorkspaceFrom(projectRoot, langDefRoot);
+            workspaceLoaded = true;
+        } catch (ParserConfigurationException e) {
+            throw new RuntimeException(e);
+        } catch (SAXException e) {
+            throw new RuntimeException(e);
+        }
+    }
+    
+    public void loadProjectFromInputStream(final InputStream is) throws IOException
+    {
+        final DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+        factory.setNamespaceAware(true);
+        final DocumentBuilder builder;
+        final Document doc;
+        try {
+            builder = factory.newDocumentBuilder();
+            doc = builder.parse(is);
 
             // XXX here, we could be strict and only allow valid documents...
             // validate(doc);

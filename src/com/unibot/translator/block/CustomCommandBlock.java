@@ -18,28 +18,32 @@ public class CustomCommandBlock extends TranslatorBlock
 	{
 		
 String stb0 = this.getRequiredTranslatorBlockAtSocket(0).toCode();
+String stb = "";
 
-		String stb1 = "";
-		String stb2="";
+try{
+		stb = this.getRequiredTranslatorBlockAtSocket(1).toCode();
+	}
+	catch(Exception e)
+{
+	
+}
+
+		
+		for (int i=2;i<10;i++)
+		{
 		try
 		{
-			stb1=this.getRequiredTranslatorBlockAtSocket(1).toCode();
+			stb+=","+this.getRequiredTranslatorBlockAtSocket(i).toCode();
 		}
 		catch (Exception e)
 		{
 			// TODO Auto-generated catch block
 			//e.printStackTrace();
 		}
-		try
-		{
-			stb2=","+this.getRequiredTranslatorBlockAtSocket(2).toCode();
 		}
-		catch (Exception e)
-		{
-			// TODO Auto-generated catch block
-			//e.printStackTrace();
-		}
-		String code=stb0+"."+translator.getBlock(blockId).getGenusName()+"("+stb1+stb2+");\n";
+		
+		String code=stb0+"."+translator.getBlock(blockId).getInitialLabel()+"("+stb+");\n";
+	//	String code=stb0+"."+translator.getBlock(blockId).getGenusName()+"("+stb+");\n";
 		return code;
 	}
 

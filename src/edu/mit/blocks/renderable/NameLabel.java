@@ -2,6 +2,8 @@ package edu.mit.blocks.renderable;
 
 import java.awt.Color;
 
+import edu.mit.blocks.codeblocks.BlockConnector;
+import edu.mit.blocks.codeblocks.BlockConnector.PositionType;
 import edu.mit.blocks.codeblocks.BlockConnectorShape;
 import edu.mit.blocks.workspace.Workspace;
 
@@ -26,12 +28,23 @@ class NameLabel extends BlockLabel {
             int y = 0;
             if (rb.getBlock().isCommandBlock()) {
                 x += 5;
+                boolean found=false;
+                for (BlockConnector t: rb.getBlock().getSockets())
+                {
+                	if (t.getPositionType().equals(PositionType.BOTTOM))
+                		found=true;
+                }
+                if (found)
+                	x+=35;
+				
             }
             if (rb.getBlock().isDeclaration()) {
                 x += 12;
             }
             if (rb.getBlock().hasPlug()) {
                 x += 4 + BlockConnectorShape.getConnectorDimensions(rb.getBlock().getPlug()).width;
+                if (rb.getBlock().getNumSockets()>0)
+                	x+=12;
             }
             if (rb.getBlock().isInfix()) {
                 if (!rb.getBlock().getSocketAt(0).hasBlock()) {

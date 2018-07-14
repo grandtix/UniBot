@@ -43,7 +43,12 @@ public class InfixBlockShape extends BlockShape {
         //curve down and right
         BlockShapeUtil.cornerTo(gpBottom, botLeftCorner, botRightCorner, blockCornerRadius);
 
-
+        if (block.hasAfterConnector() && !rb.isCollapsed()) {
+            //control connector if necessary
+            // Trying left-aligned ports
+            Point2D p = BCS.addControlConnectorShape(gpBottom, (float) COMMAND_PORT_OFFSET + blockCornerRadius, true);
+            rb.updateSocketPoint(block.getAfterConnector(), p);
+        }
 
         /// BOTTOM SOCKETS
         //for each socket in the iterator
@@ -53,6 +58,11 @@ public class InfixBlockShape extends BlockShape {
             //if bottom socket
             if (curSocket.getPositionType() == BlockConnector.PositionType.BOTTOM) {
 
+            	if(block.isDataBlock() )
+            		 gpBottom.lineTo(
+                             (float) gpBottom.getCurrentPoint().getX() + 10,
+                             (float) gpBottom.getCurrentPoint().getY());
+                 	
                 //move away from bottom left corner
                 if (socketCounter > 0) {
                     gpBottom.lineTo(
@@ -98,34 +108,53 @@ public class InfixBlockShape extends BlockShape {
                     //update the socket point of this cursocket which should now adopt the plug socket point of its
                     //connected block since we're also adopting the left side of its shape
 
-                    //Use coordinates when the zoom level is 1.0 to calculate socket point
-                    double unzoomX = connectedRBlock.getSocketPixelPoint(connectedBlock.getPlug()).getX() / connectedRBlock.getZoom();
-                    double unzoomY = connectedRBlock.getSocketPixelPoint(connectedBlock.getPlug()).getY() / connectedRBlock.getZoom();
-                    Point2D connectedBlockSocketPoint = new Point2D.Double(unzoomX, unzoomY);
-                    Point2D currentPoint = gpBottom.getCurrentPoint();
-                    double newX = connectedBlockSocketPoint.getX() + Math.abs(connectedBlockSocketPoint.getX() - currentPoint.getX());
-                    double newY = connectedBlockSocketPoint.getY() + Math.abs(connectedRBlock.getBlockHeight() / connectedRBlock.getZoom() - currentPoint.getY());
-                    rb.updateSocketPoint(curSocket, new Point2D.Double(newX, newY));
+                    BlockShape connectedBlockShape;
+					try {
+						//Use coordinates when the zoom level is 1.0 to calculate socket point
+						double unzoomX = connectedRBlock.getSocketPixelPoint(connectedBlock.getPlug()).getX() / connectedRBlock.getZoom();
+						double unzoomY = connectedRBlock.getSocketPixelPoint(connectedBlock.getPlug()).getY() / connectedRBlock.getZoom();
+						Point2D connectedBlockSocketPoint = new Point2D.Double(unzoomX, unzoomY);
+						Point2D currentPoint = gpBottom.getCurrentPoint();
+						double newX = connectedBlockSocketPoint.getX() + Math.abs(connectedBlockSocketPoint.getX() - currentPoint.getX());
+						double newY = connectedBlockSocketPoint.getY() + Math.abs(connectedRBlock.getBlockHeight() / connectedRBlock.getZoom() - currentPoint.getY());
+						rb.updateSocketPoint(curSocket, new Point2D.Double(newX, newY));
 
 
-                    BlockShape connectedBlockShape = rb.getWorkspace().getEnv().getRenderableBlock(curSocket.getBlockID()).getBlockShape();
-                    //append left side of connected block
-                    appendPath(gpBottom, connectedBlockShape.getLeftSide(), false);
-
-
-
-
+						connectedBlockShape = rb.getWorkspace().getEnv().getRenderableBlock(curSocket.getBlockID()).getBlockShape();
+						//append left side of connected block
+						appendPath(gpBottom, connectedBlockShape.getLeftSide(), false);
                     //append right side of connected block (more complicated)
                     if (connectedBlock.getNumSockets() == 0 || connectedBlock.isInfix()) {
 //                      append top side of connected block
                         appendPath(gpBottom, connectedBlockShape.getTopSide(), false);
                         appendPath(gpBottom, connectedBlockShape.getRightSide(), false);
                     } else {
+                    	
                         //iterate through the sockets of the connected block, checking if 
                         //it has blocks connected to them
                         appendRightSidePath(gpBottom, connectedBlock, connectedBlockShape);
                     }
+} catch (Exception e) {
+						// TODO Auto-generated catch block
+						System.err.println("tix infix command 2 sockets bottom");
+						
+						 
+						
+						 Point2D leftSocket = BCS.addDataSocketUp(gpBottom, curSocket.getKind(), true);
+		                    rb.updateSocketPoint(curSocket, leftSocket);
+		                    //System.out.println("socket poitn: "+rb.getSocketPoint(curSocket));
 
+		                    //System.out.println("socket poitn leftsocket: "+leftSocket);
+
+		                    //draw left standard empty socket space - top side
+		                    gpBottom.lineTo(
+		                            (float) gpBottom.getCurrentPoint().getX() + BOTTOM_SOCKET_SIDE_SPACER,
+		                            (float) gpBottom.getCurrentPoint().getY());
+
+
+		                    //draw first socket - down right side
+		                    BCS.addDataSocket(gpBottom, curSocket.getKind(), false);
+					}
                     // Updates the maximum X-coordinate and sets the current point to maxX 
                     if (maxX < (float) gpBottom.getCurrentPoint().getX()) {
                         maxX = (float) gpBottom.getCurrentPoint().getX();

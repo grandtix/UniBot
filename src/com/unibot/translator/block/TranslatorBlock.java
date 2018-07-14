@@ -24,6 +24,8 @@ abstract public class TranslatorBlock
 
 	protected String label;
 	
+	
+	
 
 	protected String comment;
 
@@ -88,7 +90,9 @@ abstract public class TranslatorBlock
 		this.label = label;
 		this.comment = desc;
 	}
-	public TranslatorBlock(Long blockId, Translator translator, String codePrefix, String codeSuffix, String label, boolean forglobal)
+	
+	
+	public TranslatorBlock(Long blockId, Translator translator, String codePrefix, String codeSuffix, String label,  boolean forglobal)
 	{
 		this.blockId = blockId;
 		this.translator = translator;
@@ -96,6 +100,7 @@ abstract public class TranslatorBlock
 		this.codePrefix = codePrefix;
 		this.codeSuffix = codeSuffix;
 		this.label = label;
+
 		this.forGlobal=forglobal;
 	}
 	
@@ -165,4 +170,8 @@ abstract public class TranslatorBlock
 	{
 		return this.comment;
 	}
+
+
+
+	
 }

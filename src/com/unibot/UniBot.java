@@ -67,7 +67,7 @@ public class UniBot implements Tool, OpenblocksFrameListener
 			}
 			openblocksFrame.loadLibs();
 		} catch (Exception e) {
-			
+			e.printStackTrace();
 		}
 	}
 

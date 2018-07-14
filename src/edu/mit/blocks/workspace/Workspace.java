@@ -199,6 +199,31 @@ public class Workspace extends JLayeredPane implements ISupportMemento, RBParent
                 blockCanvas.getVerticalModel().getValue() - blockCanvas.getJComponent().getY());
     }
 
+    public Dimension getRenderableBlockDimension()
+    {
+    	
+    	int maxHeight = 0;
+    	int maxWidth = 0;
+    	Iterator<RenderableBlock> blocks = getRenderableBlocks().iterator();
+    	while (blocks.hasNext())
+    	{
+    		RenderableBlock b = blocks.next();
+    		Dimension bd = b.getSize();
+    		Point bp = b.getLocation();
+    		int bw = bp.x + bd.width;
+    		int bh = bp.y + bd.height;
+    		if (bw > maxWidth) 
+    		{
+    			maxWidth = bw;
+    		}
+    		if (bw > maxHeight)
+    		{
+    			maxHeight = bh;
+    		}
+    	}
+    	return new Dimension(maxWidth, maxHeight);
+    }
+    
     public Page getPageNamed(String pageName) {
         return blockCanvas.getPageNamed(pageName);
     }

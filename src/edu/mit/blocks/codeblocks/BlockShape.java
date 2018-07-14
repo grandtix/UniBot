@@ -32,17 +32,17 @@ public class BlockShape {
     /** ArrayList of the CustonBlockShapeSets that are checked */
     private static ArrayList<CustomBlockShapeSet> customBlockShapeSets = new ArrayList<CustomBlockShapeSet>();
     /** left alignment buffer for command ports */
-    public static final float COMMAND_PORT_OFFSET = 15f;
+    public static final float COMMAND_PORT_OFFSET = 5f;
     /** radius of rounded corners */
     public static final float CORNER_RADIUS = 3.0f;
     /** variable declaration spacer */
-    public static final float VARIABLE_DECLARATION_SPACER = 10f;
+    public static final float VARIABLE_DECLARATION_SPACER = 20f;
     /** spacer for bottom sockets to block sides and other bottom sockets */
     public static final float BOTTOM_SOCKET_SIDE_SPACER = 10f;
     /** spacer for in between bottom sockets */
-    public static final float BOTTOM_SOCKET_MIDDLE_SPACER = 16f;
+    public static final float BOTTOM_SOCKET_MIDDLE_SPACER = 30f;
     /** spacer on top of bottom sockets to give continuous top */
-    public static final float BOTTOM_SOCKET_UPPER_SPACER = 4f;
+    public static final float BOTTOM_SOCKET_UPPER_SPACER = 6f;
     /** Outline of top-left corner, top edge, and top-right corner */
     private GeneralPath gpTop;
     /** Outline of right edge */
@@ -247,7 +247,7 @@ public class BlockShape {
 
         //if it has bottom sockets, add extra height
         if (hasBottomSocket) {
-            heightSum += maxBottomSocketHeight;
+      //      heightSum += maxBottomSocketHeight;
         }
 
 
@@ -354,8 +354,14 @@ public class BlockShape {
 
         //// ADD MIRRORED PLUG ////
         //if it has a mirrored plug, then add it
-        if ((block.getPlug() != null)
-                && (block.getPlug().getPositionType().equals(BlockConnector.PositionType.MIRROR))) {
+        boolean tomirrored=true;
+        for ( BlockConnector bc: block.getSockets())
+        {
+        	if (bc.getPositionType().equals(BlockConnector.PositionType.SINGLE))
+        		tomirrored=false;
+        }
+        
+        if ((block.getPlug() != null  && block.getPlug().getPositionType().equals(BlockConnector.PositionType.MIRROR) && tomirrored)) {
             //add the plug to the gpRight
             BCS.addDataPlug(gpRight, block.getPlug().getKind(), true);
 

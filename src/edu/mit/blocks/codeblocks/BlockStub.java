@@ -94,10 +94,10 @@ public class BlockStub extends Block {
             //set socket type to be parent socket type or plug if parent has no sockets
             if (parent.getNumSockets() > 0) {
                 this.setSocketAt(0, parent.getSocketAt(0).getKind(), mySoc.getPositionType(),
-                        mySoc.getLabel(), mySoc.isLabelEditable(), mySoc.isExpandable(), mySoc.getBlockID());
+                        mySoc.getLabel(),  mySoc.isLabelEditable(), mySoc.isExpandable(), mySoc.getBlockID());
             } else {
                 this.setSocketAt(0, parent.getPlugKind(), mySoc.getPositionType(),
-                        mySoc.getLabel(), mySoc.isLabelEditable(), mySoc.isExpandable(), mySoc.getBlockID());
+                        mySoc.getLabel(),  mySoc.isLabelEditable(), mySoc.isExpandable(), mySoc.getBlockID());
             }
         } else if (stubGenus.startsWith(CALLER_STUB)) {
             //if parent has socket block connected to its first socket or has multiple sockets (parent may have blocks connected to its other sockets)
@@ -124,7 +124,7 @@ public class BlockStub extends Block {
                 //if(this.getNumSockets() == 0){
                 //	setPlug(kind, PositionType.MIRROR, "", false, Block.NULL);
                 //} else {
-                setPlug(kind, PositionType.SINGLE, "", false, Block.NULL);
+                setPlug(kind, PositionType.SINGLE, "",  false, Block.NULL);
                 //}
             }
 
@@ -134,7 +134,7 @@ public class BlockStub extends Block {
             if (parent.getNumSockets() > 0) {
                 setPlug(parent.getSocketAt(0).getKind(), this.getPlug().getPositionType(), this.getPlugLabel(), this.getPlug().isLabelEditable(), this.getPlugBlockID());
             } else {
-                setPlug(parent.getPlugKind(), this.getPlug().getPositionType(), this.getPlugLabel(), this.getPlug().isLabelEditable(), this.getPlugBlockID());
+                setPlug(parent.getPlugKind(), this.getPlug().getPositionType(), this.getPlugLabel(),  this.getPlug().isLabelEditable(), this.getPlugBlockID());
             }
 
         } else if (stubGenus.startsWith(INC_STUB)) {
@@ -399,7 +399,7 @@ public class BlockStub extends Block {
                     if (i > this.getNumSockets() - 1) {
                         //socket labels should correspond with the socket blocks of parent
                         if (parentSocket.getBlockID() != Block.NULL) {
-                            addSocket(parentSocket.getKind(), BlockConnector.PositionType.SINGLE, workspace.getEnv().getBlock(parentSocket.getBlockID()).getBlockLabel(), false, false, Block.NULL);
+                            addSocket(parentSocket.getKind(), BlockConnector.PositionType.SINGLE, workspace.getEnv().getBlock(parentSocket.getBlockID()).getBlockLabel(),  false, false, Block.NULL);
                         }
                     } else {
                         BlockConnector con = getSocketAt(i);

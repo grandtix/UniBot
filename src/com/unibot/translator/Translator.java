@@ -137,7 +137,6 @@ public class Translator
 		
 		TranslatorBlockFactory translatorBlockFactory = new TranslatorBlockFactory();
 		Block block = workspace.getEnv().getBlock(blockId);
-		
 		TranslatorBlock rootTranslatorBlock = translatorBlockFactory.buildTranslatorBlock(this, blockId, block.getGenusName(), "", "", block.getBlockLabel(), fromArduino, block.getBlockDescription());
 		
 		return rootTranslatorBlock.toCode();
@@ -151,7 +150,7 @@ public class Translator
 		TranslatorBlockFactory translatorBlockFactory = new TranslatorBlockFactory();
 		Block block = workspace.getEnv().getBlock(blockId);
 		
-		TranslatorBlock rootTranslatorBlock = translatorBlockFactory.buildTranslatorBlock(this, blockId, block.getGenusName(), "", "", block.getBlockLabel(),forglobal, block.getBlockDescription());
+		TranslatorBlock rootTranslatorBlock = translatorBlockFactory.buildTranslatorBlock(this, blockId, block.getGenusName(),  "","", block.getBlockLabel(), forglobal, block.getBlockDescription());
 		
 		return rootTranslatorBlock.toCode();
 	}

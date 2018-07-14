@@ -6,42 +6,51 @@ import com.unibot.translator.block.exception.SubroutineNotDeclaredException;
 import com.unibot.util.HeaderIncludeGetter;
 
 public class CustomConstructorBlock extends TranslatorBlock {
-	public CustomConstructorBlock(Long blockId, Translator translator, String codePrefix, String codeSuffix, String label, String desc)
-	{
+	public CustomConstructorBlock(Long blockId, Translator translator, String codePrefix, String codeSuffix,
+			String label, String desc) {
 		super(blockId, translator, codePrefix, codeSuffix, label, desc);
 	}
-	public CustomConstructorBlock(Long blockId, Translator translator, String codePrefix, String codeSuffix, String label)
-	{
+
+	public CustomConstructorBlock(Long blockId, Translator translator, String codePrefix, String codeSuffix,
+			String label) {
 		super(blockId, translator, codePrefix, codeSuffix, label);
 	}
-	public String toCode() throws SocketNullException, SubroutineNotDeclaredException
-	{
+
+	public String toCode() throws SocketNullException, SubroutineNotDeclaredException {
 		String t = "";
 		TranslatorBlock tb = this.getRequiredTranslatorBlockAtSocket(0);
-		
-		String label=translator.getBlock(blockId).getGenusName();
-		String nomclass=label.substring(0, label.indexOf('(')).replaceAll("nouveau ","");
-		
-		if (!this.getTranslator().isFromArduino())
-		{ //processing
+
+		String label = translator.getBlock(blockId).getGenusName();
+		String nomclass = label.substring(0, label.indexOf('(')).replaceAll("nouveau ", "");
+
+		if (!this.getTranslator().isFromArduino()) { // processing
 
 			t = nomclass + " " + tb.toCode() + " = new " + nomclass + "();\n";
-		//	String tt = "// controles dela camera par la souris\nvoid mouseDragged() \n{\n\n" + tb.toCode() + ".onMouseDragged();\n}\n\nvoid mouseWheel(MouseEvent event)"
-		//			+ " \n{\nfloat e = event.getCount();\n" + tb.toCode() + ".onMouseWheel(e);\n}\n	";
-		
-			
-		//	translator.addCustomDawCode(tb.toCode() + ".paint();\n");
-		//	translator.addMethodCustomCode(tt);
-		}
-		else
-		{ //arduino
-			
-			t = nomclass + " " + tb.toCode() + ";\n";
-			
+			//TODO ajout generation code de params constructeur pour processing
+		} else { // arduino
+
+			t = nomclass + " " + tb.toCode() + "";
+			String stb = "";
+			try {
+				stb = this.getRequiredTranslatorBlockAtSocket(1).toCode();
+			} catch (Exception e) {
+
+			}
+
+			for (int i = 2; i < 10; i++) {
+				try {
+					stb += "," + this.getRequiredTranslatorBlockAtSocket(i).toCode();
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					// e.printStackTrace();
+				}
+			}
+			if (stb.length() > 0)
+				t += "(" + stb + ")";
+			t += ";";
+
 			translator.addHeaderFile("#include<" + nomclass + ".h>\n");
 			translator.addHeaderFile(new HeaderIncludeGetter().getIncludes(getComment()));
-			
-
 
 		}
 		return t;
