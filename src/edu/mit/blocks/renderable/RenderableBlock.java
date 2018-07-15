@@ -239,8 +239,8 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 		this.plugTag = new ConnectorTag(getBlock().getPlug());
 		this.afterTag = new ConnectorTag(getBlock().getAfterConnector());
 		this.beforeTag = new ConnectorTag(getBlock().getBeforeConnector());
-		this.blockLabel = new NameLabel(workspace, getBlock().getBlockLabel(),
-				BlockLabel.Type.NAME_LABEL, getBlock().isLabelEditable(),
+		this.blockLabel = new NameLabel(workspace, getBlock().getInitialLabel(),
+				BlockLabel.Type.NAME_LABEL,this. getBlock().isLabelEditable(),
 				blockID);
 		this.pageLabel = new PageLabel(workspace, getBlock().getPageLabel(),
 				BlockLabel.Type.PAGE_LABEL, false, blockID);
@@ -1707,7 +1707,7 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 				// needs to be found and fixed!!
 				if (rb == null) {
 					System.out.println("Block doesn't exist yet: "
-							+ socket.getBlockID());
+							+ b.getGenusName()+" "+b.getInitialLabel());
 					continue;
 				}
 

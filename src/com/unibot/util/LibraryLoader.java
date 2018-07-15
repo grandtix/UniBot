@@ -86,17 +86,24 @@ public class LibraryLoader {
 		String[] types = text.trim().split(",");
 		if (text.trim().length() > 0)
 			for (String t : types) {
+				t=t.replace("unsigned ", "");
 				String tmp = t.trim().split(" ")[0];
 				String lbl = "";
 				if (t.trim().contains(" "))
 					lbl = t.trim().split(" ")[1];
 				System.out.println("get type: " + tmp);
-				if (tmp.equals("int") || tmp.equals("float") || tmp.equals("double") || tmp.equals("byte"))
-					tmp = "number/" + lbl+"/"+tmp;
-				else if (tmp.equals("String") || tmp.equals("char"))
-					tmp = "string/" + lbl+"/"+tmp;
+				if (tmp.equals("int") || tmp.equals("float") || tmp.equals("double") )
+					tmp = "number/" + lbl+"/number";
+				else if( tmp.equals("byte"))
+					tmp = "byte/" + lbl+"/boolean-list";
+				else if( tmp.equals("char"))
+					tmp = "char/" + lbl+"/string";
+				else if( tmp.equals("long"))
+					tmp = "long/" + lbl+"/number-list";
+				else if (tmp.equals("String") )
+					tmp = "string/" + lbl+"/string-list";
 				else if (tmp.equals("bool") || tmp.equals("boolean"))
-					tmp = "boolean/" + lbl+"/"+tmp;
+					tmp = "boolean/" + lbl+"/boolean";
 				else
 					tmp = tmp + "/" + lbl+"/"+tmp;
 				liste.add(tmp);
@@ -106,15 +113,15 @@ public class LibraryLoader {
 		return liste;
 	}
 
-	String createBlockGenus(String template_type, String name, String typeGenus, String typeOutput,
+	String createBlockGenus(String template_type, String name, String label,  String typeGenus, String typeOutput,
 			ArrayList<String> typesInput, boolean isconstructor, String description, String imagepath) {
-		return createBlockGenus(template_type, name, typeGenus, typeOutput, typesInput, isconstructor, false,
+		return createBlockGenus(template_type, name, label,  typeGenus, typeOutput, typesInput, isconstructor, false,
 				description, imagepath);
 
 	}
 
 
-	String createBlockGenus(String template_type, String name, String typeGenus, String typeOutput,
+	String createBlockGenus(String template_type, String name, String label,  String typeGenus, String typeOutput,
 			ArrayList<String> typesInput, boolean isconstructor, boolean isPlug, String description, String imagepath) {
 		StringBuffer string = new StringBuffer();
 		String typename = "";
@@ -135,27 +142,27 @@ public class LibraryLoader {
 			// name+"=com.unibot.translator.block.CustomConstructorBlock");
 			PropertiesReader.addValue(typename + name, "com.unibot.translator.block.CustomConstructorBlock");
 			string.append("<BlockGenus name=\"" + typename + name + "\" kind=\"" + typeGenus + "\"   color=\"" + couleur
-					+ "\" editable-label=\"no\" initlabel=\"" + typename + name + "\" label-unique=\"no\" >"); //
+					+ "\" editable-label=\"no\" initlabel=\"" + typename + label + "\" label-unique=\"no\" >"); //
 		} else if (template_type.equals("method")) {
 			// System.out.println(typename +
 			// name+"=com.unibot.translator.block.CustomCommandBlock");
 			PropertiesReader.addValue(name, "com.unibot.translator.block.CustomCommandBlock");
 			string.append("<BlockGenus name=\"" + name + "\" kind=\"" + typeGenus + "\"   color=\"" + couleur
-					+ "\"  editable-label=\"no\" initlabel=\"" + name + "\" label-unique=\"no\" >");
+					+ "\"  editable-label=\"no\" initlabel=\"" + label + "\" label-unique=\"no\" >");
 
 		} else if (template_type.equals("variable") || template_type.equals("instanceClasse")) {
 			// System.out.println(typename +
 			// name+"=com.unibot.translator.block.CustomVariableBlock");
 			PropertiesReader.addValue(name, "com.unibot.translator.block.CustomVariableBlock");
 			string.append("<BlockGenus name=\"" + name + "\" kind=\"" + typeGenus + "\"   color=\"" + couleur
-					+ "\" initlabel=\"" + name + "\" editable-label=\"yes\"  label-unique=\"no\">");
+					+ "\" initlabel=\"" + label + "\" editable-label=\"yes\"  label-unique=\"no\">");
 
 		} else if (template_type.equals("methodreturn")) {
 			// System.out.println(typename +
 			// name+"=com.unibot.translator.block.CustomVariableBlock");
 			PropertiesReader.addValue(name, "com.unibot.translator.block.CustomVariableBlock");
 			string.append("<BlockGenus name=\"" + name + "\" kind=\"" + typeGenus + "\"   color=\"" + couleur
-					+ "\" initlabel=\"" + name + "\" editable-label=\"no\" label-unique=\"no\">");
+					+ "\" initlabel=\"" + label + "\" editable-label=\"no\" label-unique=\"no\">");
 
 		}
 
@@ -180,8 +187,12 @@ public class LibraryLoader {
 			if (typeOutput.equals("float") || typeOutput.equals("int") || typeOutput.equals("double")
 					|| typeOutput.equals("byte"))
 				type = "number";
-			if (typeOutput.equals("String") || typeOutput.equals("string") || typeOutput.equals("char"))
+			if (typeOutput.equals("String") || typeOutput.equals("string"))
+				type = "string-list";
+			if (typeOutput.equals("char"))
 				type = "string";
+			if (typeOutput.equals("byte"))
+				type = "boolean-list";
 			if (typeOutput.equals("boolean") || typeOutput.equals("Boolean") || typeOutput.equals("bool"))
 				type = "boolean";
 
@@ -217,7 +228,7 @@ public class LibraryLoader {
 					if (!(template_type.equals("constructeur") && inc == 0)) {
 						string.append("<BlockConnector connector-type=\"");
 
-						string.append(it.split("/")[0]);
+						string.append(it.split("/")[2]);
 						string.append("\" connector-kind=\"socket\" position-type=\"SINGLE\" label=\"");
 						string.append(it.split("/").length >1 ? it.split("/")[1] : "");
 						string.append("\" label-editable=\"false\"  is-expandable=\"true\" >");
@@ -302,6 +313,8 @@ public class LibraryLoader {
 
 						// si c'est une metabalise
 						if (line.startsWith("//@")) {
+							description="";
+							imagePath=null;
 							if (line.replace("//@", "").startsWith("bloc")) {
 								String[] maligne = (line.replace("//@bloc", "").replace("png=", "#png=")
 										.replace("texte=", "#texte=").trim()).split("#");
@@ -324,6 +337,13 @@ public class LibraryLoader {
 						} else {
 
 							if (!line.startsWith("//")) {
+								if (line.startsWith("static"))
+									line=line.replace("static", "");
+								if (line.startsWith("const"))
+									line=line.replace("const", "");
+								if (line.startsWith("unsigned"))
+									line=line.replace("unsigned", "");
+								
 								// si c'est un constructeur ou une methode
 								if (line.contains("(")) {
 									if (!line.substring(0, line.indexOf('(')).contains(" ")) {// is
@@ -339,13 +359,13 @@ public class LibraryLoader {
 
 										System.out.println("types input: " + line);
 										typesInput.addAll(getTypes(line));
-										contenuFichier.append(createBlockGenus("constructeur", name + "()", "command",
-												null, typesInput, true, "",
+										contenuFichier.append(createBlockGenus("constructeur", name + "()",name + "()", "command",
+												null, typesInput, true, description,
 												idLine == currentIdBalise + 1 ? imagePath : ""));
 										if (firstConstructor) {
-											contenuFichier.append(createBlockGenus("instanceClasse", className, "data",
+											contenuFichier.append(createBlockGenus("instanceClasse", className,className, "data",
 													"object", null, false, true,
-													idLine == currentIdBalise + 1 ? description : "", ""));
+													idLine == currentIdBalise + 1 ? ("objet de type "+name) : "", ""));
 
 											// groups.get(current).add(className);
 											firstConstructor = false;
@@ -360,21 +380,24 @@ public class LibraryLoader {
 										for (String str : listNames) {
 											if (str.trim().equals(name)) {
 												ok = false;
-												i++;
+												
 											}
 
 										}
 										String nametemp=name;
 										while (!ok) {
 											ok = true;
-											nametemp = name + "" + i;
+											
 											for (String str : listNames) {
 												if (str.trim().equals(nametemp)) {
 													ok = false;
-													i++;
+													
 												}
-
+												
 											}
+											nametemp = name + "" + i;
+												i++;
+											
 										}
 
 										listNames.add(nametemp);
@@ -385,24 +408,25 @@ public class LibraryLoader {
 										line = line.replace(";", "");
 										line = line.trim();
 										ArrayList<String> typesInput = getTypes(line);
-										contenuFichier.append(createBlockGenus("method", nametemp, "command", null,
-												typesInput, false, idLine == currentIdBalise + 1 ? description : "",
+										contenuFichier.append(createBlockGenus("method", nametemp,name, "command", null,
+												typesInput, false, idLine == currentIdBalise + 1 ? description : name,
 												idLine == currentIdBalise + 1 ? imagePath : ""));
 
 									} else {
 										String type = line.substring(0, line.indexOf(" "));
+										
 
-										boolean ok = false;
+										boolean ok = true;
 										int i = 0;
 										name = line.substring(line.indexOf(" "), line.indexOf('(')).trim();
+										String nametemp=name;
 										for (String str : listNames) {
 											if (str.trim().equals(name)) {
 												ok = false;
-												i++;
+												
 											}
-
+											
 										}
-										String nametemp=name;
 										while (!ok) {
 											ok = true;
 											nametemp = name + "" + i;
@@ -413,6 +437,8 @@ public class LibraryLoader {
 												}
 
 											}
+											nametemp = name + "" + i;
+											i++;
 										}
 
 										listNames.add(nametemp);							
@@ -431,8 +457,8 @@ public class LibraryLoader {
 										System.out.println("typeApres: " + type + " from line: " + line);
 
 										ArrayList<String> typesInput = getTypes(line);
-										contenuFichier.append(createBlockGenus("methodreturn", nametemp, "data", type,
-												typesInput, false, idLine == currentIdBalise + 1 ? description : "",
+										contenuFichier.append(createBlockGenus("methodreturn", nametemp,name, "data", type,
+												typesInput, false, idLine == currentIdBalise + 1 ? description : name,
 												idLine == currentIdBalise + 1 ? imagePath : ""));
 
 									}
@@ -449,8 +475,8 @@ public class LibraryLoader {
 									else
 										name = line.replace(";", "").replace(type, "").trim();
 
-									contenuFichier.append(createBlockGenus("variable", name, "data", type, null, false,
-											idLine == currentIdBalise + 1 ? description : "",
+									contenuFichier.append(createBlockGenus("variable", name, name,"data", type, null, false,
+											idLine == currentIdBalise + 1 ? description : "variable de l'objet "+name,
 											idLine == currentIdBalise + 1 ? imagePath : ""));
 								}
 							}

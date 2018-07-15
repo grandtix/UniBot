@@ -15,7 +15,7 @@ public class SetterVariableDigitalBlock extends TranslatorBlock
 	public String toCode() throws SocketNullException, SubroutineNotDeclaredException
 	{
 		TranslatorBlock tb = this.getRequiredTranslatorBlockAtSocket(0);
-		if (!(tb instanceof VariableDigitalBlock))
+		if (!(tb instanceof VariableBlock))
 		{
 			throw new BlockException(blockId, "var must be var");
 		}

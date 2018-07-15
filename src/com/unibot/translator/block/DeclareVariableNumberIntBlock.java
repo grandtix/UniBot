@@ -18,8 +18,7 @@ public class DeclareVariableNumberIntBlock extends TranslatorBlock
 		TranslatorBlock tb = this.getRequiredTranslatorBlockAtSocket(0);
 		String nom=tb.toCode();
 		
-
-		if (!(tb instanceof VariableNumberBlock))
+		if (!(tb instanceof VariableBlock))
 		{
 			throw new BlockException(blockId, "int var must be int var");
 		}

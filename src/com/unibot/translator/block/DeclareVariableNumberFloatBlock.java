@@ -19,7 +19,7 @@ public class DeclareVariableNumberFloatBlock extends TranslatorBlock
 		String nom=tb.toCode();
 		
 
-		if (!(tb instanceof VariableNumberBlock))
+		if (!(tb instanceof VariableBlock))
 		{
 			throw new BlockException(blockId, "float var must be float var");
 		}

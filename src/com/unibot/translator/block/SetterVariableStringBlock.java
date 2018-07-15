@@ -16,7 +16,7 @@ public class SetterVariableStringBlock extends TranslatorBlock
 	{
 		
 		TranslatorBlock tb = this.getRequiredTranslatorBlockAtSocket(0);
-		if (!(tb instanceof VariableStringBlock))
+		if (!(tb instanceof VariableBlock))
 		{
 			throw new BlockException(blockId, "string var must be string var");
 		}

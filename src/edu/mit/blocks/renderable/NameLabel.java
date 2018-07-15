@@ -44,7 +44,11 @@ class NameLabel extends BlockLabel {
             if (rb.getBlock().hasPlug()) {
                 x += 4 + BlockConnectorShape.getConnectorDimensions(rb.getBlock().getPlug()).width;
                 if (rb.getBlock().getNumSockets()>0)
-                	x+=12;
+                	{
+                	x+=6;
+                	if (rb.getBlock().getSocketAt(0).getPositionType().equals(PositionType.BOTTOM))
+                		x+=6;
+                	}
             }
             if (rb.getBlock().isInfix()) {
                 if (!rb.getBlock().getSocketAt(0).hasBlock()) {

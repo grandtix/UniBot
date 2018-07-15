@@ -16,7 +16,7 @@ public class DeclareVariableDigitalBlock extends TranslatorBlock
 	{
 		
 		TranslatorBlock tb = this.getRequiredTranslatorBlockAtSocket(0);
-		if (!(tb instanceof VariableDigitalBlock))
+		if (!(tb instanceof VariableBlock))
 		{
 			throw new BlockException(blockId, "digital var must be digital var");
 		}

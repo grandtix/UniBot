@@ -214,10 +214,12 @@ public class WorkspaceController {
      */
     public void ardublockLocalize(Document doc) {
         if (langResourceBundle != null) {
+        	System.out.println("in localize :"+doc.toString());
         	NodeList nodes = doc.getElementsByTagName("BlockGenus");
         	for (int i = 0 ; i < nodes.getLength(); i++) {
         		Element elm = (Element)nodes.item(i);
         		String name = elm.getAttribute("name");
+        		String initlabel = elm.getAttribute("initlabel");
 				
         		// System.out.println("Translating BlockGenu:" + name);
 				
@@ -230,7 +232,7 @@ public class WorkspaceController {
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					//tix
-					elm.setAttribute("initlabel", name);
+					elm.setAttribute("initlabel", initlabel);
 				}
 				NodeList descriptions = elm.getElementsByTagName("description");
 				Element description = (Element)descriptions.item(0);
@@ -245,7 +247,7 @@ public class WorkspaceController {
 								text.setTextContent(altName);
 							}
 						} catch (java.util.MissingResourceException mre) {
-							System.err.println("ardublock.xml: missing " + pname);
+							text.setTextContent(text.getTextContent());
 						}
 					}
 				}

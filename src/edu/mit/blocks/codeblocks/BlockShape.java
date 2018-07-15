@@ -38,7 +38,7 @@ public class BlockShape {
     /** variable declaration spacer */
     public static final float VARIABLE_DECLARATION_SPACER = 20f;
     /** spacer for bottom sockets to block sides and other bottom sockets */
-    public static final float BOTTOM_SOCKET_SIDE_SPACER = 10f;
+    public static final float BOTTOM_SOCKET_SIDE_SPACER = 15f;
     /** spacer for in between bottom sockets */
     public static final float BOTTOM_SOCKET_MIDDLE_SPACER = 30f;
     /** spacer on top of bottom sockets to give continuous top */
