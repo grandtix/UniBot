@@ -540,6 +540,7 @@ public class Block implements ISupportMemento {
      * @return the socket (BlockConnector instance) at the specified index
      */
     public BlockConnector getSocketAt(int index) {
+        System.out.println("in block, getsocketat :"+ genusName+" "+index);
         assert index < sockets.size() : "Index " + index + " is greater than the num of sockets: " + sockets.size() + " of " + this;
         return sockets.get(index);
     }

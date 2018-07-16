@@ -1383,17 +1383,17 @@
 					connector-type="string-list" position-type="single" />
 			</BlockConnectors>
 		</BlockGenus>
-		<BlockGenus name="number_to_string" kind="data" color="153 153 153"
-			initlabel="bg.map">
+		<BlockGenus name="number_to_string" kind="command" color="153 153 153"
+			initlabel="bg.number_to_string">
 			<description>
 				<text>change un nombre en texte</text>
 			</description>
 			<BlockConnectors>
-				<BlockConnector connector-type="number"
-					connector-kind="plug" />
 				<BlockConnector connector-type="string-list"
-					connector-kind="socket">
-					<DefaultArg genus-name="variable_string" label="0" />
+					connector-kind="socket" position-type="bottom"/>
+				<BlockConnector connector-type="number"
+					connector-kind="socket" position-type="single">
+					<DefaultArg genus-name="variable_number" label="bg.variable_number" />
 				</BlockConnector>
 			</BlockConnectors>
 		</BlockGenus>

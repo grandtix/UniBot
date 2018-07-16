@@ -15,10 +15,12 @@ public class SubroutineRefBlock extends TranslatorBlock
 	@Override
 	public String toCode() throws SocketNullException, SubroutineNotDeclaredException
 	{
-		String subroutineName = label.trim();
+		TranslatorBlock tb = this.getRequiredTranslatorBlockAtSocket(0);
+		
+		String subroutineName = tb.toCode().replace("\"", "");
 		if (!translator.isFromArduino())
 			subroutineName+="_"+translator.getRobotName();
-	//	System.out.println(subroutineName);
+		System.out.println(subroutineName);
 		if (!translator.containFunctionName(subroutineName))
 		{
 			throw new SubroutineNotDeclaredException(blockId);
