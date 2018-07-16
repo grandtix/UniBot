@@ -473,7 +473,7 @@ public class BlockGenus {
 	 * */
     private static void loadGenusDescription(NodeList descriptions, BlockGenus genus, String attribName) {
         Node description;        
-		ResourceBundle bundle = ResourceBundle.getBundle("com/ardublock/block/ardublock");	
+		ResourceBundle bundle = ResourceBundle.getBundle("com/unibot/block/unibot");	
 		for (int k = 0; k < descriptions.getLength(); k++) {
 			description = descriptions.item(k);	
 			if (description.getNodeName().equals("text") && !attribName.equals(null)) {

@@ -41,17 +41,8 @@
 	</BlockConnectorShapes>
 
 	<BlockGenuses>
-		<!-- constantes et variables 
-		
-		TYPE -> CONNECTEUR
-		char -> string
-		long/float/int/double -> number
-		byte -> boolean-list
-		bool -> boolean
-		string -> string-list
-		
-		
-		-->
+		<!-- constantes et variables TYPE -> CONNECTEUR char -> string long/float/int/double 
+			-> number byte -> boolean-list bool -> boolean string -> string-list -->
 		<BlockGenus name="char" kind="data" color="0 184 255"
 			initlabel="bg.char" editable-label="yes">
 			<description>
@@ -107,29 +98,7 @@
 			</BlockConnectors>
 		</BlockGenus>
 
-		<BlockGenus name="number-long" kind="data" color="0 184 255"
-			initlabel="bg.long" editable-label="yes">
-			<description>
-				<text>valeur de type entier long</text>
-			</description>
-			<BlockConnectors>
-				<BlockConnector connector-type="number"
-					connector-kind="plug" position-type="mirror" />
-			</BlockConnectors>
-		</BlockGenus>
-		<BlockGenus name="variable_long" kind="data" initlabel="bg.variable_long"
-			editable-label="yes" is-label-value="yes" color="0 71 255">
-			<description>
-				<text>
-					variable de type entier long
-				</text>
-			</description>
-			<BlockConnectors>
-				<BlockConnector connector-type="number-list"
-					connector-kind="plug" position-type="mirror" />
-			</BlockConnectors>
-		</BlockGenus>
-	
+
 		<BlockGenus name="byte" kind="data" color="0 184 255"
 			initlabel="bg.byte" editable-label="yes">
 			<BlockConnectors>
@@ -150,7 +119,7 @@
 			</BlockConnectors>
 		</BlockGenus>
 		<BlockGenus name="declare_variable_byte" kind="command"
-			color="94 17 166" initlabel="bg.declare_variable_byte" >
+			color="94 17 166" initlabel="bg.declare_variable_byte">
 			<description>
 				<text>declare une nouvelle variable de type byte</text>
 			</description>
@@ -257,8 +226,8 @@
 			</BlockConnectors>
 		</BlockGenus>
 		<BlockGenus name="variable_number_long" kind="data"
-			initlabel="bg.variable_number_long" editable-label="yes" is-label-value="yes"
-			color="0 71 255">
+			initlabel="bg.variable_number_long" editable-label="yes"
+			is-label-value="yes" color="0 71 255">
 			<description>
 				<text>
 					Digital Var
@@ -270,8 +239,8 @@
 			</BlockConnectors>
 		</BlockGenus>
 		<BlockGenus name="variable_number_float" kind="data"
-			initlabel="bg.variable_number_float" editable-label="yes" is-label-value="yes"
-			color="0 71 255">
+			initlabel="bg.variable_number_float" editable-label="yes"
+			is-label-value="yes" color="0 71 255">
 			<description>
 				<text>
 					Digital Var
@@ -283,8 +252,8 @@
 			</BlockConnectors>
 		</BlockGenus>
 		<BlockGenus name="variable_number_double" kind="data"
-			initlabel="bg.variable_number_double" editable-label="yes" is-label-value="yes"
-			color="0 71 255">
+			initlabel="bg.variable_number_double" editable-label="yes"
+			is-label-value="yes" color="0 71 255">
 			<description>
 				<text>
 					Digital Var
@@ -312,7 +281,8 @@
 			</BlockConnectors>
 		</BlockGenus>
 		<BlockGenus name="declare_variable_number_float" kind="command"
-			color="94 17 166" initlabel="bg.declare_variable_number_float" label-unique="no">
+			color="94 17 166" initlabel="bg.declare_variable_number_float"
+			label-unique="no">
 			<description>
 				<text>declare une variable numerique a virgule</text>
 			</description>
@@ -328,7 +298,8 @@
 			</BlockConnectors>
 		</BlockGenus>
 		<BlockGenus name="declare_variable_number_long" kind="command"
-			color="94 17 166" initlabel="bg.declare_variable_number_long" label-unique="no">
+			color="94 17 166" initlabel="bg.declare_variable_number_long"
+			label-unique="no">
 			<description>
 				<text>declare un grand entier</text>
 			</description>
@@ -344,7 +315,8 @@
 			</BlockConnectors>
 		</BlockGenus>
 		<BlockGenus name="declare_variable_number_double" kind="command"
-			color="94 17 166" initlabel="bg.declare_variable_number_double" label-unique="no">
+			color="94 17 166" initlabel="bg.declare_variable_number_double"
+			label-unique="no">
 			<description>
 				<text>declare une variable numerique a virgule</text>
 			</description>
@@ -474,7 +446,6 @@
 			</BlockConnectors>
 		</BlockGenus>
 
-
 		<BlockGenus name="message" kind="data" color="0 184 255"
 			initlabel="bg.message" editable-label="yes">
 			<description>
@@ -556,20 +527,6 @@
 					<DefaultArg genus-name="number" label="1" />
 				</BlockConnector>
 				<BlockConnector connector-type="boolean"
-					connector-kind="plug" />
-			</BlockConnectors>
-		</BlockGenus>
-		<BlockGenus name="pin-read-analog2" kind="data" color="77 191 169"
-			initlabel="bg.pin-read-analog2">
-			<description>
-				<text>mon block a moi</text>
-			</description>
-			<BlockConnectors>
-				<BlockConnector connector-type="number"
-					connector-kind="socket" label="#">
-					<DefaultArg genus-name="number" label="1" />
-				</BlockConnector>
-				<BlockConnector connector-type="number"
 					connector-kind="plug" />
 			</BlockConnectors>
 		</BlockGenus>
@@ -978,6 +935,44 @@
 					connector-kind="socket" />
 			</BlockConnectors>
 		</BlockGenus>
+
+		<BlockGenus name="cast_int" kind="function" color="0 174 0"
+			initlabel="bg.cast_int">
+			<BlockConnectors>
+				<BlockConnector connector-type="number"
+					connector-kind="plug" />
+				<BlockConnector connector-type="number"
+					connector-kind="socket" />
+			</BlockConnectors>
+		</BlockGenus>
+		<BlockGenus name="cast_float" kind="function" color="0 174 0"
+			initlabel="bg.cast_float">
+			<BlockConnectors>
+				<BlockConnector connector-type="number"
+					connector-kind="plug" />
+				<BlockConnector connector-type="number"
+					connector-kind="socket" />
+			</BlockConnectors>
+		</BlockGenus>
+		<BlockGenus name="cast_long" kind="function" color="0 174 0"
+			initlabel="bg.cast_long">
+			<BlockConnectors>
+				<BlockConnector connector-type="number"
+					connector-kind="plug" />
+				<BlockConnector connector-type="number"
+					connector-kind="socket" />
+			</BlockConnectors>
+		</BlockGenus>
+		<BlockGenus name="cast_double" kind="function" color="0 174 0"
+			initlabel="bg.cast_double">
+			<BlockConnectors>
+				<BlockConnector connector-type="number"
+					connector-kind="plug" />
+				<BlockConnector connector-type="number"
+					connector-kind="socket" />
+			</BlockConnectors>
+		</BlockGenus>
+
 		<BlockGenus name="greater" kind="function" color="255 255 102"
 			initlabel="bg.greater">
 			<description>
@@ -1390,7 +1385,7 @@
 			<BlockConnectors>
 				<BlockConnector connector-type="number"
 					connector-kind="plug" />
-				<BlockConnector connector-type="string"
+				<BlockConnector connector-type="string-list"
 					connector-kind="socket">
 					<DefaultArg genus-name="variable_string" label="0" />
 				</BlockConnector>
@@ -1403,6 +1398,8 @@
 		<BlockFamily>
 			<FamilyMember>declare_variable_number_int</FamilyMember>
 			<FamilyMember>declare_variable_number_float</FamilyMember>
+			<FamilyMember>declare_variable_number_long</FamilyMember>
+			<FamilyMember>declare_variable_number_double</FamilyMember>
 		</BlockFamily>
 
 		<BlockFamily>
@@ -1430,9 +1427,13 @@
 			<FamilyMember>not_equal</FamilyMember>
 		</BlockFamily>
 		<BlockFamily>
-
+			<FamilyMember>cast_int</FamilyMember>
+			<FamilyMember>cast_float</FamilyMember>
+			<FamilyMember>cast_long</FamilyMember>
+			<FamilyMember>cast_double</FamilyMember>
+		</BlockFamily>
+		<BlockFamily>
 			<FamilyMember>equalB</FamilyMember>
-
 			<FamilyMember>not_equalB</FamilyMember>
 		</BlockFamily>
 		<BlockFamily>
@@ -1468,14 +1469,14 @@
 		<BlockDrawerSet name="factory" type="stack" location="northwest"
 			window-per-drawer="no" drawer-draggable="no">
 
-			<BlockDrawer button-color="184 0 71" name="bd.planetLoopAndFunction">
+			<BlockDrawer button-color="184 0 71" name="bd.loopAndFunction">
 				<BlockGenusMember>declareData</BlockGenusMember>
 				<BlockGenusMember>setupData</BlockGenusMember>
 				<BlockGenusMember>loop</BlockGenusMember>
 				<BlockGenusMember>subroutine</BlockGenusMember>
 				<BlockGenusMember>subroutine-ref</BlockGenusMember>
 			</BlockDrawer>
-			<BlockDrawer button-color="153 102 204" name="bd.planetVariables">
+			<BlockDrawer button-color="153 102 204" name="bd.variables">
 				<BlockGenusMember>declare_variable_digital</BlockGenusMember>
 				<BlockGenusMember>declare_variable_number_int</BlockGenusMember>
 				<BlockGenusMember>declare_variable_number_float</BlockGenusMember>
@@ -1496,7 +1497,6 @@
 				<BlockGenusMember>variable_string</BlockGenusMember>
 				<BlockGenusMember>variable_char</BlockGenusMember>
 				<BlockGenusMember>variable_byte</BlockGenusMember>
-				<BlockGenusMember>variable_long</BlockGenusMember>
 
 				<BlockGenusMember>number</BlockGenusMember>
 				<BlockGenusMember>true</BlockGenusMember>
@@ -1505,8 +1505,14 @@
 				<BlockGenusMember>char</BlockGenusMember>
 				<BlockGenusMember>byte</BlockGenusMember>
 
+				<BlockGenusMember>cast_int</BlockGenusMember>
+				<BlockGenusMember>cast_float</BlockGenusMember>
+				<BlockGenusMember>cast_long</BlockGenusMember>
+				<BlockGenusMember>cast_double</BlockGenusMember>
+
+
 			</BlockDrawer>
-			<BlockDrawer button-color="255 255 0" name="bd.planetTests">
+			<BlockDrawer button-color="255 255 0" name="bd.tests">
 				<BlockGenusMember>ifelse</BlockGenusMember>
 				<BlockGenusMember>if</BlockGenusMember>
 				<BlockGenusMember>while</BlockGenusMember>
@@ -1528,7 +1534,7 @@
 
 				<!-- <BlockGenusMember>delay_microseconds</BlockGenusMember> -->
 			</BlockDrawer>
-			<BlockDrawer button-color="35 255 35" name="bd.planetOperations">
+			<BlockDrawer button-color="35 255 35" name="bd.operations">
 
 				<BlockGenusMember>and</BlockGenusMember>
 				<BlockGenusMember>or</BlockGenusMember>
