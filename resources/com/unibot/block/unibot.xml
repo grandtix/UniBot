@@ -683,7 +683,7 @@
 			</description>
 			<BlockConnectors>
 
-				<BlockConnector connector-type="string"
+				<BlockConnector connector-type="string-list"
 					connector-kind="socket">
 					<DefaultArg genus-name="string" label="mon_bloc" />
 				</BlockConnector>
@@ -691,10 +691,16 @@
 			</BlockConnectors>
 		</BlockGenus>
 		<BlockGenus name="subroutine-ref" kind="command" color="153 40 76"
-			initlabel="bg.subroutine" editable-label="yes">
+			initlabel="bg.subroutine" editable-label="no">
 			<description>
 				<text>appel d'execution de la fonction </text>
 			</description>
+			<BlockConnectors>
+				<BlockConnector connector-type="string-list"
+					connector-kind="socket">
+					<DefaultArg genus-name="string" label="mon_bloc" />
+				</BlockConnector>
+			</BlockConnectors>
 		</BlockGenus>
 
 		<!-- operator logic -->
@@ -1301,7 +1307,7 @@
 				<text>envoie un message sur le port serie</text>
 			</description>
 			<BlockConnectors>
-				<BlockConnector connector-type="string"
+				<BlockConnector connector-type="string-list"
 					connector-kind="socket">
 					<DefaultArg genus-name="string" label="votre message" />
 				</BlockConnector>
