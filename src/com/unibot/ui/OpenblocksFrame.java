@@ -65,7 +65,7 @@ import edu.mit.blocks.workspace.Workspace;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
-public class OpenblocksFrame extends JFrame {
+public class OpenblocksFrame extends JPanel {
 
 	public static boolean isLaunched = false;
 
@@ -100,25 +100,17 @@ public class OpenblocksFrame extends JFrame {
 
 	public OpenblocksFrame(Editor editor) {
 
-		addWindowListener(new WindowAdapter() {
-			@Override
-			public void windowClosing(WindowEvent arg0) {
-
-				doCloseWindows();
-
-			}
-		});
+	
 		this.editor = editor;
 		saveFilePath = null;
 		saveFileName = "sans titre";
 
 		context = Context.getContext();
-		this.setTitle(makeFrameTitle());
-		this.setSize(new Dimension(800, 600));
+//		this.setSize(new Dimension(800, 600));
 //		setExtendedState( getExtendedState()|JFrame.MAXIMIZED_BOTH );
-		getContentPane().setLayout(new BorderLayout());
+		setLayout(new BorderLayout());
 		// put the frame to the center of screen
-		this.setLocationRelativeTo(null);
+//		this.setLocationRelativeTo(null);
 		// this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		uiMessageBundle = ResourceBundle.getBundle("com/unibot/block/unibot");
@@ -159,8 +151,7 @@ public class OpenblocksFrame extends JFrame {
 		manageImportButton.setToolTipText("G\u00E9rer les librairies");
 		manageImportButton.setIcon(new ImageIcon(OpenblocksFrame.class
 				.getResource("/com/unibot/block/gererLib.png")));
-		ManageImportCodeButtonListener tt2 = new ManageImportCodeButtonListener(
-				this, context);
+		ManageImportCodeButtonListener tt2 = new ManageImportCodeButtonListener(editor,this,  context);
 		manageImportButton.addActionListener(tt2);
 		buttons.setLayout(new GridLayout(1, 5, 0, 0));
 
@@ -191,7 +182,7 @@ public class OpenblocksFrame extends JFrame {
 			loadCodeToIDEButton.setToolTipText("Générer le code Arduino");
 
 			LoadCodeToArduinoProcessingButtonListener tt3 = new LoadCodeToArduinoProcessingButtonListener(
-					this, context);
+					editor,this,  context);
 			loadCodeToIDEButton.addActionListener(tt3);
 
 			if (editor.getClass().toString()
@@ -227,7 +218,7 @@ public class OpenblocksFrame extends JFrame {
 
 			}
 			generateButton.addActionListener(new TeleverserCodeButtonListener(
-					this, context));
+					editor, this, context));
 
 			if (Context.getContext().isInArduino())
 				buttons.add(generateButton);
@@ -244,15 +235,15 @@ public class OpenblocksFrame extends JFrame {
 
 
 		generateButton.addActionListener(new DisplayCodeButtonListener(
-		this, context));	
+				(JFrame)editor, this, context));	
 		buttons.add(generateButton);
 		}
 
 		// buttons.add(importButton);
 		buttons.add(manageImportButton);
 
-		getContentPane().add(buttons, BorderLayout.NORTH);
-		getContentPane().add(workspace, BorderLayout.CENTER);
+		add(buttons, BorderLayout.NORTH);
+		add(workspace, BorderLayout.CENTER);
 	}
 
 	public void loadLibs() {
@@ -280,65 +271,7 @@ System.out.println(file.getAbsolutePath());
 		}
 	}
 
-	public void doCloseWindows() {
-		if (!context.isWorkspaceChanged()) {
-			int reponse = JOptionPane.showConfirmDialog(OpenblocksFrame.this,
-					"Voulez-vous quitter Unibot?", "Confirmation",
-					JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
-			if (reponse == JOptionPane.YES_OPTION) {
-				OpenblocksFrame.this.context.getWorkspaceController()
-						.resetWorkspace();
-				OpenblocksFrame.this.context.getWorkspaceController()
-						.loadFreshWorkspace();
-			//	System.exit(0);
-				saveFilePath=null;
-				saveFileName = "sans titre";
-			context.setWorkspaceChanged(true);
-				this.setTitle(this.makeFrameTitle());
-				setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-			} else {
-				setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-			}
-		} else {
-			int reponse = JOptionPane
-					.showConfirmDialog(
-							OpenblocksFrame.this,
-							"Voulez-vous sauvegarder votre programme avant de quitter Unibot?",
-							"Confirmation", JOptionPane.YES_NO_CANCEL_OPTION,
-							JOptionPane.QUESTION_MESSAGE);
-			if (reponse == JOptionPane.YES_OPTION) {
-				doSaveUniBotFile();
-				OpenblocksFrame.this.context.getWorkspaceController()
-						.resetWorkspace();
-				OpenblocksFrame.this.context.getWorkspaceController()
-						.loadFreshWorkspace();
-				//System.exit(0);
-				saveFilePath=null;
-				saveFileName = "sans titre";
-				context.setWorkspaceChanged(true);
-				this.setTitle(this.makeFrameTitle());
-				setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-
-			} else 
-				if (reponse == JOptionPane.CANCEL_OPTION) 
-			{
-				setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-			} else if (reponse == JOptionPane.NO_OPTION) 
-			{
-				OpenblocksFrame.this.context.getWorkspaceController()
-						.resetWorkspace();
-				OpenblocksFrame.this.context.getWorkspaceController()
-						.loadFreshWorkspace();
-			//	System.exit(0);
-				saveFilePath=null;
-				saveFileName = "sans titre";
-				context.setWorkspaceChanged(true);
-				this.setTitle(this.makeFrameTitle());
-				setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-
-			}
-		}
-	}
+	
 
 	public void doOpenUniBotFile() {
 		if (context.isWorkspaceChanged()) {
@@ -359,7 +292,6 @@ System.out.println(file.getAbsolutePath());
 		} else {
 			this.loadFile();
 		}
-		this.setTitle(makeFrameTitle());
 	}
 
 	public void doBlankUniBotFile() {
@@ -377,7 +309,7 @@ System.out.println(file.getAbsolutePath());
 				saveFilePath=null;
 				saveFileName = "sans titre";
 				context.setWorkspaceChanged(true);
-				this.setTitle(makeFrameTitle());
+				//this.setTitle(makeFrameTitle());
 				loadLibs();
 				
 			} else {
@@ -387,7 +319,7 @@ System.out.println(file.getAbsolutePath());
 					saveFilePath=null;
 					saveFileName = "sans titre";
 					context.setWorkspaceChanged(true);
-					this.setTitle(this.makeFrameTitle());
+					//this.setTitle(this.makeFrameTitle());
 					loadLibs();
 					
 				} else {
@@ -402,11 +334,11 @@ System.out.println(file.getAbsolutePath());
 			saveFilePath=null;
 			saveFileName = "sans titre";
 			context.setWorkspaceChanged(true);
-			this.setTitle(this.makeFrameTitle());
+			//this.setTitle(this.makeFrameTitle());
 			loadLibs();
 			
 		}
-		this.setTitle(makeFrameTitle());
+//		this.setTitle(makeFrameTitle());
 	}
 
 	private void loadFile() {
@@ -486,7 +418,7 @@ private void save()
 					saveFilePath = saveFile.getAbsolutePath();
 					saveFileName = saveFile.getName();
 					context.setWorkspaceChanged(false);
-					this.setTitle(this.makeFrameTitle());
+				//	this.setTitle(this.makeFrameTitle());
 
 				}
 			}
@@ -496,7 +428,7 @@ private void save()
 			saveFilePath = saveFile.getAbsolutePath();
 			saveFileName = saveFile.getName();
 			context.setWorkspaceChanged(false);
-			this.setTitle(this.makeFrameTitle());
+		//	this.setTitle(this.makeFrameTitle());
 
 		}
 	} catch (Exception ex) {

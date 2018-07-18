@@ -22,8 +22,9 @@ public class LoadCodeToArduinoProcessingButtonListener implements ActionListener
 	private Workspace workspace; 
 
 	private ResourceBundle uiMessageBundle;
+	private OpenblocksFrame bot;
 	
-	public LoadCodeToArduinoProcessingButtonListener(JFrame frame, Context context)
+	public LoadCodeToArduinoProcessingButtonListener(JFrame frame,OpenblocksFrame bot, Context context)
 	{
 		this.parentFrame = frame;
 		this.context = context;
@@ -33,6 +34,6 @@ public class LoadCodeToArduinoProcessingButtonListener implements ActionListener
 	
 	public void actionPerformed(ActionEvent e)
 	{
-		((OpenblocksFrame)(parentFrame)).genererCode(workspace, context, parentFrame, uiMessageBundle, false);
+		((OpenblocksFrame)(bot)).genererCode(workspace, context, parentFrame, uiMessageBundle, false);
 	}
 }

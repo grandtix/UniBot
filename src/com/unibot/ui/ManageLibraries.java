@@ -36,6 +36,7 @@ public class ManageLibraries extends JDialog {
 	private final Action actionAddLib = new SwingActionAddLib();
 	private JTable table;
 	private JFrame parentFrame;
+	private OpenblocksFrame bot;
 	public String nomLibToAdd;
 	public String pathLibToAdd;
 	private final Action action = new SwingAction();
@@ -46,7 +47,7 @@ public class ManageLibraries extends JDialog {
 	 */
 	public static void main(String[] args) {
 		try {
-			ManageLibraries dialog = new ManageLibraries(null, null);
+			ManageLibraries dialog = new ManageLibraries(null,null,  null);
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			dialog.setVisible(true);
 		} catch (Exception e) {
@@ -60,12 +61,12 @@ public class ManageLibraries extends JDialog {
 	 * @param context
 	 * @param parentFrame
 	 */
-	public ManageLibraries(JFrame _parentFrame, Context context) {
+	public ManageLibraries(JFrame _parentFrame, OpenblocksFrame bot, Context context) {
 		// setModalExclusionType(ModalExclusionType.TOOLKIT_EXCLUDE);
 		setTitle("gestion des librairies");
 		this.parentFrame = _parentFrame;
 		setBounds(100, 100, 600, 400);
-		
+		this.bot=bot;
 		
 
 		GridBagLayout gridBagLayout = new GridBagLayout();
@@ -157,12 +158,12 @@ public class ManageLibraries extends JDialog {
 
 		BufferedReader br;
 		try {
-			File file = new File(((OpenblocksFrame) parentFrame).getPathConf());
+			File file = new File(((OpenblocksFrame) bot).getPathConf());
 			//System.out.println(file.getName());
 			if (!file.exists())
 				file.createNewFile();
 
-			br = new BufferedReader(new FileReader(((OpenblocksFrame) parentFrame).getPathConf()));
+			br = new BufferedReader(new FileReader(((OpenblocksFrame) bot).getPathConf()));
 			String line;
 	
 			while ((line = br.readLine()) != null) {
@@ -199,7 +200,7 @@ public class ManageLibraries extends JDialog {
 
 			BufferedReader br;
 			try {
-				br = new BufferedReader(new FileReader(((OpenblocksFrame) parentFrame).getPathConf()));
+				br = new BufferedReader(new FileReader(((OpenblocksFrame) bot).getPathConf()));
 
 				String line;
 				String alllines = "";
@@ -213,7 +214,7 @@ public class ManageLibraries extends JDialog {
 				br.close();
 
 				BufferedWriter output = new BufferedWriter(new FileWriter(
-						((OpenblocksFrame) parentFrame).getPathConf(), false));
+						((OpenblocksFrame) bot).getPathConf(), false));
 				System.out.println(" a la suppression " + alllines);
 				output.append(alllines);
 				output.close();
@@ -265,11 +266,11 @@ public class ManageLibraries extends JDialog {
 				BufferedReader br;
 				try {
 
-					File file = new File(((OpenblocksFrame) parentFrame).getPathConf());
+					File file = new File(((OpenblocksFrame) bot).getPathConf());
 					if (!file.exists())
 						file.createNewFile();
 
-					br = new BufferedReader(new FileReader(((OpenblocksFrame) parentFrame).getPathConf()));
+					br = new BufferedReader(new FileReader(((OpenblocksFrame) bot).getPathConf()));
 					String line;
 			
 					while ((line = br.readLine()) != null) {
@@ -292,7 +293,7 @@ public class ManageLibraries extends JDialog {
 								.getModel();
 						model.addRow(new Object[] { nomLibToAdd, pathLibToAdd,
 								true });
-						((OpenblocksFrame) parentFrame).getFile(pathLibToAdd);
+						((OpenblocksFrame) bot).getFile(pathLibToAdd);
 
 					}
 				}
@@ -325,7 +326,7 @@ public class ManageLibraries extends JDialog {
 		
 			try {
 
-				File file = new File(((OpenblocksFrame) parentFrame).getPathConf());
+				File file = new File(((OpenblocksFrame) bot).getPathConf());
 				if (file.exists())
 					file.delete();
 

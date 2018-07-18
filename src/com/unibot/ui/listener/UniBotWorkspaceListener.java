@@ -21,11 +21,8 @@ public class UniBotWorkspaceListener implements WorkspaceListener
 		if (!context.isWorkspaceChanged())
 		{
 			context.setWorkspaceChanged(true);
-			String title = frame.makeFrameTitle();
-			if (frame != null)
-			{
-				frame.setTitle(title);
-			}
+			
+		
 		}
 		context.resetHightlightBlock();
 		

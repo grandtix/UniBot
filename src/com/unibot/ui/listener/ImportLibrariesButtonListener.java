@@ -13,12 +13,13 @@ import com.unibot.ui.OpenblocksFrame;
 public class ImportLibrariesButtonListener implements ActionListener
 {
 	private JFrame parentFrame;
+	private OpenblocksFrame bot;
 //	private Context context;
 /*	private Workspace workspace; 
 	private ResourceBundle uiMessageBundle;
 	private JFileChooser fileChooser;
 	*/
-	public ImportLibrariesButtonListener(JFrame _frame, Context _context)
+	public ImportLibrariesButtonListener(JFrame _frame, OpenblocksFrame bot, Context _context)
 	{
 		this.parentFrame = _frame;
 //		this.context = _context;
@@ -30,7 +31,7 @@ public class ImportLibrariesButtonListener implements ActionListener
 	
 	public void actionPerformed(ActionEvent e)
 	{
-		((OpenblocksFrame) this.parentFrame).getFile(null);
+		((OpenblocksFrame) this.bot).getFile(null);
 	}
 	
 	

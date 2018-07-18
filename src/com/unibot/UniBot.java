@@ -58,7 +58,7 @@ public class UniBot implements Tool, OpenblocksFrameListener
 		try {
 			UniBot.editor.toFront();
 			UniBot.openblocksFrame.setVisible(true);
-			UniBot.openblocksFrame.toFront();
+	//		UniBot.openblocksFrame.toFront();
 			try {
 				UniBot.openblocksFrame.setPathConf(new File(this.getClass().getProtectionDomain().getCodeSource().getLocation().toURI().getPath()).getParent()+File.separatorChar+"librairies.conf");
 			} catch (URISyntaxException e) {

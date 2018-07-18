@@ -33,7 +33,7 @@ public class Main
 		Context context = Context.getContext();
 		context.setInArduino(true);
 		openblocksFrame = new OpenblocksFrame(null);
-		openblocksFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	//	openblocksFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		openblocksFrame.setVisible(true);	
 			openblocksFrame.loadLibs();
 	}
