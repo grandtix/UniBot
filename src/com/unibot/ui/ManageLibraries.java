@@ -214,7 +214,7 @@ public class ManageLibraries extends JDialog {
 
 				BufferedWriter output = new BufferedWriter(new FileWriter(
 						((OpenblocksFrame) parentFrame).getPathConf(), false));
-				System.out.println(" a la suppression " + alllines);
+			//	System.out.println(" a la suppression " + alllines);
 				output.append(alllines);
 				output.close();
 

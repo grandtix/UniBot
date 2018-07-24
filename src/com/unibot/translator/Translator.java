@@ -56,7 +56,7 @@ public class Translator
 
 	private Map<String, String> stringVariableSet;
 	
-	boolean fromArduino=false;
+	boolean fromArduino=true;
 	//true =arduino
 	//false =processing	
 	
@@ -70,8 +70,8 @@ public class Translator
 	{
 		workspace = ws;
 		reset();
-		if (UniBot.editor!=null)
-		if (UniBot.editor.getClass().toString().equals("class processing.app.Editor"))
+//		if (UniBot.editor!=null)
+	//rix	if (UniBot.editor.getClass().toString().equals("class processing.app.Editor"))
 			fromArduino=true;
 
 	}

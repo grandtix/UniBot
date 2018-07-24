@@ -18,18 +18,24 @@ public class CustomConstructorBlock extends TranslatorBlock {
 
 	public String toCode() throws SocketNullException, SubroutineNotDeclaredException {
 		String t = "";
-		TranslatorBlock tb = this.getRequiredTranslatorBlockAtSocket(0);
+		String tb ="";
+		try {
+			tb=this.getRequiredTranslatorBlockAtSocket(0).toCode();
+		} catch (Exception e1) {
+			// TODO Auto-generated catch block
+			//e1.printStackTrace();
+		}
 
 		String label = translator.getBlock(blockId).getGenusName();
 		String nomclass = label.substring(0, label.indexOf('(')).replaceAll("nouveau ", "");
 
 		if (!this.getTranslator().isFromArduino()) { // processing
 
-			t = nomclass + " " + tb.toCode() + " = new " + nomclass + "();\n";
+			t = nomclass + " " + tb + " = new " + nomclass + "();\n";
 			//TODO ajout generation code de params constructeur pour processing
 		} else { // arduino
 
-			t = nomclass + " " + tb.toCode() + "";
+			t = nomclass + " " + tb + "";
 			String stb = "";
 			try {
 				stb = this.getRequiredTranslatorBlockAtSocket(1).toCode();
@@ -50,7 +56,7 @@ public class CustomConstructorBlock extends TranslatorBlock {
 			t += ";";
 
 			translator.addHeaderFile("#include<" + nomclass + ".h>\n");
-			translator.addHeaderFile(new HeaderIncludeGetter().getIncludes(getComment()));
+	//		translator.addHeaderFile(new HeaderIncludeGetter().getIncludes(getComment()));
 
 		}
 		return t;

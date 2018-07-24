@@ -15,23 +15,19 @@ public class SetterVariableCharBlock extends TranslatorBlock
 	public String toCode() throws SocketNullException, SubroutineNotDeclaredException
 	{
 		
-		TranslatorBlock tb = this.getRequiredTranslatorBlockAtSocket(0);
-		if (!(tb instanceof VariableBlock))
-		{
-			throw new BlockException(blockId, "string var must be string var");
-		}
-
+		String tb = "";
+		String ret="";
 		
-		String ret = tb.toCode();
-	
-		tb = this.getRequiredTranslatorBlockAtSocket(1);
-
-			ret =ret +" = " + tb.toCode() + " ;\n";
-		if (forGlobal)
-		{
-			translator.addSetupCommand(ret);
-			return "";
+		try {
+			tb=this.getRequiredTranslatorBlockAtSocket(0).toCode();
+			ret = tb;
+			tb = this.getRequiredTranslatorBlockAtSocket(1).toCode();
+			ret =ret + " = " + tb + ";\n";
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			//e.printStackTrace();
 		}
+		
 		return ret;
 	}
 

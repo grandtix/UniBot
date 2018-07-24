@@ -20,7 +20,7 @@ public class SubroutineRefBlock extends TranslatorBlock
 		String subroutineName = tb.toCode().replace("\"", "");
 		if (!translator.isFromArduino())
 			subroutineName+="_"+translator.getRobotName();
-		System.out.println(subroutineName);
+		//System.out.println(subroutineName);
 		if (!translator.containFunctionName(subroutineName))
 		{
 			throw new SubroutineNotDeclaredException(blockId);

@@ -10,9 +10,13 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.util.List;
+import java.util.ResourceBundle;
 
 import javax.swing.JComponent;
 import javax.swing.SwingUtilities;
+
+import com.unibot.core.Context;
+import com.unibot.ui.OpenblocksFrame;
 
 import edu.mit.blocks.codeblocks.Block;
 import edu.mit.blocks.codeblocks.BlockConnector;
@@ -84,6 +88,7 @@ public class BlockLabel implements MouseListener, MouseMotionListener, KeyListen
 
             protected void fireTextChanged(String text) {
                 textChanged(text);
+          	 
             }
 
             protected void fireGenusChanged(String genus) {
@@ -260,6 +265,7 @@ public class BlockLabel implements MouseListener, MouseMotionListener, KeyListen
             if (rb != null) {
                 workspace.notifyListeners(new WorkspaceEvent(workspace, rb.getParentWidget(), blockID, WorkspaceEvent.BLOCK_RENAMED));
             }
+            
         }
     }
 
@@ -339,6 +345,8 @@ public class BlockLabel implements MouseListener, MouseMotionListener, KeyListen
                 return;
             case KeyEvent.VK_ENTER:
                 workspace.getEnv().getRenderableBlock(blockID).requestFocus();
+                System.out.println("entrezzzz");
+              
                 return;
             case KeyEvent.VK_TAB:
                 workspace.getEnv().getRenderableBlock(blockID).processKeyPressed(e);
@@ -355,6 +363,7 @@ public class BlockLabel implements MouseListener, MouseMotionListener, KeyListen
                 }
             }
         }
+      
     }
 
     @Override
@@ -363,5 +372,6 @@ public class BlockLabel implements MouseListener, MouseMotionListener, KeyListen
 
     @Override
     public void keyTyped(KeyEvent e) {
+
     }
 }

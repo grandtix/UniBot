@@ -22,6 +22,7 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.GeneralPath;
+import java.util.ResourceBundle;
 
 import javax.swing.BorderFactory;
 import javax.swing.JComponent;
@@ -30,11 +31,18 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.JToolTip;
 import javax.swing.KeyStroke;
+import javax.swing.SwingUtilities;
 import javax.swing.border.Border;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+
+import com.unibot.core.Context;
+import com.unibot.ui.OpenblocksFrame;
+
+import edu.mit.blocks.controller.WorkspaceController;
+import edu.mit.blocks.workspace.Workspace;
 
 public abstract class LabelWidget extends JComponent {
 
@@ -442,6 +450,7 @@ public abstract class LabelWidget extends JComponent {
         }
 
         public void changedUpdate(DocumentEvent e) {
+        	
             //listens for change in attributes
         }
 

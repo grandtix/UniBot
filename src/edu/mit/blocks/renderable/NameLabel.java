@@ -1,6 +1,12 @@
 package edu.mit.blocks.renderable;
 
 import java.awt.Color;
+import java.util.ResourceBundle;
+
+import javax.swing.SwingUtilities;
+
+import com.unibot.core.Context;
+import com.unibot.ui.OpenblocksFrame;
 
 import edu.mit.blocks.codeblocks.BlockConnector;
 import edu.mit.blocks.codeblocks.BlockConnector.PositionType;
@@ -86,5 +92,6 @@ class NameLabel extends BlockLabel {
 
             setPixelLocation(x, y);
         }
+      
     }
 }

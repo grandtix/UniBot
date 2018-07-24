@@ -205,6 +205,36 @@
 			</BlockConnectors>
 		</BlockGenus>
 
+		<BlockGenus name="variable_object" kind="data"
+			initlabel="bg.variable_object" editable-label="yes" is-label-value="no"
+			color="0 71 255">
+			<description>
+				<text>
+					objet (?)
+				</text>
+			</description>
+			<BlockConnectors>
+				<BlockConnector connector-type="poly" connector-kind="plug"
+					position-type="mirror" />
+			</BlockConnectors>
+		</BlockGenus>
+		<BlockGenus name="setter_variable_object" kind="command"
+			color="35 0 220" initlabel="bg.setter_variable_object">
+			<description>
+				<text>affecte le texte à la variable</text>
+			</description>
+			<BlockConnectors>
+				<BlockConnector connector-type="poly" connector-kind="socket"
+					position-type="bottom">
+					<DefaultArg genus-name="variable_object" label="bg.variable_object" />
+				</BlockConnector>
+				<BlockConnector connector-type="poly" connector-kind="socket"
+					position-type="single">
+					<DefaultArg genus-name="variable_object" label="bg.variable_object2" />
+				</BlockConnector>
+			</BlockConnectors>
+		</BlockGenus>
+
 		<BlockGenus name="number" kind="data" color="0 184 255"
 			initlabel="bg.number" editable-label="yes">
 			<BlockConnectors>
@@ -1390,7 +1420,7 @@
 			</description>
 			<BlockConnectors>
 				<BlockConnector connector-type="string-list"
-					connector-kind="socket" position-type="bottom"/>
+					connector-kind="socket" position-type="bottom" />
 				<BlockConnector connector-type="number"
 					connector-kind="socket" position-type="single">
 					<DefaultArg genus-name="variable_number" label="bg.variable_number" />
@@ -1497,12 +1527,14 @@
 				<BlockGenusMember>setter_variable_string</BlockGenusMember>
 				<BlockGenusMember>setter_variable_char</BlockGenusMember>
 				<BlockGenusMember>setter_variable_byte</BlockGenusMember>
+				<BlockGenusMember>setter_variable_object</BlockGenusMember>
 
 				<BlockGenusMember>variable_number</BlockGenusMember>
 				<BlockGenusMember>variable_digital</BlockGenusMember>
 				<BlockGenusMember>variable_string</BlockGenusMember>
 				<BlockGenusMember>variable_char</BlockGenusMember>
 				<BlockGenusMember>variable_byte</BlockGenusMember>
+				<BlockGenusMember>variable_object</BlockGenusMember>
 
 				<BlockGenusMember>number</BlockGenusMember>
 				<BlockGenusMember>true</BlockGenusMember>

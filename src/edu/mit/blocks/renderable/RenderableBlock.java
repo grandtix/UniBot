@@ -25,6 +25,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.ResourceBundle;
 
 import javax.swing.ImageIcon;
 import javax.swing.JComponent;
@@ -35,6 +36,9 @@ import javax.swing.SwingUtilities;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+
+import com.unibot.core.Context;
+import com.unibot.ui.OpenblocksFrame;
 
 import edu.mit.blocks.codeblocks.Block;
 import edu.mit.blocks.codeblocks.BlockConnector;
@@ -1329,6 +1333,7 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 		}
 		if (blockLabel != null) {
 			blockLabel.update();
+			
 		}
 		if (collapseLabel != null) {
 			collapseLabel.update();
@@ -1789,7 +1794,6 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 			} else {
 				renderable.comment.setParent(null, renderable.getBounds());
 			}
-
 			renderable.comment.setConstrainComment(true);
 			renderable.comment.setLocation(renderable.comment.getLocation());
 			renderable.comment.getArrow().updateArrow();
@@ -1797,7 +1801,7 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 	// When dragging, Child blocks can become mis-aligned to their Parent Block which is very annoying
 	// I can't stop this happening, nor work out why it happens.
 	// This is just a quick 'fix' to stop things looking too bad
-	renderable.moveConnectedBlocks();
+		renderable.moveConnectedBlocks();
 	}
 
 	private void drag(RenderableBlock renderable, int dx, int dy,
@@ -1907,6 +1911,7 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 				if (widget instanceof MiniMap) {
 					workspace.getMiniMap().animateAutoCenter(this);
 				}
+				
 			}
 		}
 		pickedUp = false;
@@ -1919,6 +1924,10 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 			popup.show(this, e.getX(), e.getY());
 		}
 		workspace.getMiniMap().repaint();
+		OpenblocksFrame tt=((OpenblocksFrame) SwingUtilities.getWindowAncestor(this));
+		tt.genererCode(workspace, Context.getContext(), tt, ResourceBundle.getBundle("com/unibot/block/unibot"), false);;
+
+
 	}
 
 	public void mouseDragged(MouseEvent e) {
@@ -2360,6 +2369,7 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 		for (KeyListener l : this.getKeyListeners()) {
 			l.keyPressed(e);
 		}
+		 System.out.println("key typed heeeeeeere");
 	}
 
 	// ///////////////

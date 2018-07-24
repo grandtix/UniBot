@@ -12,7 +12,7 @@ public class PropertiesReader
 	public static String addParams="";
 	
 	private String filename;
-	private static Properties p=new Properties();
+	public static Properties p=new Properties();
 	
 	private PropertiesReader(String filename)
 	{

@@ -141,7 +141,8 @@ abstract public class TranslatorBlock
 		TranslatorBlock translatorBlock = blockAdaptor.getTranslatorBlockAtSocket(this.translator, blockId, i, codePrefix, codeSuffix);
 		if (translatorBlock == null)
 		{
-			throw new SocketNullException(blockId);
+			return null;
+			//throw new SocketNullException(blockId);
 		}
 		return translatorBlock;
 	}

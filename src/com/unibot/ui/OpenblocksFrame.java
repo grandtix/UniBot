@@ -4,10 +4,13 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.awt.TextArea;
+import java.awt.Toolkit;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -22,19 +25,35 @@ import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JSplitPane;
+import javax.swing.JTextArea;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.PlainDocument;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
+import org.fife.ui.rsyntaxtextarea.RSyntaxDocument;
+import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
+import org.fife.ui.rsyntaxtextarea.SyntaxConstants;
+import org.fife.ui.rsyntaxtextarea.Theme;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.xml.sax.EntityResolver;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
+import processing.app.Base;
+import processing.app.BaseNoGui;
 import processing.app.Editor;
+import processing.app.EditorTab;
+import processing.app.PreferencesData;
+import processing.app.helpers.DocumentTextChangeListener;
+import processing.app.syntax.ArduinoTokenMakerFactory;
+import processing.app.syntax.PdeKeywords;
+import processing.app.syntax.SketchTextArea;
 
 import com.unibot.UniBot;
 import com.unibot.core.Context;
@@ -81,6 +100,12 @@ public class OpenblocksFrame extends JFrame {
 	private Editor editor;
 	private String pathConf = "librairies.conf";
 
+	private JSplitPane split;
+
+	private RSyntaxTextArea code;
+
+	//JTextArea code;
+	
 	public String getPathConf() {
 		return pathConf;
 	}
@@ -111,11 +136,13 @@ public class OpenblocksFrame extends JFrame {
 		this.editor = editor;
 		saveFilePath = null;
 		saveFileName = "sans titre";
+		System.setProperty("user.dir", "C:\\Users\\grandtix\\git\\UniBot");
 
 		context = Context.getContext();
-		this.setTitle(makeFrameTitle());
-		this.setSize(new Dimension(800, 600));
-//		setExtendedState( getExtendedState()|JFrame.MAXIMIZED_BOTH );
+		this.setTitle("UniBot");
+		this.setSize(new Dimension(1072, 658));
+		setExtendedState(getExtendedState() | JFrame.MAXIMIZED_BOTH); // setExtendedState(
+																		// getExtendedState()|JFrame.MAXIMIZED_BOTH );
 		getContentPane().setLayout(new BorderLayout());
 		// put the frame to the center of screen
 		this.setLocationRelativeTo(null);
@@ -124,23 +151,36 @@ public class OpenblocksFrame extends JFrame {
 		uiMessageBundle = ResourceBundle.getBundle("com/unibot/block/unibot");
 
 		fileChooser = new JFileChooser();
-		ffilter = new FileNameExtensionFilter(
-				uiMessageBundle.getString("unibot.file.suffix"), "abp");
+		ffilter = new FileNameExtensionFilter(uiMessageBundle.getString("unibot.file.suffix"), "abp");
 		fileChooser.setFileFilter(ffilter);
 		fileChooser.addChoosableFileFilter(ffilter);
 		context.setWorkspaceChanged(true);
 
 		initOpenBlocks();
+		repaint();
 	}
 
 	private void initOpenBlocks() {
 		Context context = Context.getContext();
 
 		/*
-		 * WorkspaceController workspaceController =
-		 * context.getWorkspaceController(); JComponent workspaceComponent =
-		 * workspaceController.getWorkspacePanel();
+		 * WorkspaceController workspaceController = context.getWorkspaceController();
+		 * JComponent workspaceComponent = workspaceController.getWorkspacePanel();
 		 */
+		// pdeKeywords.reload();
+
+		// insert the program text into the document object
+
+ {
+			// TODO Auto-generated catch block
+			// e.printStackTrace();
+
+			
+				code= new RSyntaxTextArea();
+				code.setSyntaxEditingStyle(RSyntaxDocument.SYNTAX_STYLE_CPLUSPLUS);
+		}
+		
+		 
 
 		Workspace workspace = context.getWorkspace();
 
@@ -150,17 +190,14 @@ public class OpenblocksFrame extends JFrame {
 		JPanel buttons = new JPanel();
 		JButton saveButton = new JButton();// uiMessageBundle.getString("unibot.ui.save"));
 		saveButton.setToolTipText("Enregistrer");
-		saveButton.setIcon(new ImageIcon(OpenblocksFrame.class
-				.getResource("/com/unibot/block/save.png")));
+		saveButton.setIcon(new ImageIcon(OpenblocksFrame.class.getResource("/com/unibot/block/save.png")));
 
 		saveButton.addActionListener(new SaveABPButtonListener(this));
 
 		JButton manageImportButton = new JButton();
 		manageImportButton.setToolTipText("G\u00E9rer les librairies");
-		manageImportButton.setIcon(new ImageIcon(OpenblocksFrame.class
-				.getResource("/com/unibot/block/gererLib.png")));
-		ManageImportCodeButtonListener tt2 = new ManageImportCodeButtonListener(
-				this, context);
+		manageImportButton.setIcon(new ImageIcon(OpenblocksFrame.class.getResource("/com/unibot/block/gererLib.png")));
+		ManageImportCodeButtonListener tt2 = new ManageImportCodeButtonListener(this, context);
 		manageImportButton.addActionListener(tt2);
 		buttons.setLayout(new GridLayout(1, 5, 0, 0));
 
@@ -172,17 +209,16 @@ public class OpenblocksFrame extends JFrame {
 		buttons.add(buttonBlank);
 		JButton openButton = new JButton();// uiMessageBundle.getString("unibot.ui.load"));
 		openButton.setToolTipText("Ouvrir");
-		openButton.setIcon(new ImageIcon(OpenblocksFrame.class
-				.getResource("/com/unibot/block/open.png")));
+		openButton.setIcon(new ImageIcon(OpenblocksFrame.class.getResource("/com/unibot/block/open.png")));
 		openButton.addActionListener(new OpenABPButtonListener(this));
 		buttons.add(openButton);
 
 		buttons.add(saveButton);
-		
+
 		JButton button = new JButton();
 		button.setToolTipText("Enregistrer sous...");
 		button.addActionListener(new SaveAsABPButtonListener(this));
-		
+
 		button.setIcon(new ImageIcon(OpenblocksFrame.class.getResource("/com/unibot/block/saveas.png")));
 		buttons.add(button);
 
@@ -190,69 +226,67 @@ public class OpenblocksFrame extends JFrame {
 			JButton loadCodeToIDEButton = new JButton();
 			loadCodeToIDEButton.setToolTipText("Générer le code Arduino");
 
-			LoadCodeToArduinoProcessingButtonListener tt3 = new LoadCodeToArduinoProcessingButtonListener(
-					this, context);
+			LoadCodeToArduinoProcessingButtonListener tt3 = new LoadCodeToArduinoProcessingButtonListener(this,
+					context);
 			loadCodeToIDEButton.addActionListener(tt3);
 
-			if (editor.getClass().toString()
-					.equals("class processing.app.Editor"))
-				loadCodeToIDEButton.setIcon(new ImageIcon(OpenblocksFrame.class
-						.getResource("/com/unibot/block/dessinToArduino.png")));
+			if (editor.getClass().toString().equals("class processing.app.Editor"))
+				loadCodeToIDEButton.setIcon(
+						new ImageIcon(OpenblocksFrame.class.getResource("/com/unibot/block/dessinToArduino.png")));
 			else
-				loadCodeToIDEButton
-						.setIcon(new ImageIcon(
-								OpenblocksFrame.class
-										.getResource("/com/unibot/block/dessinToProcessing.png")));
+				loadCodeToIDEButton.setIcon(
+						new ImageIcon(OpenblocksFrame.class.getResource("/com/unibot/block/dessinToProcessing.png")));
 
 			buttons.add(loadCodeToIDEButton);
 
 			JButton generateButton = new JButton();// uiMessageBundle.getString("unibot.ui.upload"));
-			
-			if (editor.getClass().toString()
-					.equals("class processing.app.Editor"))
-			{	generateButton
-						.setIcon(new ImageIcon(
-								OpenblocksFrame.class
-										.getResource("/com/unibot/block/dessinTeleverserArduino.png")));
-			generateButton.setToolTipText("Téléverser le programme sur la carte Arduino");
 
-			}
-			else
-			{
-				generateButton
-						.setIcon(new ImageIcon(
-								OpenblocksFrame.class
-										.getResource("/com/unibot/block/dessinTeleverserProcessing.png")));
+			if (editor.getClass().toString().equals("class processing.app.Editor")) {
+				generateButton.setIcon(new ImageIcon(
+						OpenblocksFrame.class.getResource("/com/unibot/block/dessinTeleverserArduino.png")));
+				generateButton.setToolTipText("Téléverser le programme sur la carte Arduino");
+
+			} else {
+				generateButton.setIcon(new ImageIcon(
+						OpenblocksFrame.class.getResource("/com/unibot/block/dessinTeleverserProcessing.png")));
 				generateButton.setToolTipText("Téléverser le programme dans le monde virtuel");
 
 			}
-			generateButton.addActionListener(new TeleverserCodeButtonListener(
-					this, context));
+			generateButton.addActionListener(new TeleverserCodeButtonListener(this, context));
 
 			if (Context.getContext().isInArduino())
 				buttons.add(generateButton);
 
-		}
-		else
-		{
+		} else {
 			JButton generateButton = new JButton();// uiMessageBundle.getString("unibot.ui.upload"));
-			generateButton
-			.setIcon(new ImageIcon(
-					OpenblocksFrame.class
-							.getResource("/com/unibot/block/dessinTeleverserProcessing.png")));
-	generateButton.setToolTipText("Téléverser le programme dans le monde virtuel");
+			generateButton.setIcon(new ImageIcon(
+					OpenblocksFrame.class.getResource("/com/unibot/block/dessinTeleverserProcessing.png")));
+			generateButton.setToolTipText("Téléverser le programme dans le monde virtuel");
 
-
-		generateButton.addActionListener(new DisplayCodeButtonListener(
-		this, context));	
-		buttons.add(generateButton);
+			generateButton.addActionListener(new DisplayCodeButtonListener(this, context));
+			buttons.add(generateButton);
 		}
 
 		// buttons.add(importButton);
 		buttons.add(manageImportButton);
+	JPanel un= new JPanel();
+	un .setLayout(new BorderLayout());
+	JPanel deux= new JPanel();
+	deux .setLayout(new BorderLayout());
 
+		split = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, un, deux);
+		split.setDividerLocation(0.7);
+
+		split.setResizeWeight(0.7);
+		split.setOneTouchExpandable(true);
+		split.setContinuousLayout(true);
+		
+		un.add(workspace);
+		deux.add(code==null? new RSyntaxTextArea():code);
 		getContentPane().add(buttons, BorderLayout.NORTH);
-		getContentPane().add(workspace, BorderLayout.CENTER);
+		getContentPane().add(split, BorderLayout.CENTER);
+		pack();
+
 	}
 
 	public void loadLibs() {
@@ -262,7 +296,7 @@ public class OpenblocksFrame extends JFrame {
 			File file = new File(getPathConf());
 			if (!file.exists())
 				file.createNewFile();
-System.out.println(file.getAbsolutePath());
+	//		System.out.println(file.getAbsolutePath());
 			br = new BufferedReader(new FileReader(getPathConf()));
 			String line;
 
@@ -282,55 +316,42 @@ System.out.println(file.getAbsolutePath());
 
 	public void doCloseWindows() {
 		if (!context.isWorkspaceChanged()) {
-			int reponse = JOptionPane.showConfirmDialog(OpenblocksFrame.this,
-					"Voulez-vous quitter Unibot?", "Confirmation",
-					JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+			int reponse = JOptionPane.showConfirmDialog(OpenblocksFrame.this, "Voulez-vous quitter Unibot?",
+					"Confirmation", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
 			if (reponse == JOptionPane.YES_OPTION) {
-				OpenblocksFrame.this.context.getWorkspaceController()
-						.resetWorkspace();
-				OpenblocksFrame.this.context.getWorkspaceController()
-						.loadFreshWorkspace();
-			//	System.exit(0);
-				saveFilePath=null;
+				OpenblocksFrame.this.context.getWorkspaceController().resetWorkspace();
+				OpenblocksFrame.this.context.getWorkspaceController().loadFreshWorkspace();
+				// System.exit(0);
+				saveFilePath = null;
 				saveFileName = "sans titre";
-			context.setWorkspaceChanged(true);
+				context.setWorkspaceChanged(true);
 				this.setTitle(this.makeFrameTitle());
 				setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 			} else {
 				setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 			}
 		} else {
-			int reponse = JOptionPane
-					.showConfirmDialog(
-							OpenblocksFrame.this,
-							"Voulez-vous sauvegarder votre programme avant de quitter Unibot?",
-							"Confirmation", JOptionPane.YES_NO_CANCEL_OPTION,
-							JOptionPane.QUESTION_MESSAGE);
+			int reponse = JOptionPane.showConfirmDialog(OpenblocksFrame.this,
+					"Voulez-vous sauvegarder votre programme avant de quitter Unibot?", "Confirmation",
+					JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
 			if (reponse == JOptionPane.YES_OPTION) {
 				doSaveUniBotFile();
-				OpenblocksFrame.this.context.getWorkspaceController()
-						.resetWorkspace();
-				OpenblocksFrame.this.context.getWorkspaceController()
-						.loadFreshWorkspace();
-				//System.exit(0);
-				saveFilePath=null;
+				OpenblocksFrame.this.context.getWorkspaceController().resetWorkspace();
+				OpenblocksFrame.this.context.getWorkspaceController().loadFreshWorkspace();
+				// System.exit(0);
+				saveFilePath = null;
 				saveFileName = "sans titre";
 				context.setWorkspaceChanged(true);
 				this.setTitle(this.makeFrameTitle());
 				setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
-			} else 
-				if (reponse == JOptionPane.CANCEL_OPTION) 
-			{
+			} else if (reponse == JOptionPane.CANCEL_OPTION) {
 				setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-			} else if (reponse == JOptionPane.NO_OPTION) 
-			{
-				OpenblocksFrame.this.context.getWorkspaceController()
-						.resetWorkspace();
-				OpenblocksFrame.this.context.getWorkspaceController()
-						.loadFreshWorkspace();
-			//	System.exit(0);
-				saveFilePath=null;
+			} else if (reponse == JOptionPane.NO_OPTION) {
+				OpenblocksFrame.this.context.getWorkspaceController().resetWorkspace();
+				OpenblocksFrame.this.context.getWorkspaceController().loadFreshWorkspace();
+				// System.exit(0);
+				saveFilePath = null;
 				saveFileName = "sans titre";
 				context.setWorkspaceChanged(true);
 				this.setTitle(this.makeFrameTitle());
@@ -344,10 +365,8 @@ System.out.println(file.getAbsolutePath());
 		if (context.isWorkspaceChanged()) {
 			int optionValue = JOptionPane.showOptionDialog(this,
 					uiMessageBundle.getString("message.content.open_unsaved"),
-					uiMessageBundle.getString("message.title.question"),
-					JOptionPane.YES_NO_CANCEL_OPTION,
-					JOptionPane.QUESTION_MESSAGE, null, null,
-					JOptionPane.YES_OPTION);
+					uiMessageBundle.getString("message.title.question"), JOptionPane.YES_NO_CANCEL_OPTION,
+					JOptionPane.QUESTION_MESSAGE, null, null, JOptionPane.YES_OPTION);
 			if (optionValue == JOptionPane.YES_OPTION) {
 				doSaveUniBotFile();
 				this.loadFile();
@@ -366,30 +385,28 @@ System.out.println(file.getAbsolutePath());
 		if (context.isWorkspaceChanged()) {
 			int optionValue = JOptionPane.showOptionDialog(this,
 					uiMessageBundle.getString("message.content.open_unsaved"),
-					uiMessageBundle.getString("message.title.question"),
-					JOptionPane.YES_NO_CANCEL_OPTION,
-					JOptionPane.QUESTION_MESSAGE, null, null,
-					JOptionPane.YES_OPTION);
+					uiMessageBundle.getString("message.title.question"), JOptionPane.YES_NO_CANCEL_OPTION,
+					JOptionPane.QUESTION_MESSAGE, null, null, JOptionPane.YES_OPTION);
 			if (optionValue == JOptionPane.YES_OPTION) {
 				doSaveUniBotFile();
 				context.getWorkspaceController().resetWorkspace();
 				context.getWorkspaceController().loadFreshWorkspace();
-				saveFilePath=null;
+				saveFilePath = null;
 				saveFileName = "sans titre";
 				context.setWorkspaceChanged(true);
 				this.setTitle(makeFrameTitle());
 				loadLibs();
-				
+
 			} else {
 				if (optionValue == JOptionPane.NO_OPTION) {
 					context.getWorkspaceController().resetWorkspace();
 					context.getWorkspaceController().loadFreshWorkspace();
-					saveFilePath=null;
+					saveFilePath = null;
 					saveFileName = "sans titre";
 					context.setWorkspaceChanged(true);
 					this.setTitle(this.makeFrameTitle());
 					loadLibs();
-					
+
 				} else {
 					if (optionValue == JOptionPane.CANCEL_OPTION) {
 
@@ -399,12 +416,12 @@ System.out.println(file.getAbsolutePath());
 		} else {
 			context.getWorkspaceController().resetWorkspace();
 			context.getWorkspaceController().loadFreshWorkspace();
-			saveFilePath=null;
+			saveFilePath = null;
 			saveFileName = "sans titre";
 			context.setWorkspaceChanged(true);
 			this.setTitle(this.makeFrameTitle());
 			loadLibs();
-			
+
 		}
 		this.setTitle(makeFrameTitle());
 	}
@@ -414,11 +431,9 @@ System.out.println(file.getAbsolutePath());
 		if (result == JFileChooser.APPROVE_OPTION) {
 			File savedFile = fileChooser.getSelectedFile();
 			if (!savedFile.exists()) {
-				JOptionPane.showOptionDialog(this,
-						uiMessageBundle.getString("message.file_not_found"),
-						uiMessageBundle.getString("message.title.error"),
-						JOptionPane.OK_OPTION, JOptionPane.ERROR_MESSAGE, null,
-						null, JOptionPane.OK_OPTION);
+				JOptionPane.showOptionDialog(this, uiMessageBundle.getString("message.file_not_found"),
+						uiMessageBundle.getString("message.title.error"), JOptionPane.OK_OPTION,
+						JOptionPane.ERROR_MESSAGE, null, null, JOptionPane.OK_OPTION);
 				return;
 			}
 
@@ -428,69 +443,60 @@ System.out.println(file.getAbsolutePath());
 				context.loadUniBotFile(savedFile);
 				context.setWorkspaceChanged(false);
 				loadLibs();
+				try {
+					Base.INSTANCE.handleOpen(new File(saveFilePath+"/"+saveFileName.replace(".abp",  ".ino")));
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 
 			} catch (IOException e) {
-				JOptionPane.showOptionDialog(this,
-						uiMessageBundle.getString("message.file_not_found"),
-						uiMessageBundle.getString("message.title.error"),
-						JOptionPane.OK_OPTION, JOptionPane.ERROR_MESSAGE, null,
-						null, JOptionPane.OK_OPTION);
+				JOptionPane.showOptionDialog(this, uiMessageBundle.getString("message.file_not_found"),
+						uiMessageBundle.getString("message.title.error"), JOptionPane.OK_OPTION,
+						JOptionPane.ERROR_MESSAGE, null, null, JOptionPane.OK_OPTION);
 				e.printStackTrace();
 			}
 		}
+		toFront();
+		repaint();
 	}
 
-	public void doSaveAsUniBotFile()
-	{
-		saveFilePath=null;
+	public void doSaveAsUniBotFile() {
+		saveFilePath = null;
 		save();
-		
+
 	}
+
 	public void doSaveUniBotFile() {
 		if (context.isWorkspaceChanged()) {
 			save();
 		}
 	}
-private void save()
-{
-	
-	try {
-		WorkspaceController workspaceController = context
-				.getWorkspaceController();
-		String saveString = workspaceController.getSaveString();
-//
-		if (saveFilePath == null) {
-			int chooseResult;
-			chooseResult = fileChooser.showSaveDialog(this);
-			if (chooseResult == JFileChooser.APPROVE_OPTION) {
-				File saveFile = fileChooser.getSelectedFile();
-				saveFile = checkFileSuffix(saveFile);
-				if (saveFile != null) {
-					if (saveFile.exists()) {
-						int optionValue = JOptionPane
-								.showOptionDialog(
-										this,
-										uiMessageBundle
-												.getString("message.content.overwrite"),
-										uiMessageBundle
-												.getString("message.title.question"),
-										JOptionPane.YES_NO_CANCEL_OPTION,
-										JOptionPane.QUESTION_MESSAGE,
-										null, null,
-										JOptionPane.YES_OPTION);
-						if (optionValue != JOptionPane.YES_OPTION) {
-							return;
-						}
-					}
-					context.saveUniBotFile(saveFile, saveString);
-					saveFilePath = saveFile.getAbsolutePath();
-					saveFileName = saveFile.getName();
-					context.setWorkspaceChanged(false);
-					this.setTitle(this.makeFrameTitle());
 
-				}
+	private void save() {
+
+		try {
+			WorkspaceController workspaceController = context.getWorkspaceController();
+			String saveString = workspaceController.getSaveString();
+			//
+			
+	
+			if (editor.getSketch().getFile(0).getFile()==null )
+			{
+				editor.handleSave(true);
+			
+
 			}
-		} else {
+			else
+				if (!editor.getSketch().getFile(0).getFile().getAbsolutePath().equals(saveFilePath))
+				{
+					editor.handleSaveAs();
+				}
+				else
+					editor.handleSave(true);
+					
+			
+			saveFilePath =  editor.getSketch().getFile(0).getFile().getAbsolutePath().replace(".ino", ".abp");
 			File saveFile = new File(saveFilePath);
 			context.saveUniBotFile(saveFile, saveString);
 			saveFilePath = saveFile.getAbsolutePath();
@@ -498,14 +504,16 @@ private void save()
 			context.setWorkspaceChanged(false);
 			this.setTitle(this.makeFrameTitle());
 
+		} catch (Exception ex) {
+			ex.printStackTrace();
 		}
-	} catch (Exception ex) {
-		ex.printStackTrace();
+	
+		toFront();
+		repaint();
+
 	}
 
-}
-	public void genererCode(Workspace workspace, Context context,
-			JFrame parentFrame, ResourceBundle uiMessageBundle,
+	public void genererCode(Workspace workspace, Context context, JFrame parentFrame, ResourceBundle uiMessageBundle,
 			boolean toTeleverser) {
 		boolean success;
 		success = true;
@@ -514,12 +522,11 @@ private void save()
 			translator.setSketchFolderName(editor.getName().replace("robot", "").replace(".pde", ""));
 		} catch (Exception e4) {
 			// TODO si on est hors editeur
-			//e4.printStackTrace();
+			// e4.printStackTrace();
 		}
 		translator.reset();
 
-		Iterable<RenderableBlock> renderableBlocks = workspace
-				.getRenderableBlocks();
+		Iterable<RenderableBlock> renderableBlocks = workspace.getRenderableBlocks();
 		Set<RenderableBlock> setupBlockSet = new HashSet<RenderableBlock>();
 		Set<RenderableBlock> declareBlockSet = new HashSet<RenderableBlock>();
 		Set<RenderableBlock> loopBlockSet = new HashSet<RenderableBlock>();
@@ -533,8 +540,7 @@ private void save()
 
 			Block block = renderableBlock.getBlock();
 
-			if (!block.hasPlug()
-					&& (Block.NULL.equals(block.getBeforeBlockID()))) {
+			if (!block.hasPlug() && (Block.NULL.equals(block.getBeforeBlockID()))) {
 
 				if (block.getGenusName().equals("setupData")) {
 					setupBlockSet.add(renderableBlock);
@@ -549,71 +555,45 @@ private void save()
 				// System.out.println("block genus name :"+block.getGenusName());
 				if (block.getGenusName().equals("subroutine")) {
 
-					String functionName = translator
-							.getBlock(block.getSocketAt(0).getBlockID())
-							.getBlockLabel().trim();
+					String functionName = translator.getBlock(block.getSocketAt(0).getBlockID()).getBlockLabel().trim();
 					try {
 						if (translator.isFromArduino())
-							translator.addFunctionName(block.getBlockID(),
-									functionName);
+							translator.addFunctionName(block.getBlockID(), functionName);
 						else
-							translator.addFunctionName(
-									block.getBlockID(),
-									functionName + "_"
-											+ translator.getRobotName());
+							translator.addFunctionName(block.getBlockID(),
+									functionName + "_" + translator.getRobotName());
 
 					} catch (SubroutineNameDuplicatedException e1) {
 						context.highlightBlock(renderableBlock);
 						// find the second subroutine whose name is defined, and
 						// make it highlight. though it cannot happen due to
 						// constraint of OpenBlocks -_-
-						JOptionPane
-								.showMessageDialog(
-										parentFrame,
-										uiMessageBundle
-												.getString("unibot.translator.exception.subroutineNameDuplicated"),
-										uiMessageBundle
-												.getString("unibot.translator.exception.title"),
-										JOptionPane.ERROR_MESSAGE);
+						JOptionPane.showMessageDialog(parentFrame,
+								uiMessageBundle.getString("unibot.translator.exception.subroutineNameDuplicated"),
+								uiMessageBundle.getString("unibot.translator.exception.title"),
+								JOptionPane.ERROR_MESSAGE);
 						return;
 					}
 					subroutineBlockSet.add(renderableBlock);
 				}
 			}
 		}
-
-		if (setupBlockSet.size() == 0) {
-			JOptionPane.showMessageDialog(parentFrame, uiMessageBundle
-					.getString("unibot.translator.exception.noSetupFound"),
-					uiMessageBundle
-							.getString("unibot.translator.exception.title"),
-					JOptionPane.ERROR_MESSAGE);
-			return;
-		}
-		if (loopBlockSet.size() == 0) {
-			JOptionPane.showMessageDialog(parentFrame, uiMessageBundle
-					.getString("unibot.translator.exception.noLoopFound"),
-					uiMessageBundle
-							.getString("unibot.translator.exception.title"),
-					JOptionPane.ERROR_MESSAGE);
-			return;
-		}
-
-		if (loopBlockSet.size() > 1) {
-			for (RenderableBlock rb : loopBlockSet) {
-				context.highlightBlock(rb);
-			}
-			JOptionPane
-					.showMessageDialog(
-							parentFrame,
-							uiMessageBundle
-									.getString("unibot.translator.exception.multipleLoopFound"),
-							uiMessageBundle
-									.getString("unibot.translator.exception.title"),
-							JOptionPane.ERROR_MESSAGE);
-			return;
-		}
-
+		/*
+		 * if (setupBlockSet.size() == 0) { JOptionPane.showMessageDialog(parentFrame,
+		 * uiMessageBundle.getString("unibot.translator.exception.noSetupFound"),
+		 * uiMessageBundle.getString("unibot.translator.exception.title"),
+		 * JOptionPane.ERROR_MESSAGE); return; } if (loopBlockSet.size() == 0) {
+		 * JOptionPane.showMessageDialog(parentFrame,
+		 * uiMessageBundle.getString("unibot.translator.exception.noLoopFound"),
+		 * uiMessageBundle.getString("unibot.translator.exception.title"),
+		 * JOptionPane.ERROR_MESSAGE); return; }
+		 * 
+		 * if (loopBlockSet.size() > 1) { for (RenderableBlock rb : loopBlockSet) {
+		 * context.highlightBlock(rb); } JOptionPane.showMessageDialog(parentFrame,
+		 * uiMessageBundle.getString("unibot.translator.exception.multipleLoopFound"),
+		 * uiMessageBundle.getString("unibot.translator.exception.title"),
+		 * JOptionPane.ERROR_MESSAGE); return; }
+		 */
 		try {
 
 			for (RenderableBlock renderableBlock : declareBlockSet) {
@@ -622,8 +602,7 @@ private void save()
 
 				Block declareBlock = renderableBlock.getBlock();
 				code.append("//declaration des variables\n");
-				code.append(translator.translate(declareBlock.getBlockID(),
-						true));
+				code.append(translator.translate(declareBlock.getBlockID(), true));
 			}
 
 			StringBuilder tmp = new StringBuilder();
@@ -635,7 +614,7 @@ private void save()
 					tmp.append(translator.generateDrawCustomCode());
 					// tmp.append("\n}\n}\n");
 				}
-				
+
 				tmp.append(translator.translate(loopBlock.getBlockID()));
 			}
 			for (RenderableBlock renderableBlock : setupBlockSet) {
@@ -646,8 +625,7 @@ private void save()
 				} else {
 					code.append("//methode appelée en thread par le programme principal\n");
 
-					code.append("void programme" + translator.getRobotName()
-							+ "()\n{\n");
+					code.append("void programme" + translator.getRobotName() + "()\n{\n");
 				}
 				// System.out.println("*****************");
 				// System.out.println("1"+editor.getSketch().getPrimaryFile().getName());
@@ -674,8 +652,7 @@ private void save()
 			code.append(translator.generateMethodCustomCode());
 			code.insert(0, translator.genreateHeaderCommand());
 			if (translator.isFromArduino())
-				code.insert(0,
-						"/*\n code généré pour ARDUINO par UniBot!!! \n*/\n\n");
+				code.insert(0, "/*\n code généré pour ARDUINO par UniBot!!! \n*/\n\n");
 
 		} catch (SocketNullException e1) {
 			e1.printStackTrace();
@@ -689,11 +666,9 @@ private void save()
 					break;
 				}
 			}
-			JOptionPane.showMessageDialog(parentFrame, uiMessageBundle
-					.getString("unibot.translator.exception.socketNull"),
-					uiMessageBundle
-							.getString("unibot.translator.exception.title"),
-					JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(parentFrame,
+					uiMessageBundle.getString("unibot.translator.exception.socketNull"),
+					uiMessageBundle.getString("unibot.translator.exception.title"), JOptionPane.ERROR_MESSAGE);
 		} catch (BlockException e2) {
 			e2.printStackTrace();
 			success = false;
@@ -706,14 +681,9 @@ private void save()
 					break;
 				}
 			}
-			JOptionPane
-					.showMessageDialog(
-							parentFrame,
-							uiMessageBundle
-									.getString("unibot.translator.exception.subroutineNameDuplicated"),
-							uiMessageBundle
-									.getString("unibot.translator.exception.title"),
-							JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(parentFrame,
+					uiMessageBundle.getString("unibot.translator.exception.subroutineNameDuplicated"),
+					uiMessageBundle.getString("unibot.translator.exception.title"), JOptionPane.ERROR_MESSAGE);
 		} catch (SubroutineNotDeclaredException e3) {
 			e3.printStackTrace();
 			success = false;
@@ -726,14 +696,9 @@ private void save()
 					break;
 				}
 			}
-			JOptionPane
-					.showOptionDialog(
-							parentFrame,
-							uiMessageBundle
-									.getString("unibot.translator.exception.subroutineNotDeclared"),
-							"Error", JOptionPane.OK_OPTION,
-							JOptionPane.ERROR_MESSAGE, null, null,
-							JOptionPane.OK_OPTION);
+			JOptionPane.showOptionDialog(parentFrame,
+					uiMessageBundle.getString("unibot.translator.exception.subroutineNotDeclared"), "Error",
+					JOptionPane.OK_OPTION, JOptionPane.ERROR_MESSAGE, null, null, JOptionPane.OK_OPTION);
 
 		}
 
@@ -742,9 +707,11 @@ private void save()
 			if (context.isInArduino())
 				try {
 					UniBot.editor.getCurrentTab().setText(code.toString());
+					this.code.setText(code.toString());
+
 				} catch (Exception e1) {
 					// TODO gerer si on est hors editeur (eclipse ou exec directe)
-					System.out.println(code.toString());
+					this.code.setText(code.toString());
 				}
 			else {
 				System.out.println(code.toString());
@@ -752,7 +719,7 @@ private void save()
 			if (!translator.isFromArduino())
 				try {
 					editor.getCurrentTab().setText(code.toString());
-				//tix2018	editor.getCurrentTab().gete;
+					// tix2018 editor.getCurrentTab().gete;
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					System.out.println(code.toString());
@@ -766,46 +733,38 @@ private void save()
 	}
 
 	public void getFile(String path) {
-		System.out.println(path);
+	//	System.out.println(path);
 		InputStream stream = null;
 		if (path == null) {
-			context.getWorkspaceController().setLangDefDtd(
-					this.getClass().getResourceAsStream(
-							"/com/unibot/block/lang_def.dtd"));
+			context.getWorkspaceController()
+					.setLangDefDtd(this.getClass().getResourceAsStream("/com/unibot/block/lang_def.dtd"));
 			FileNameExtensionFilter ffilter = new FileNameExtensionFilter(
-					uiMessageBundle.getString("unibot.libraryloader.suffix"),
-					"h");
+					uiMessageBundle.getString("unibot.libraryloader.suffix"), "h");
 
 			fileChooser.setFileFilter(ffilter);
 			int result = fileChooser.showOpenDialog(this);
 			if (result == JFileChooser.APPROVE_OPTION) {
 				File savedFile = fileChooser.getSelectedFile();
-				stream = new LibraryLoader().toInputStream(savedFile
-						.getAbsolutePath());
+				stream = new LibraryLoader().toInputStream(savedFile.getAbsolutePath());
 			}
 		} else
 			stream = new LibraryLoader().toInputStream(path);
 
 		if (stream != null) {
-			final DocumentBuilderFactory factory = DocumentBuilderFactory
-					.newInstance();
+			final DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 			final DocumentBuilder builder;
 			final Document doc;
 			try {
 
 				builder = factory.newDocumentBuilder();
-/*				if (context.getWorkspaceController().getLangDefDtd() != null) {
-					builder.setEntityResolver(new EntityResolver() {
-						public InputSource resolveEntity(String publicId,
-								String systemId) throws SAXException,
-								IOException {
-							return new InputSource(context
-									.getWorkspaceController().getLangDefDtd());
-						}
-					});
-				}
-
-	*/			doc = builder.parse(stream);
+				/*
+				 * if (context.getWorkspaceController().getLangDefDtd() != null) {
+				 * builder.setEntityResolver(new EntityResolver() { public InputSource
+				 * resolveEntity(String publicId, String systemId) throws SAXException,
+				 * IOException { return new InputSource(context
+				 * .getWorkspaceController().getLangDefDtd()); } }); }
+				 * 
+				 */ doc = builder.parse(stream);
 				// TODO modify the L10N text and style here
 				try {
 					context.getWorkspaceController().ardublockLocalize(doc);
@@ -818,9 +777,8 @@ private void save()
 				Element langDefRoot = doc.getDocumentElement();
 
 				BlockGenus.loadBlockGenera(context.getWorkspace(), langDefRoot);
-				PageDrawerLoadingUtils.loadBlockDrawerSets(context
-						.getWorkspace(), langDefRoot, context.getWorkspace()
-						.getFactoryManager());
+				PageDrawerLoadingUtils.loadBlockDrawerSets(context.getWorkspace(), langDefRoot,
+						context.getWorkspace().getFactoryManager());
 
 			} catch (ParserConfigurationException e1) {
 				// TODO Auto-generated catch block

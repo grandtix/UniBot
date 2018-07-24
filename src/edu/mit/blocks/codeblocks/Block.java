@@ -103,7 +103,6 @@ public class Block implements ISupportMemento {
         sockets = new ArrayList<BlockConnector>();
         argumentDescriptions = new ArrayList<String>();
         //copy connectors from BlockGenus
-
         final BlockGenus genus = env.getGenusWithName(genusName);
         if (genus == null) {
             throw new RuntimeException("genusName: " + genusName + " does not exist.");
@@ -540,7 +539,7 @@ public class Block implements ISupportMemento {
      * @return the socket (BlockConnector instance) at the specified index
      */
     public BlockConnector getSocketAt(int index) {
-        System.out.println("in block, getsocketat :"+ genusName+" "+index);
+    //    System.out.println("in block, getsocketat :"+ genusName+" "+index);
         assert index < sockets.size() : "Index " + index + " is greater than the num of sockets: " + sockets.size() + " of " + this;
         return sockets.get(index);
     }

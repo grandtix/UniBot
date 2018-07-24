@@ -14,21 +14,19 @@ public class SetterVariableDigitalBlock extends TranslatorBlock
 
 	public String toCode() throws SocketNullException, SubroutineNotDeclaredException
 	{
-		TranslatorBlock tb = this.getRequiredTranslatorBlockAtSocket(0);
-		if (!(tb instanceof VariableBlock))
-		{
-			throw new BlockException(blockId, "var must be var");
+		String tb = "";
+		String ret="";
+		
+		try {
+			tb=this.getRequiredTranslatorBlockAtSocket(0).toCode();
+			ret = tb;
+			tb = this.getRequiredTranslatorBlockAtSocket(1).toCode();
+			ret =ret + " = " + tb + ";\n";
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			//e.printStackTrace();
 		}
 		
-		String ret = tb.toCode();
-		
-		tb = this.getRequiredTranslatorBlockAtSocket(1);
-		ret = ret + " = " + tb.toCode() + " ;\n";
-		if (forGlobal)
-		{
-			translator.addSetupCommand(ret);
-			return "";
-		}
 		return ret;
 	}
 
