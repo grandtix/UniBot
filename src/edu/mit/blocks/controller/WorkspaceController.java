@@ -214,7 +214,7 @@ public class WorkspaceController {
      */
     public void ardublockLocalize(Document doc) {
         if (langResourceBundle != null) {
-        	System.out.println("in localize :"+doc.toString());
+       // 	System.out.println("in localize :"+doc.toString());
         	NodeList nodes = doc.getElementsByTagName("BlockGenus");
         	for (int i = 0 ; i < nodes.getLength(); i++) {
         		Element elm = (Element)nodes.item(i);

@@ -50,6 +50,7 @@ import processing.app.BaseNoGui;
 import processing.app.Editor;
 import processing.app.EditorTab;
 import processing.app.PreferencesData;
+import processing.app.SketchFile;
 import processing.app.helpers.DocumentTextChangeListener;
 import processing.app.syntax.ArduinoTokenMakerFactory;
 import processing.app.syntax.PdeKeywords;
@@ -104,8 +105,10 @@ public class OpenblocksFrame extends JFrame {
 
 	private RSyntaxTextArea code;
 
-	//JTextArea code;
-	
+	public File savedFile;
+
+	// JTextArea code;
+
 	public String getPathConf() {
 		return pathConf;
 	}
@@ -171,16 +174,13 @@ public class OpenblocksFrame extends JFrame {
 
 		// insert the program text into the document object
 
- {
+		{
 			// TODO Auto-generated catch block
 			// e.printStackTrace();
 
-			
-				code= new RSyntaxTextArea();
-				code.setSyntaxEditingStyle(RSyntaxDocument.SYNTAX_STYLE_CPLUSPLUS);
+			code = new RSyntaxTextArea();
+			code.setSyntaxEditingStyle(RSyntaxDocument.SYNTAX_STYLE_CPLUSPLUS);
 		}
-		
-		 
 
 		Workspace workspace = context.getWorkspace();
 
@@ -211,7 +211,7 @@ public class OpenblocksFrame extends JFrame {
 		openButton.setToolTipText("Ouvrir");
 		openButton.setIcon(new ImageIcon(OpenblocksFrame.class.getResource("/com/unibot/block/open.png")));
 		openButton.addActionListener(new OpenABPButtonListener(this));
-		buttons.add(openButton);
+	//	buttons.add(openButton);
 
 		buttons.add(saveButton);
 
@@ -269,10 +269,10 @@ public class OpenblocksFrame extends JFrame {
 
 		// buttons.add(importButton);
 		buttons.add(manageImportButton);
-	JPanel un= new JPanel();
-	un .setLayout(new BorderLayout());
-	JPanel deux= new JPanel();
-	deux .setLayout(new BorderLayout());
+		JPanel un = new JPanel();
+		un.setLayout(new BorderLayout());
+		JPanel deux = new JPanel();
+		deux.setLayout(new BorderLayout());
 
 		split = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, un, deux);
 		split.setDividerLocation(0.7);
@@ -280,9 +280,9 @@ public class OpenblocksFrame extends JFrame {
 		split.setResizeWeight(0.7);
 		split.setOneTouchExpandable(true);
 		split.setContinuousLayout(true);
-		
+
 		un.add(workspace);
-		deux.add(code==null? new RSyntaxTextArea():code);
+		deux.add(code == null ? new RSyntaxTextArea() : code);
 		getContentPane().add(buttons, BorderLayout.NORTH);
 		getContentPane().add(split, BorderLayout.CENTER);
 		pack();
@@ -296,7 +296,7 @@ public class OpenblocksFrame extends JFrame {
 			File file = new File(getPathConf());
 			if (!file.exists())
 				file.createNewFile();
-	//		System.out.println(file.getAbsolutePath());
+			// System.out.println(file.getAbsolutePath());
 			br = new BufferedReader(new FileReader(getPathConf()));
 			String line;
 
@@ -367,18 +367,21 @@ public class OpenblocksFrame extends JFrame {
 					uiMessageBundle.getString("message.content.open_unsaved"),
 					uiMessageBundle.getString("message.title.question"), JOptionPane.YES_NO_CANCEL_OPTION,
 					JOptionPane.QUESTION_MESSAGE, null, null, JOptionPane.YES_OPTION);
-			if (optionValue == JOptionPane.YES_OPTION) {
+			if (optionValue == JOptionPane.YES_OPTION)
 				doSaveUniBotFile();
-				this.loadFile();
-			} else {
-				if (optionValue == JOptionPane.NO_OPTION) {
-					this.loadFile();
-				}
-			}
-		} else {
-			this.loadFile();
+
 		}
-		this.setTitle(makeFrameTitle());
+		File file = this.loadFile();
+		if (file != null) {
+			this.setTitle(makeFrameTitle());
+			editor.getCurrentTab().removeAll();
+			try {
+				new EditorTab(editor, new SketchFile(editor.getSketch(), file), null);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 	}
 
 	public void doBlankUniBotFile() {
@@ -426,29 +429,29 @@ public class OpenblocksFrame extends JFrame {
 		this.setTitle(makeFrameTitle());
 	}
 
-	private void loadFile() {
+	public File loadFile() {
+		if (savedFile == null)
+		{		
 		int result = fileChooser.showOpenDialog(this);
+		
 		if (result == JFileChooser.APPROVE_OPTION) {
-			File savedFile = fileChooser.getSelectedFile();
+			savedFile = fileChooser.getSelectedFile();
 			if (!savedFile.exists()) {
 				JOptionPane.showOptionDialog(this, uiMessageBundle.getString("message.file_not_found"),
 						uiMessageBundle.getString("message.title.error"), JOptionPane.OK_OPTION,
 						JOptionPane.ERROR_MESSAGE, null, null, JOptionPane.OK_OPTION);
-				return;
+				return null;
 			}
-
+		}
+		}
 			saveFilePath = savedFile.getAbsolutePath();
 			saveFileName = savedFile.getName();
 			try {
 				context.loadUniBotFile(savedFile);
 				context.setWorkspaceChanged(false);
 				loadLibs();
-				try {
-					Base.INSTANCE.handleOpen(new File(saveFilePath+"/"+saveFileName.replace(".abp",  ".ino")));
-				} catch (Exception e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+			
+				
 
 			} catch (IOException e) {
 				JOptionPane.showOptionDialog(this, uiMessageBundle.getString("message.file_not_found"),
@@ -456,9 +459,10 @@ public class OpenblocksFrame extends JFrame {
 						JOptionPane.ERROR_MESSAGE, null, null, JOptionPane.OK_OPTION);
 				e.printStackTrace();
 			}
-		}
+		
 		toFront();
 		repaint();
+		return savedFile;
 	}
 
 	public void doSaveAsUniBotFile() {
@@ -479,24 +483,19 @@ public class OpenblocksFrame extends JFrame {
 			WorkspaceController workspaceController = context.getWorkspaceController();
 			String saveString = workspaceController.getSaveString();
 			//
-			
-	
-			if (editor.getSketch().getFile(0).getFile()==null )
-			{
-				editor.handleSave(true);
-			
+System.out.println(editor.getSketch().getFile(0).getFile().getAbsolutePath()+" "+saveFilePath);
+			if (saveFilePath==null) {
+				System.out.println("nouvel enregistrement");
+				editor.handleSaveAs();
 
-			}
-			else
-				if (!editor.getSketch().getFile(0).getFile().getAbsolutePath().equals(saveFilePath))
-				{
-					editor.handleSaveAs();
-				}
-				else
-					editor.handleSave(true);
-					
-			
-			saveFilePath =  editor.getSketch().getFile(0).getFile().getAbsolutePath().replace(".ino", ".abp");
+			} else if (!editor.getSketch().getFile(0).getFile().getAbsolutePath().equals(saveFilePath.replace(".abp", ".ino"))
+					|| saveFilePath == null) {
+				System.out.println("autre fichier arduino OU 'save as'  ");
+				editor.handleSaveAs();
+			} else
+				editor.handleSave(true);
+
+			saveFilePath = editor.getSketch().getFile(0).getFile().getAbsolutePath().replace(".ino", ".abp");
 			File saveFile = new File(saveFilePath);
 			context.saveUniBotFile(saveFile, saveString);
 			saveFilePath = saveFile.getAbsolutePath();
@@ -507,7 +506,7 @@ public class OpenblocksFrame extends JFrame {
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
-	
+
 		toFront();
 		repaint();
 
@@ -733,7 +732,7 @@ public class OpenblocksFrame extends JFrame {
 	}
 
 	public void getFile(String path) {
-	//	System.out.println(path);
+		// System.out.println(path);
 		InputStream stream = null;
 		if (path == null) {
 			context.getWorkspaceController()

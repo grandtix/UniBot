@@ -66,6 +66,12 @@ public class UniBot implements Tool, OpenblocksFrameListener
 				e.printStackTrace();
 			}
 			openblocksFrame.loadLibs();
+			String fichier=UniBot.editor.getSketch().getFile(0).getFile().getAbsolutePath().replace(".ino", ".abp");
+			if (new File(fichier).exists())
+				{
+				openblocksFrame.savedFile=new File(fichier);
+				openblocksFrame.loadFile();
+				}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

@@ -84,6 +84,7 @@ public class LibraryLoader {
 
 	private boolean inComment = false;
 	String groupConstantes = "constantes";
+	String groupVarFunctions="variables et fonctions";
 
 	Map<String, String> connectorMap = new HashMap<String, String>() {
 		{
@@ -134,12 +135,12 @@ public class LibraryLoader {
 		ArrayList<String> liste = new ArrayList<String>();
 		text = text.replace(", ", ",");
 		String[] types = text.trim().split(",");
-//		System.out.println("text :" + text);
+		// System.out.println("text :" + text);
 		if (text.trim().length() > 0)
 			for (String t : types) {
 				String tmp = t.trim().split(" ")[0];
 				String lbl = "";
-		//		System.out.println("tmp1 :" + tmp);
+				// System.out.println("tmp1 :" + tmp);
 				if (!tmp.startsWith("void")) {
 					if (t.contains(" "))
 						lbl = t.trim().split(" ")[1];
@@ -160,7 +161,7 @@ public class LibraryLoader {
 					ty += connectorMap.get(aliasGeniusTypeMap.get(tmp)) != null
 							? connectorMap.get(aliasGeniusTypeMap.get(tmp))
 							: "poly";
-		//			System.out.println("--->" + ty);
+					// System.out.println("--->" + ty);
 					liste.add(ty);
 				}
 			}
@@ -179,26 +180,21 @@ public class LibraryLoader {
 		StringBuffer string = new StringBuffer();
 		String typename = "";
 		int couleurT0 = 1, couleurT1 = 1, couleurT2 = 1;
-/*		if (current == -1) {
-			if (current == -1 || className.length() < 3) {
-				current++;
-				groups.add(new ArrayList<String>());
-				groups.get(current).add(className);
-			}
+		/*
+		 * if (current == -1) { if (current == -1 || className.length() < 3) {
+		 * current++; groups.add(new ArrayList<String>());
+		 * groups.get(current).add(className); }
+		 * 
+		 * } else if (current == 0 && !isDefine) { current++; groups.add(new
+		 * ArrayList<String>()); groups.get(current).add(className);
+		 * 
+		 * }
+		 */
+		String couleur = (((int) (groups.get(current).get(0).charAt(0))) % 256) + " "
+				+ (((int) (groups.get(current).get(0).charAt(1)) * 10 + 127) % 256) + " "
+				+ (((int) (groups.get(current).get(0).charAt(0)) * 10 + 127) % 256);
 
-		} else if (current == 0 && !isDefine) {
-			current++;
-			groups.add(new ArrayList<String>());
-			groups.get(current).add(className);
-
-		}
-*/
-		String couleur =(((int)(groups.get(current).get(0).charAt(0))) % 256)+ " "
-				+ (((int)(groups.get(current).get(0).charAt(1))*10+127)% 256)+ " "
-				+ (((int)(groups.get(current).get(0).charAt(0))*10+127) % 256);
-		
-
-	//	System.out.println("in create block genus :"+groups.get(current).get(0));
+		// System.out.println("in create block genus :"+groups.get(current).get(0));
 
 		// contenuFamily.append("<BlockGenusMember>");
 		// contenuFamily.append(typename+name);
@@ -379,17 +375,17 @@ public class LibraryLoader {
 					line = line.substring(0, line.indexOf(";") + 1);
 				if (line.startsWith("/*"))
 					inComment = true;
-				
-	//			System.out.println(line);
 
-				
+				// System.out.println(line);
+
 				if (inComment) {
 					// do nothing
 				} else if (line.startsWith("#") && !line.startsWith("#define")) {
 					// do nothing
-				} else if (line.startsWith("extern") && line.split(" ").length > 2) {
-	//				System.out.println("**************************" + (line.split(" ")[1]));
-					externObjectGenius.put(line.split(" ")[1], line.split(" ")[2].replaceAll(";", ""));
+				} else if (line.startsWith("extern")) {
+		//			System.err.println("**************************" + line + "---" + line.split(" ").length);
+					if (line.split(" ").length == 3)
+						externObjectGenius.put(line.split(" ")[1], line.split(" ")[2].replaceAll(";", ""));
 					isClass = false;
 					// do nothing
 				} else if (line.startsWith("void loop") && !line.startsWith("void setup")) {
@@ -420,7 +416,7 @@ public class LibraryLoader {
 				} else if (line == "{") {
 					// do nothing
 				} else if (line.startsWith("};") || line.equals("};")) {
-					
+
 					if (!isClass || (isClass && !hasContructor))
 						useNoInstance.add(new Boolean(true));
 					else
@@ -434,8 +430,8 @@ public class LibraryLoader {
 									"com.unibot.translator.block.CustomVariableBlock");
 
 					}
-					isClass=false;
-	//				System.out.println(PropertiesReader.p.toString());
+					isClass = false;
+					// System.out.println(PropertiesReader.p.toString());
 				} else if (line.startsWith("}")) {
 					// do nothing
 				} else if (line.startsWith("class ")) {
@@ -444,7 +440,7 @@ public class LibraryLoader {
 					// if (isClass) {
 					current++;
 					groups.add(new ArrayList<String>());
-					groups.get(current).add(className + " - variables et fonctions");
+					groups.get(current).add(className + " - "+groupVarFunctions);
 
 					// }
 
@@ -483,7 +479,7 @@ public class LibraryLoader {
 					} else {
 						current++;
 						groups.add(new ArrayList<String>());
-						groups.get(current).add(className+" - "+line.replaceAll("//@", ""));
+						groups.get(current).add(className + " - " + line.replaceAll("//@", ""));
 					}
 				} else if (line.startsWith("//")) {
 					// do nothing
@@ -500,8 +496,14 @@ public class LibraryLoader {
 					else
 						name = line.replace(";", "").replace(type, "").trim();
 
+					if (!groups.get(current).get(0).equals(className+" - "+groupVarFunctions))
+					{
+						current++;
+						groups.add(new ArrayList<String>());
+						groups.get(current).add(className + " - " + groupVarFunctions);
+					}
 					contenuFichier.append(createBlockGenus("variable", name, name, "data", type, null, false,
-							idLine == currentIdBalise + 1 ? description : "variable de l'objet " + name,
+							idLine == currentIdBalise + 1 ? description : "variable de type " + name,
 							idLine == currentIdBalise + 1 ? imagePath : ""));
 				} else if (line.contains("(") && isInPublic) {
 					if (!line.substring(0, line.indexOf('(')).contains(" ")) {
@@ -579,6 +581,12 @@ public class LibraryLoader {
 						contenuFichier.append(createBlockGenus("method", nametemp, name, "command", null, typesInput,
 								false, idLine == currentIdBalise + 1 ? description : name,
 								idLine == currentIdBalise + 1 ? imagePath : ""));
+						if (groups.get(current).get(0).equals(className+" - "+groupConstantes))
+						{
+							current++;
+							groups.add(new ArrayList<String>());
+							groups.get(current).add(className + " - " + groupVarFunctions);
+						}
 						groups.get(current).add("<BlockGenusMember>" + nametemp + "</BlockGenusMember>\n");
 
 					} else if (isInPublic) { // aliasGeniusTypeMap.get(line.split(" ")[0]) != null &&
@@ -615,6 +623,12 @@ public class LibraryLoader {
 						line = line.trim();
 
 						ArrayList<String> typesInput = getTypes(line);
+						if (!groups.get(current).get(0).equals(className+" - "+groupVarFunctions))
+						{
+							current++;
+							groups.add(new ArrayList<String>());
+							groups.get(current).add(className + " - " + groupVarFunctions);
+						}
 						contenuFichier.append(createBlockGenus("methodreturn", nametemp, name, "data", type, typesInput,
 								false, idLine == currentIdBalise + 1 ? description : name,
 								idLine == currentIdBalise + 1 ? imagePath : ""));
@@ -803,10 +817,10 @@ public class LibraryLoader {
 			if (liste != null) {
 				// System.out.println(groups.get(i).get(0).toLowerCase().charAt(0));
 
-				String couleur =(((int)(liste.get(0).charAt(0))) % 256)+ " "
-						+ (((int)(liste.get(0).charAt(1))*10+127)% 256)+ " "
-						+ (((int)(liste.get(0).charAt(0))*10+127) % 256);
-	//			System.out.println("couleur :"+couleur);
+				String couleur = (((int) (liste.get(0).charAt(0))) % 256) + " "
+						+ (((int) (liste.get(0).charAt(1)) * 10 + 127) % 256) + " "
+						+ (((int) (liste.get(0).charAt(0)) * 10 + 127) % 256);
+				// System.out.println("couleur :"+couleur);
 				i++;
 				contenuFichier.append("<BlockDrawer button-color=\"" + couleur + "\" name=\"" + liste.get(0) + "\">");
 				contenuFichier.append("\n");
@@ -837,7 +851,6 @@ public class LibraryLoader {
 		readFile2(name);
 		setpied();
 
-		
 		// extern name for class
 		String xml = contenuFichier.toString();
 		Iterator it = externObjectGenius.entrySet().iterator();
@@ -847,17 +860,16 @@ public class LibraryLoader {
 			boolean val = ((Boolean) (it2.hasNext())).booleanValue();
 
 			xml = xml.replace((String) pair.getKey(), (String) pair.getValue());
-			if (val)//use no instance, so class name with same case
-				{
-				
+			if (val)// use no instance, so class name with same case
+			{
+
 				xml = xml.replace(((String) pair.getKey()).toLowerCase(), (String) pair.getValue());
 				PropertiesReader.addValue((String) pair.getValue(), PropertiesReader.getValue((String) pair.getKey()));
-				}
+			}
 
-			
 		}
 
-		 System.out.println(xml);
+		//System.out.println(xml);
 
 		byte[] bytes = xml.getBytes();
 
