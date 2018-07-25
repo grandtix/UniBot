@@ -14,6 +14,7 @@ import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.ResourceBundle;
@@ -100,7 +101,7 @@ public class OpenblocksFrame extends JFrame {
 
 	private Editor editor;
 	private String pathConf = "librairies.conf";
-
+	public HashMap<String, Boolean> libsloaded = new HashMap<String, Boolean>();
 	private JSplitPane split;
 
 	private RSyntaxTextArea code;
@@ -211,7 +212,7 @@ public class OpenblocksFrame extends JFrame {
 		openButton.setToolTipText("Ouvrir");
 		openButton.setIcon(new ImageIcon(OpenblocksFrame.class.getResource("/com/unibot/block/open.png")));
 		openButton.addActionListener(new OpenABPButtonListener(this));
-	//	buttons.add(openButton);
+		// buttons.add(openButton);
 
 		buttons.add(saveButton);
 
@@ -305,7 +306,8 @@ public class OpenblocksFrame extends JFrame {
 				line = line.trim();
 				if (line.split("=")[2].equals("true"))
 					getFile(line.split("=")[1]);
-
+				if (libsloaded.get(line) == null)
+					libsloaded.put(new File(line).getName(), new Boolean(true));
 			}
 			br.close();
 			context.setWorkspaceChanged(false);
@@ -375,12 +377,7 @@ public class OpenblocksFrame extends JFrame {
 		if (file != null) {
 			this.setTitle(makeFrameTitle());
 			editor.getCurrentTab().removeAll();
-			try {
-				new EditorTab(editor, new SketchFile(editor.getSketch(), file), null);
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			
 		}
 	}
 
@@ -430,36 +427,33 @@ public class OpenblocksFrame extends JFrame {
 	}
 
 	public File loadFile() {
-		if (savedFile == null)
-		{		
-		int result = fileChooser.showOpenDialog(this);
-		
-		if (result == JFileChooser.APPROVE_OPTION) {
-			savedFile = fileChooser.getSelectedFile();
-			if (!savedFile.exists()) {
-				JOptionPane.showOptionDialog(this, uiMessageBundle.getString("message.file_not_found"),
-						uiMessageBundle.getString("message.title.error"), JOptionPane.OK_OPTION,
-						JOptionPane.ERROR_MESSAGE, null, null, JOptionPane.OK_OPTION);
-				return null;
-			}
-		}
-		}
-			saveFilePath = savedFile.getAbsolutePath();
-			saveFileName = savedFile.getName();
-			try {
-				context.loadUniBotFile(savedFile);
-				context.setWorkspaceChanged(false);
-				loadLibs();
-			
-				
+		if (savedFile == null) {
+			int result = fileChooser.showOpenDialog(this);
 
-			} catch (IOException e) {
-				JOptionPane.showOptionDialog(this, uiMessageBundle.getString("message.file_not_found"),
-						uiMessageBundle.getString("message.title.error"), JOptionPane.OK_OPTION,
-						JOptionPane.ERROR_MESSAGE, null, null, JOptionPane.OK_OPTION);
-				e.printStackTrace();
+			if (result == JFileChooser.APPROVE_OPTION) {
+				savedFile = fileChooser.getSelectedFile();
+				if (!savedFile.exists()) {
+					JOptionPane.showOptionDialog(this, uiMessageBundle.getString("message.file_not_found"),
+							uiMessageBundle.getString("message.title.error"), JOptionPane.OK_OPTION,
+							JOptionPane.ERROR_MESSAGE, null, null, JOptionPane.OK_OPTION);
+					return null;
+				}
 			}
-		
+		}
+		saveFilePath = savedFile.getAbsolutePath();
+		saveFileName = savedFile.getName();
+		try {
+			context.loadUniBotFile(savedFile);
+			context.setWorkspaceChanged(false);
+			loadLibs();
+
+		} catch (IOException e) {
+			JOptionPane.showOptionDialog(this, uiMessageBundle.getString("message.file_not_found"),
+					uiMessageBundle.getString("message.title.error"), JOptionPane.OK_OPTION, JOptionPane.ERROR_MESSAGE,
+					null, null, JOptionPane.OK_OPTION);
+			e.printStackTrace();
+		}
+
 		toFront();
 		repaint();
 		return savedFile;
@@ -483,13 +477,13 @@ public class OpenblocksFrame extends JFrame {
 			WorkspaceController workspaceController = context.getWorkspaceController();
 			String saveString = workspaceController.getSaveString();
 			//
-System.out.println(editor.getSketch().getFile(0).getFile().getAbsolutePath()+" "+saveFilePath);
-			if (saveFilePath==null) {
+			System.out.println(editor.getSketch().getFile(0).getFile().getAbsolutePath() + " " + saveFilePath);
+			if (saveFilePath == null) {
 				System.out.println("nouvel enregistrement");
 				editor.handleSaveAs();
 
-			} else if (!editor.getSketch().getFile(0).getFile().getAbsolutePath().equals(saveFilePath.replace(".abp", ".ino"))
-					|| saveFilePath == null) {
+			} else if (!editor.getSketch().getFile(0).getFile().getAbsolutePath()
+					.equals(saveFilePath.replace(".abp", ".ino")) || saveFilePath == null) {
 				System.out.println("autre fichier arduino OU 'save as'  ");
 				editor.handleSaveAs();
 			} else
@@ -634,9 +628,9 @@ System.out.println(editor.getSketch().getFile(0).getFile().getAbsolutePath()+" "
 				// System.out.println("4"
 				// + editor.getSketch().getCurrentCode().getFileName());
 				// System.out.println("*****************");
+				code.append(translator.generateSetupCustomCode());
 
 				code.append(translator.translate(setBlock.getBlockID(), true));
-				code.append(translator.generateSetupCustomCode());
 				if (translator.isFromArduino())
 					code.append("\n}\n");
 			}

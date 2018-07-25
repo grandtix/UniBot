@@ -3,6 +3,7 @@ package com.unibot.translator.block;
 import com.unibot.translator.Translator;
 import com.unibot.translator.block.exception.SocketNullException;
 import com.unibot.translator.block.exception.SubroutineNotDeclaredException;
+import com.unibot.ui.OpenblocksFrame;
 
 public class SerialPrintlnBlock extends TranslatorBlock
 {
@@ -18,8 +19,11 @@ public class SerialPrintlnBlock extends TranslatorBlock
 		
 		ret = translatorBlock.toCode();
 
+		
 		if (translator.isFromArduino())
 		{
+		
+
 		translator.addSetupCommand("Serial.begin(9600);\n");
 		ret = "Serial.println("+ret+");\n";
 		}

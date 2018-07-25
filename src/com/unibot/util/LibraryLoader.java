@@ -84,7 +84,7 @@ public class LibraryLoader {
 
 	private boolean inComment = false;
 	String groupConstantes = "constantes";
-	String groupVarFunctions="variables et fonctions";
+	String groupVarFunctions = "variables et fonctions";
 
 	Map<String, String> connectorMap = new HashMap<String, String>() {
 		{
@@ -130,6 +130,8 @@ public class LibraryLoader {
 	private boolean hasContructor = false;
 
 	private ArrayList<Boolean> useNoInstance = new ArrayList<Boolean>();
+
+	private ArrayList<String> listNames;
 
 	ArrayList<String> getTypes(String text) {
 		ArrayList<String> liste = new ArrayList<String>();
@@ -209,12 +211,20 @@ public class LibraryLoader {
 			PropertiesReader.addValue(typename + name, "com.unibot.translator.block.CustomConstructorBlock");
 			string.append("<BlockGenus name=\"" + typename + name + "\" kind=\"" + typeGenus + "\"   color=\"" + couleur
 					+ "\" editable-label=\"no\" initlabel=\"" + typename + label + "\" label-unique=\"no\" >"); //
+
+			System.out.println("NEW :" + "<BlockGenus name=\"" + typename + name + "\" kind=\"" + typeGenus
+					+ "\"   color=\"" + couleur + "\" editable-label=\"no\" initlabel=\"" + typename + label
+					+ "\" label-unique=\"no\" >");
+
 		} else if (template_type.equals("method")) {
 			// System.out.println(typename +
 			// name+"=com.unibot.translator.block.CustomCommandBlock");
 			PropertiesReader.addValue(name, "com.unibot.translator.block.CustomCommandBlock");
 			string.append("<BlockGenus name=\"" + name + "\" kind=\"" + typeGenus + "\"   color=\"" + couleur
 					+ "\"  editable-label=\"no\" initlabel=\"" + label + "\" label-unique=\"no\" >");
+
+			System.out.println("METHOD :" + "<BlockGenus name=\"" + name + "\" kind=\"" + typeGenus + "\"   color=\""
+					+ couleur + "\"  editable-label=\"no\" initlabel=\"" + label + "\" label-unique=\"no\" >");
 
 		} else if (template_type.equals("variable") || template_type.equals("instanceClasse")) {
 			// System.out.println(typename +
@@ -223,6 +233,9 @@ public class LibraryLoader {
 			string.append("<BlockGenus name=\"" + name + "\" kind=\"" + typeGenus + "\"   color=\"" + couleur
 					+ "\" initlabel=\"" + label + "\" editable-label=\"yes\"  label-unique=\"no\">");
 
+			System.out.println("VAR || INST" + "<BlockGenus name=\"" + name + "\" kind=\"" + typeGenus + "\"   color=\""
+					+ couleur + "\" initlabel=\"" + label + "\" editable-label=\"yes\"  label-unique=\"no\">");
+
 		} else if (template_type.equals("methodreturn")) {
 			// System.out.println(typename +
 			// name+"=com.unibot.translator.block.CustomVariableBlock");
@@ -230,6 +243,8 @@ public class LibraryLoader {
 			string.append("<BlockGenus name=\"" + name + "\" kind=\"" + typeGenus + "\"   color=\"" + couleur
 					+ "\" initlabel=\"" + label + "\" editable-label=\"no\" label-unique=\"no\">");
 
+			System.out.println("RETURN :" + "<BlockGenus name=\"" + name + "\" kind=\"" + typeGenus + "\"   color=\""
+					+ couleur + "\" initlabel=\"" + label + "\" editable-label=\"no\" label-unique=\"no\">");
 		}
 
 		// ---------create DESCRIPTION
@@ -340,7 +355,7 @@ public class LibraryLoader {
 		contenuFichier.append("<GenusMembers>");
 		contenuFichier.append("\n");
 
-		ArrayList<String> listNames = new ArrayList<String>();
+		listNames = new ArrayList<String>();
 		BufferedReader br;
 		try {
 			br = new BufferedReader(new FileReader(file));
@@ -351,18 +366,7 @@ public class LibraryLoader {
 			lastname = "";
 			while ((line = br.readLine()) != null) {
 				isDefine = false;
-				// clean the the line.
-				line = line.replace("  ", " ");
-				line = line.trim();
-				line = line.replace("unsigned ", "");
-				line = line.replace("virtual ", "");
-				line = line.replace("const ", "");
-				line = line.replace("static ", "");
-				line = line.replace("void (*)(void)", "String fonction");
-				// replace types for parsing after on " "
-				line = line.replace("char *", "String ");
-				line = line.replace("String &", "String ");
-				line = line.replace("uint8_t *", "int ");
+				line = prepareLine(line);
 				/*
 				 * if (line.contains("void")) { boolean isvoidtype = line.startsWith("void");
 				 * line = line.replace("void", ""); if (isvoidtype) line = "void" + line; }
@@ -376,24 +380,23 @@ public class LibraryLoader {
 				if (line.startsWith("/*"))
 					inComment = true;
 
-				// System.out.println(line);
+				System.out.println(line);
 
 				if (inComment) {
-					// do nothing
+				} else if (line.startsWith("void delay")) {
 				} else if (line.startsWith("#") && !line.startsWith("#define")) {
-					// do nothing
+				} else if (line.startsWith("void loop")) {
+				} else if (line.startsWith("void delay")) {
+				} else if (line.startsWith("void setup")) {
 				} else if (line.startsWith("extern")) {
-		//			System.err.println("**************************" + line + "---" + line.split(" ").length);
 					if (line.split(" ").length == 3)
 						externObjectGenius.put(line.split(" ")[1], line.split(" ")[2].replaceAll(";", ""));
 					isClass = false;
-					// do nothing
-				} else if (line.startsWith("void loop") && !line.startsWith("void setup")) {
-					// do nothing
 				} else if (line.startsWith("#define")) {
 					if (line.contains("("))
 						line = line.substring(0, line.indexOf("("));
-					if (line.split(" ").length > 1) {
+					if (line.split(" ").length == 3) {
+						// System.out.println("line :"+line);
 						String type = "number";
 						name = line.split(" ")[1];
 						isDefine = true;
@@ -407,7 +410,10 @@ public class LibraryLoader {
 						contenuFichier.append(createBlockGenus("variable", name, name, "data", type, null, false,
 								idLine == currentIdBalise + 1 ? description : "variable de l'objet " + name,
 								idLine == currentIdBalise + 1 ? imagePath : ""));
-						groups.get(current).add("<BlockGenusMember>" + name + "</BlockGenusMember>\n");
+						if (groups.get(current).get(0).equals(className + " - " + groupVarFunctions))
+							groups.get(current - 1).add("<BlockGenusMember>" + name + "</BlockGenusMember>\n");
+						else
+							groups.get(current).add("<BlockGenusMember>" + name + "</BlockGenusMember>\n");
 
 					}
 
@@ -440,7 +446,7 @@ public class LibraryLoader {
 					// if (isClass) {
 					current++;
 					groups.add(new ArrayList<String>());
-					groups.get(current).add(className + " - "+groupVarFunctions);
+					groups.get(current).add(className + " - " + groupVarFunctions);
 
 					// }
 
@@ -496,8 +502,7 @@ public class LibraryLoader {
 					else
 						name = line.replace(";", "").replace(type, "").trim();
 
-					if (!groups.get(current).get(0).equals(className+" - "+groupVarFunctions))
-					{
+					if (current == -1 || !groups.get(current).get(0).equals(className + " - " + groupVarFunctions)) {
 						current++;
 						groups.add(new ArrayList<String>());
 						groups.get(current).add(className + " - " + groupVarFunctions);
@@ -514,30 +519,12 @@ public class LibraryLoader {
 						hasContructor = true;
 						int i = 0;
 						name = line.substring(0, line.indexOf('('));
-						for (String str : listNames) {
-							if (str.trim().equals(name)) {
-								ok = false;
-							}
-						}
-						String nametemp = name;
-						while (!ok) {
-							ok = true;
-							for (String str : listNames) {
-								if (str.trim().equals(nametemp)) {
-									ok = false;
-								}
-							}
-							nametemp = name + "" + i;
-							i++;
-						}
+						String nametemp = findDoublon(name);
 						listNames.add(nametemp);
 						ArrayList<String> typesInput = new ArrayList<String>();
 						// prepare string to parse args
-						line = line.substring(line.indexOf("("));
-						line = line.replace("(", "");
-						line = line.replace(")", "");
-						line = line.replace(";", "");
-						line = line.trim();
+						line = cleanArgs(line);
+
 						typesInput.add(name);
 						typesInput.addAll(getTypes(line));
 						contenuFichier.append(createBlockGenus("constructeur", nametemp + "()", name + "()", "command",
@@ -554,35 +541,17 @@ public class LibraryLoader {
 						int i = 0;
 
 						name = line.substring(0, line.indexOf('(')).replaceFirst("void ", "").trim();
-						for (String str : listNames) {
-							if (str.trim().equals(name)) {
-								ok = false;
-							}
-						}
-						String nametemp = name;
-						while (!ok) {
-							ok = true;
-							for (String str : listNames) {
-								if (str.trim().equals(nametemp)) {
-									ok = false;
-								}
-							}
-							nametemp = name + "" + i;
-							i++;
-						}
+						String nametemp = findDoublon(name);
 						listNames.add(nametemp);
-						line = line.substring(line.indexOf('(') + 1);
-						line = line.replace("(", "");
-						line = line.replace(")", "");
-						line = line.replace(";", "");
+						line = cleanArgs(line);
+
 						line = line.replace("void", "");
 						line = line.trim();
 						ArrayList<String> typesInput = getTypes(line);
 						contenuFichier.append(createBlockGenus("method", nametemp, name, "command", null, typesInput,
 								false, idLine == currentIdBalise + 1 ? description : name,
 								idLine == currentIdBalise + 1 ? imagePath : ""));
-						if (groups.get(current).get(0).equals(className+" - "+groupConstantes))
-						{
+						if (groups.get(current).get(0).equals(className + " - " + groupConstantes)) {
 							current++;
 							groups.add(new ArrayList<String>());
 							groups.get(current).add(className + " - " + groupVarFunctions);
@@ -594,37 +563,14 @@ public class LibraryLoader {
 						if (type == null)
 							type = "poly";
 
-						boolean ok = true;
-						int i = 0;
-						name = line.substring(line.indexOf(" "), line.indexOf('(')).trim();
-						String nametemp = name;
-						for (String str : listNames) {
-							if (str.trim().equals(name)) {
-								ok = false;
-							}
-						}
-						while (!ok) {
-							ok = true;
-							nametemp = name + "" + i;
-							for (String str : listNames) {
-								if (str.trim().equals(nametemp)) {
-									ok = false;
-									i++;
-								}
-							}
-							nametemp = name + "" + i;
-							i++;
-						}
+						name = (line.split(" ")[1]).split("\\(")[0];
+						String nametemp = findDoublon(name);
 						listNames.add(nametemp);
-						line = line.substring(line.indexOf("(") + 1);
-						line = line.replace("(", "");
-						line = line.replace(")", "");
-						line = line.replace(";", "");
-						line = line.trim();
+						line = cleanArgs(line);
+						System.out.println("line after !" + line);
 
 						ArrayList<String> typesInput = getTypes(line);
-						if (!groups.get(current).get(0).equals(className+" - "+groupVarFunctions))
-						{
+						if (!groups.get(current).get(0).equals(className + " - " + groupVarFunctions)) {
 							current++;
 							groups.add(new ArrayList<String>());
 							groups.get(current).add(className + " - " + groupVarFunctions);
@@ -654,6 +600,58 @@ public class LibraryLoader {
 			e.printStackTrace();
 		}
 		return "";
+	}
+
+	private String prepareLine(String line) {
+		// TODO Auto-generated method stub
+		// clean the the line.
+		String _line = line.replace("  ", " ");
+		_line = _line.trim();
+		_line = _line.replace("unsigned ", "");
+		_line = _line.replace("virtual ", "");
+		_line = _line.replace("const ", "");
+		_line = _line.replace("static ", "");
+		_line = _line.replace("void (*)(void)", "String fonction");
+		// replace types for parsing after on " " => TYPES SIMPLIFICATION
+		_line = _line.replace("char *", "String ");
+		_line = _line.replace("String &", "String ");
+		_line = _line.replace("uint8_t *", "int ");
+		return _line;
+
+	}
+
+	private String cleanArgs(String line) {
+		// TODO Auto-generated method stub
+		String _line = line.substring(line.indexOf("(") + 1);
+		_line = _line.replace("(", "");
+		_line = _line.replace(")", "");
+		_line = _line.replace(";", "");
+		_line = _line.trim();
+		return _line;
+	}
+
+	private String findDoublon(String name) {
+		// TODO Auto-generated method stub
+		boolean ok = true;
+		for (String str : listNames) {
+			if (str.trim().equals(name)) {
+				ok = false;
+			}
+		}
+		String nametemp = name;
+		int i = 0;
+		while (!ok) {
+			ok = true;
+			for (String str : listNames) {
+				if (str.trim().equals(nametemp)) {
+					ok = false;
+				}
+			}
+			if (!ok)
+				nametemp = name + "" + i;
+			i++;
+		}
+		return nametemp;
 	}
 
 	/*
@@ -869,7 +867,7 @@ public class LibraryLoader {
 
 		}
 
-		//System.out.println(xml);
+		System.out.println(xml);
 
 		byte[] bytes = xml.getBytes();
 

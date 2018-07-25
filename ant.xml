@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project default="create_run_jar" name="Create Runnable Jar for Project UniBot">
+    <!--this file was created by Eclipse Runnable JAR Export Wizard-->
+    <!--ANT 1.7 is required                                        -->
+    <!--define folder properties-->
+    <property name="dir.buildfile" value="."/>
+    <property name="dir.workspace" value="C:/Users/grandtix/eclipse-workspace"/>
+    <property name="dir.jarfile" value="D:/Documents/Arduino/tools/UniBot/tool"/>
+    <target name="create_run_jar">
+        <jar destfile="${dir.jarfile}/UniBot.jar" filesetmanifest="mergewithoutmain">
+            <manifest>
+                <attribute name="Main-Class" value="com.unibot.Main"/>
+                <attribute name="Class-Path" value="."/>
+            </manifest>
+            <fileset dir="${dir.buildfile}/target/classes"/>
+            <zipfileset excludes="META-INF/*.SF" src="${dir.buildfile}/lib/arduino-core.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="${dir.buildfile}/lib/pde.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="${dir.buildfile}/lib/pdeMode.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="${dir.buildfile}/lib/miglayout15-swing.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="${dir.buildfile}/lib/jfreechart-1.0.0-rc1.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="${dir.buildfile}/lib/TableLayout.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="${dir.buildfile}/lib/jcommon-1.0.0-rc1.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="${dir.buildfile}/lib/rsyntaxtextarea-2.6.1.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="${dir.buildfile}/lib/commons-compress-1.8.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="${dir.buildfile}/lib/jackson-core-2.6.3.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="${dir.buildfile}/lib/batik-transcoder-1.8.jar"/>
+        </jar>
+    	<copy file="${dir.jarfile}/UniBot.jar" tofile="./UniBot.jar"/>
+    	<property name="prog" location="C:/Program Files (x86)/Arduino/arduino.exe"/>
+
+    	<exec executable="${prog}" spawn="true">
+
+    	</exec>
+    </target>
+</project>
