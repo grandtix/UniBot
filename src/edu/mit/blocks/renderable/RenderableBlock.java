@@ -1436,7 +1436,7 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 				imgLoc.setLocation((width - icon.getIconWidth()) / 2, height
 						- margin - icon.getIconHeight());
 			} else if (img.getImageLocation() == ImageLocation.EAST) {
-				imgLoc.setLocation(width - margin - icon.getIconWidth(),
+				imgLoc.setLocation(width - margin - icon.getIconWidth()-50,
 						(height - icon.getIconHeight()) / 2);
 			} else if (img.getImageLocation() == ImageLocation.WEST) {
 				imgLoc.setLocation(margin, (height - icon.getIconHeight()) / 2);

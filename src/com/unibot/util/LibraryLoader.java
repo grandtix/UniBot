@@ -78,7 +78,7 @@ public class LibraryLoader {
 	boolean isClass = false;
 	// private boolean asGroup = false;
 
-	private int current = -1;
+	private int current =0;
 
 	private boolean firstConstructor = true;
 
@@ -152,7 +152,7 @@ public class LibraryLoader {
 					else {
 						contenuFichier.append(createBlockGenus("variable", tmp, tmp.toLowerCase(), "data", "poly", null,
 								false, "variable de l'objet " + tmp, ""));
-						groups.get(current).add("<BlockGenusMember>" + tmp + "</BlockGenusMember>\n");
+						groups.get(current+1).add("<BlockGenusMember>" + tmp + "</BlockGenusMember>\n");
 						aliasGeniusTypeMap.put(tmp, "object");
 						ty = "variable_object";
 
@@ -181,17 +181,7 @@ public class LibraryLoader {
 			ArrayList<String> typesInput, boolean isconstructor, boolean isPlug, String description, String imagepath) {
 		StringBuffer string = new StringBuffer();
 		String typename = "";
-		int couleurT0 = 1, couleurT1 = 1, couleurT2 = 1;
-		/*
-		 * if (current == -1) { if (current == -1 || className.length() < 3) {
-		 * current++; groups.add(new ArrayList<String>());
-		 * groups.get(current).add(className); }
-		 * 
-		 * } else if (current == 0 && !isDefine) { current++; groups.add(new
-		 * ArrayList<String>()); groups.get(current).add(className);
-		 * 
-		 * }
-		 */
+		 
 		String couleur = (((int) (groups.get(current).get(0).charAt(0))) % 256) + " "
 				+ (((int) (groups.get(current).get(0).charAt(1)) * 10 + 127) % 256) + " "
 				+ (((int) (groups.get(current).get(0).charAt(0)) * 10 + 127) % 256);
@@ -328,7 +318,7 @@ public class LibraryLoader {
 		if (!imagepath.equals("")) {
 			string.append("<Images>\n");
 
-			string.append("<Image block-location=\"center\" image-editable=\"no\" wrap-text=\"no\""
+			string.append("<Image block-location=\"east\" image-editable=\"no\" wrap-text=\"no\""
 					// + " image-editable=\"no\" wrap-text=\"yes\""
 					+ ">");
 			string.append("<FileLocation>");
@@ -347,7 +337,7 @@ public class LibraryLoader {
 	String readFile2(String file) {
 		className = new File(file).getName().replace(".h", "");
 
-		current = -1;
+		current = 0;
 		String imagePath = "";
 		String description = "";
 		this.file = file;
@@ -364,6 +354,12 @@ public class LibraryLoader {
 			int currentIdBalise = 1;
 			String name = "";
 			lastname = "";
+			groups.add(new ArrayList<String>());
+			groups.get(current).add(className + " - " + groupConstantes);
+			groups.add(new ArrayList<String>());
+			groups.get(current+1).add(className + " - " + groupVarFunctions);
+			boolean firstInClass=false;
+
 			while ((line = br.readLine()) != null) {
 				isDefine = false;
 				line = prepareLine(line);
@@ -392,7 +388,7 @@ public class LibraryLoader {
 					if (line.split(" ").length == 3)
 						externObjectGenius.put(line.split(" ")[1], line.split(" ")[2].replaceAll(";", ""));
 					isClass = false;
-				} else if (line.startsWith("#define")) {
+				} else if (line.startsWith("#define") && !className.toLowerCase().replace(".", "_").equals(line.split(" ")[1].toLowerCase())) {
 					if (line.contains("("))
 						line = line.substring(0, line.indexOf("("));
 					if (line.split(" ").length == 3) {
@@ -400,20 +396,11 @@ public class LibraryLoader {
 						String type = "number";
 						name = line.split(" ")[1];
 						isDefine = true;
-						if (current == -1) {
-							current++;
-							groups.add(new ArrayList<String>());
-
-							groups.get(current).add(className + " - " + groupConstantes);
-
-						}
+						
 						contenuFichier.append(createBlockGenus("variable", name, name, "data", type, null, false,
 								idLine == currentIdBalise + 1 ? description : "variable de l'objet " + name,
 								idLine == currentIdBalise + 1 ? imagePath : ""));
-						if (groups.get(current).get(0).equals(className + " - " + groupVarFunctions))
-							groups.get(current - 1).add("<BlockGenusMember>" + name + "</BlockGenusMember>\n");
-						else
-							groups.get(current).add("<BlockGenusMember>" + name + "</BlockGenusMember>\n");
+						groups.get(current).add("<BlockGenusMember>" + name + "</BlockGenusMember>\n");
 
 					}
 
@@ -442,18 +429,23 @@ public class LibraryLoader {
 					// do nothing
 				} else if (line.startsWith("class ")) {
 					hasContructor = false;
+					firstConstructor=true;
+					
 					className = line.split(" ")[1].trim();
 					// if (isClass) {
-					current++;
-					groups.add(new ArrayList<String>());
-					groups.get(current).add(className + " - " + groupVarFunctions);
-
+					if (firstInClass)
+						{
+							current+=2;
+							groups.add(new ArrayList<String>());
+							groups.get(current).add(className + " - " + groupConstantes);
+							groups.add(new ArrayList<String>());
+							groups.get(current+1).add(className + " - " + groupVarFunctions);
+						}
+					firstInClass=true;
+					
 					// }
 
-					contenuFichier.append(createBlockGenus("instanceClasse", className, className.toLowerCase(), "data",
-							"poly", null, false, true,
-							idLine == currentIdBalise + 1 ? ("objet de type " + className) : "", ""));
-					groups.get(current).add("<BlockGenusMember>" + className + "</BlockGenusMember>\n");
+					
 
 					isClass = true;
 
@@ -463,7 +455,7 @@ public class LibraryLoader {
 				} else if (line.startsWith("public:")) {
 					isInPublic = true;
 
-				} else if (line.startsWith("//@")) {
+				} else if (line.startsWith("//@") && isInPublic) {
 					///////////////////////////////////////////////
 					// description du bloc
 					///////////////////////////////////////////////
@@ -483,9 +475,12 @@ public class LibraryLoader {
 						}
 
 					} else {
-						current++;
+						current+=2;
 						groups.add(new ArrayList<String>());
-						groups.get(current).add(className + " - " + line.replaceAll("//@", ""));
+						groups.get(current).add(className + " - empty"+current);
+						groups.add(new ArrayList<String>());
+						groups.get(current+1).add(className + " - " + line.replaceAll("//@", ""));
+
 					}
 				} else if (line.startsWith("//")) {
 					// do nothing
@@ -502,14 +497,15 @@ public class LibraryLoader {
 					else
 						name = line.replace(";", "").replace(type, "").trim();
 
-					if (current == -1 || !groups.get(current).get(0).equals(className + " - " + groupVarFunctions)) {
-						current++;
-						groups.add(new ArrayList<String>());
-						groups.get(current).add(className + " - " + groupVarFunctions);
-					}
+					
+					
 					contenuFichier.append(createBlockGenus("variable", name, name, "data", type, null, false,
 							idLine == currentIdBalise + 1 ? description : "variable de type " + name,
 							idLine == currentIdBalise + 1 ? imagePath : ""));
+					
+					groups.get(current+1).add("<BlockGenusMember>" + name + "</BlockGenusMember>\n");
+					
+					
 				} else if (line.contains("(") && isInPublic) {
 					if (!line.substring(0, line.indexOf('(')).contains(" ")) {
 						///////////////////////////////////////////////
@@ -527,13 +523,24 @@ public class LibraryLoader {
 
 						typesInput.add(name);
 						typesInput.addAll(getTypes(line));
+						
+						
 						contenuFichier.append(createBlockGenus("constructeur", nametemp + "()", name + "()", "command",
 								null, typesInput, true, idLine == currentIdBalise + 1 ? description : "",
 								idLine == currentIdBalise + 1 ? imagePath : ""));
-						groups.get(current)
+						groups.get(current+1)
 								.add("<BlockGenusMember>" + "nouveau " + nametemp + "()" + "</BlockGenusMember>\n");
 
-					} else if (line.startsWith("void") && isInPublic) {
+						if (firstConstructor) {
+						contenuFichier.append(createBlockGenus("instanceClasse", name, name.toLowerCase(), "data",
+								"poly", null, false, true,
+								idLine == currentIdBalise + 1 ? ("objet de type " + name) : "", ""));
+						groups.get(current+1).add("<BlockGenusMember>" + name + "</BlockGenusMember>\n");
+						
+						}
+						firstConstructor=false;
+						
+						} else if (line.startsWith("void") && isInPublic) {
 						///////////////////////////////////////////////
 						// is command (return void function)
 						///////////////////////////////////////////////
@@ -548,15 +555,12 @@ public class LibraryLoader {
 						line = line.replace("void", "");
 						line = line.trim();
 						ArrayList<String> typesInput = getTypes(line);
+						
 						contenuFichier.append(createBlockGenus("method", nametemp, name, "command", null, typesInput,
 								false, idLine == currentIdBalise + 1 ? description : name,
 								idLine == currentIdBalise + 1 ? imagePath : ""));
-						if (groups.get(current).get(0).equals(className + " - " + groupConstantes)) {
-							current++;
-							groups.add(new ArrayList<String>());
-							groups.get(current).add(className + " - " + groupVarFunctions);
-						}
-						groups.get(current).add("<BlockGenusMember>" + nametemp + "</BlockGenusMember>\n");
+						
+						groups.get(current+1).add("<BlockGenusMember>" + nametemp + "</BlockGenusMember>\n");
 
 					} else if (isInPublic) { // aliasGeniusTypeMap.get(line.split(" ")[0]) != null &&
 						String type = connectorMap.get(aliasGeniusTypeMap.get(line.substring(0, line.indexOf(" "))));
@@ -570,15 +574,11 @@ public class LibraryLoader {
 						System.out.println("line after !" + line);
 
 						ArrayList<String> typesInput = getTypes(line);
-						if (!groups.get(current).get(0).equals(className + " - " + groupVarFunctions)) {
-							current++;
-							groups.add(new ArrayList<String>());
-							groups.get(current).add(className + " - " + groupVarFunctions);
-						}
+						
 						contenuFichier.append(createBlockGenus("methodreturn", nametemp, name, "data", type, typesInput,
 								false, idLine == currentIdBalise + 1 ? description : name,
 								idLine == currentIdBalise + 1 ? imagePath : ""));
-						groups.get(current).add("<BlockGenusMember>" + nametemp + "</BlockGenusMember>\n");
+						groups.get(current+1).add("<BlockGenusMember>" + nametemp + "</BlockGenusMember>\n");
 
 					}
 				}
@@ -587,6 +587,7 @@ public class LibraryLoader {
 
 				// System.out.println("last :"+lastname +" name :"+name);
 				lastname = name;
+				idLine++;
 			}
 			br.close();
 
@@ -812,7 +813,7 @@ public class LibraryLoader {
 		int i = 0;
 		while (it.hasNext()) {
 			ArrayList<String> liste = (ArrayList<String>) it.next();
-			if (liste != null) {
+			if (liste != null && liste.size()>1) {
 				// System.out.println(groups.get(i).get(0).toLowerCase().charAt(0));
 
 				String couleur = (((int) (liste.get(0).charAt(0))) % 256) + " "
@@ -820,6 +821,7 @@ public class LibraryLoader {
 						+ (((int) (liste.get(0).charAt(0)) * 10 + 127) % 256);
 				// System.out.println("couleur :"+couleur);
 				i++;
+				
 				contenuFichier.append("<BlockDrawer button-color=\"" + couleur + "\" name=\"" + liste.get(0) + "\">");
 				contenuFichier.append("\n");
 				Iterator<String> it2 = liste.iterator();

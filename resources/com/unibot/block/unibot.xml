@@ -693,10 +693,11 @@
 			</BlockConnectors>
 		</BlockGenus>
 		<BlockGenus name="repeat_delay" kind="command" color="230 255 0"
-			initlabel="bg.repeat_delay">
+			initlabel="bg.repeat_delay" >
 			<description>
 				<text>repeter plusieurs fois pendant un temps donné</text>
 			</description>
+			
 			<BlockConnectors>
 				<BlockConnector connector-type="number"
 					connector-kind="socket" label="bc.delay">
@@ -707,7 +708,7 @@
 		</BlockGenus>
 		<BlockGenus name="subroutine" kind="command" color="153 40 76"
 			initlabel="bg.subroutine" is-starter="yes" is-terminator="yes"
-			label-unique="no" editable-label="yes">
+			label-unique="no" editable-label="no">
 			<description>
 				<text>fonction</text>
 			</description>
