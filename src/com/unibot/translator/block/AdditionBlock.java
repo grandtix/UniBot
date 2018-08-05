@@ -13,13 +13,13 @@ public class AdditionBlock extends TranslatorBlock
 
 	public String toCode() throws SocketNullException, SubroutineNotDeclaredException
 	{
-		String ret = "( ";
+		String ret = "(";
 		TranslatorBlock translatorBlock = this.getRequiredTranslatorBlockAtSocket(0);
 		ret = ret + translatorBlock.toCode();
-		ret = ret + " + ";
+		ret = ret + "+";
 		translatorBlock = this.getRequiredTranslatorBlockAtSocket(1);
 		ret = ret + translatorBlock.toCode();
-		ret = ret + " )";
+		ret = ret + ")";
 		return codePrefix + ret + codeSuffix;
 	}
 

@@ -26,7 +26,7 @@ public class CustomConstructorBlock extends TranslatorBlock {
 			//e1.printStackTrace();
 		}
 
-		String label = translator.getBlock(blockId).getGenusName();
+		String label = translator.getBlock(blockId).getInitialLabel();
 		String nomclass = label.substring(0, label.indexOf('(')).replaceAll("nouveau ", "");
 
 		if (!this.getTranslator().isFromArduino()) { // processing
@@ -53,7 +53,7 @@ public class CustomConstructorBlock extends TranslatorBlock {
 			}
 			if (stb.length() > 0)
 				t += "(" + stb + ")";
-			t += ";";
+			t += ";\n";
 
 			translator.addHeaderFile("#include<" + nomclass + ".h>\n");
 	//		translator.addHeaderFile(new HeaderIncludeGetter().getIncludes(getComment()));

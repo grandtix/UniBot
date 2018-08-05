@@ -401,7 +401,9 @@ public class FactoryManager implements WorkspaceWidget, ComponentListener, Works
             this.staticCanvases.add(position, canvas);
             this.navigator.setCanvas(staticCanvases, STATIC_NAME);
         } else {
-            this.printError("Invalid Drawer: trying to add a drawer that already exists: " + name);
+        	//todo fix tix libraryloader
+
+           // this.printError("Invalid Drawer: trying to add a drawer that already exists: " + name);
         }
     }
 
@@ -454,7 +456,8 @@ public class FactoryManager implements WorkspaceWidget, ComponentListener, Works
             this.dynamicCanvases.add(position, canvas);
             this.navigator.setCanvas(dynamicCanvases, DYNAMIC_NAME);
         } else {
-            this.printError("Invalid Drawer: trying to add a drawer that already exists: " + name);
+        	//todo fix tix libraryloader
+          //  this.printError("Invalid Drawer: trying to add a drawer that already exists: " + name);
         }
     }
 

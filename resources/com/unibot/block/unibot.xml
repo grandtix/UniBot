@@ -430,8 +430,21 @@
 					position-type="mirror" />
 			</BlockConnectors>
 		</BlockGenus>
-		<BlockGenus name="variable_digital" kind="data"
+<!--  		<BlockGenus name="variable_digital" kind="data"
 			initlabel="bg.variable_digital" editable-label="yes" is-label-value="yes"
+			color="0 71 255">
+			<description>
+				<text>
+					variable de type booleen
+				</text>
+			</description>
+			<BlockConnectors>
+				<BlockConnector connector-type="boolean"
+					connector-kind="plug" position-type="mirror" />
+			</BlockConnectors>
+		</BlockGenus>
+-->		<BlockGenus name="boolean" kind="data"
+			initlabel="bg.variable_boolean" editable-label="yes" is-label-value="yes"
 			color="0 71 255">
 			<description>
 				<text>
@@ -451,7 +464,7 @@
 			<BlockConnectors>
 				<BlockConnector connector-type="boolean"
 					connector-kind="socket" label="bc.type_boolean">
-					<DefaultArg genus-name="variable_digital" label="mybool" />
+					<DefaultArg genus-name="boolean" label="mybool" />
 				</BlockConnector>
 				<BlockConnector connector-type="boolean"
 					connector-kind="socket" label="bc.value">
@@ -467,7 +480,7 @@
 			<BlockConnectors>
 				<BlockConnector connector-type="boolean"
 					connector-kind="socket" position-type="bottom">
-					<DefaultArg genus-name="variable_digital" label="bg.variable_digital" />
+					<DefaultArg genus-name="boolean" label="bc.type_boolean" />
 				</BlockConnector>
 				<BlockConnector connector-type="boolean"
 					connector-kind="socket" position-type="single">
@@ -609,7 +622,87 @@
 		</BlockGenus>
 
 
+		<BlockGenus name="callBoReturnNumber" kind="command" color="222 37 41"
+			initlabel="">
+			<description>
+				<text>permet d'appeler une fonction sans stocker son resultat</text>
+			</description>
+			<BlockConnectors>
+				<BlockConnector connector-type="number"
+					connector-kind="socket" label="bc.function">
+					
+				</BlockConnector>
+			</BlockConnectors>
+			
+		</BlockGenus>
+	<BlockGenus name="callBoReturnBoolean" kind="command" color="222 37 41"
+			initlabel="">
+			<description>
+				<text>permet d'appeler une fonction sans stocker son resultat</text>
+			</description>
+			<BlockConnectors>
+				<BlockConnector connector-type="boolean"
+					connector-kind="socket" label="bc.function">
+					
+				</BlockConnector>
+			</BlockConnectors>
+			
+		</BlockGenus>
+		<BlockGenus name="callBoReturnByte" kind="command" color="222 37 41"
+			initlabel="">
+			<description>
+				<text>permet d'appeler une fonction sans stocker son resultat</text>
+			</description>
+			<BlockConnectors>
+				<BlockConnector connector-type="boolean-list"
+					connector-kind="socket" label="bc.function">
+					
+				</BlockConnector>
+			</BlockConnectors>
+			
+		</BlockGenus>
 
+	<BlockGenus name="callBoReturnString" kind="command" color="222 37 41"
+			initlabel="">
+			<description>
+				<text>permet d'appeler une fonction sans stocker son resultat</text>
+			</description>
+			<BlockConnectors>
+				<BlockConnector connector-type="string"
+					connector-kind="socket" label="bc.function">
+					
+				</BlockConnector>
+			</BlockConnectors>
+			
+		</BlockGenus>
+
+<BlockGenus name="callBoReturnChar" kind="command" color="222 37 41"
+			initlabel="">
+			<description>
+				<text>permet d'appeler une fonction sans stocker son resultat</text>
+			</description>
+			<BlockConnectors>
+				<BlockConnector connector-type="string-list"
+					connector-kind="socket" label="bc.function">
+					
+				</BlockConnector>
+			</BlockConnectors>
+			
+		</BlockGenus>
+
+<BlockGenus name="callBoReturnOthers" kind="command" color="222 37 41"
+			initlabel="">
+			<description>
+				<text>permet d'appeler une fonction sans stocker son resultat</text>
+			</description>
+			<BlockConnectors>
+				<BlockConnector connector-type="poly"
+					connector-kind="socket" label="bc.function">
+					
+				</BlockConnector>
+			</BlockConnectors>
+			
+		</BlockGenus>
 
 		<BlockGenus name="if" kind="command" initlabel="bg.if"
 			color="230 255 0">
@@ -1512,6 +1605,13 @@
 				<BlockGenusMember>loop</BlockGenusMember>
 				<BlockGenusMember>subroutine</BlockGenusMember>
 				<BlockGenusMember>subroutine-ref</BlockGenusMember>
+				<BlockGenusMember>callBoReturnNumber</BlockGenusMember>
+				<BlockGenusMember>callBoReturnBoolean</BlockGenusMember>
+				<BlockGenusMember>callBoReturnByte</BlockGenusMember>
+				<BlockGenusMember>callBoReturnString</BlockGenusMember>
+				<BlockGenusMember>callBoReturnChar</BlockGenusMember>
+				<BlockGenusMember>callBoReturnOthers</BlockGenusMember>
+				
 			</BlockDrawer>
 			<BlockDrawer button-color="153 102 204" name="bd.variables">
 				<BlockGenusMember>declare_variable_digital</BlockGenusMember>
@@ -1531,7 +1631,7 @@
 				<BlockGenusMember>setter_variable_object</BlockGenusMember>
 
 				<BlockGenusMember>variable_number</BlockGenusMember>
-				<BlockGenusMember>variable_digital</BlockGenusMember>
+				<BlockGenusMember>boolean</BlockGenusMember>
 				<BlockGenusMember>variable_string</BlockGenusMember>
 				<BlockGenusMember>variable_char</BlockGenusMember>
 				<BlockGenusMember>variable_byte</BlockGenusMember>

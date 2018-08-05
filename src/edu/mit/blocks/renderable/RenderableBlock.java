@@ -1711,8 +1711,7 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 				// TODO: djwendel - this is a patch, but the root of the problem
 				// needs to be found and fixed!!
 				if (rb == null) {
-					System.out.println("Block doesn't exist yet: "
-							+ b.getGenusName()+" "+b.getInitialLabel());
+//					System.out.println("Block doesn't exist yet: "+ b.getGenusName()+" "+b.getInitialLabel());
 					continue;
 				}
 
@@ -1925,7 +1924,17 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 		}
 		workspace.getMiniMap().repaint();
 		OpenblocksFrame tt=((OpenblocksFrame) SwingUtilities.getWindowAncestor(this));
-		tt.genererCode(workspace, Context.getContext(), tt, ResourceBundle.getBundle("com/unibot/block/unibot"), false);;
+		try {
+			tt.genererCode(
+					workspace,
+					Context.getContext(),
+					tt,
+					ResourceBundle.getBundle("com/unibot/block/unibot"),
+					false);;
+		} catch (Exception e1) {
+			// TODO fix tix
+			//rien a generer
+		}
 
 
 	}

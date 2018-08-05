@@ -36,7 +36,7 @@ public class TranslatorBlockFactory
 		try
 		{
 			Class<?> blockClass = Class.forName(className);
-			//System.out.println("piopio-->"+blockClass.toString()+"-"+className);
+	//		System.out.println("piopio-->"+blockClass.toString()+"-"+className);
 			if (className.equals("com.unibot.translator.block.CustomConstructorBlock"))
 			{	
 				Constructor<?> constructor = blockClass.getConstructor(Long.class, Translator.class, String.class, String.class, String.class, String.class);
@@ -97,7 +97,7 @@ public class TranslatorBlockFactory
 		
 		try
 		{
-			//System.out.println("class name "+className+ " "+blockName);
+	//		System.out.println("class name "+className+ " "+blockName + " "+label);
 			
 
 	//		System.out.println("2--> -"+className+"-"+blockName);
