@@ -245,6 +245,7 @@ public class BlockLabel implements MouseListener, MouseMotionListener, KeyListen
                 && workspace.getEnv().getBlock(blockID).isLabelEditable()) {
             if (this.labelType.equals(BlockLabel.Type.NAME_LABEL)) {
                 workspace.getEnv().getBlock(blockID).setBlockLabel(text);
+               
             }
             BlockConnector plug = workspace.getEnv().getBlock(blockID).getPlug();
             // Check if we're connected to a block. If we are and the the block we're connected to
@@ -264,9 +265,12 @@ public class BlockLabel implements MouseListener, MouseMotionListener, KeyListen
             RenderableBlock rb = workspace.getEnv().getRenderableBlock(blockID);
             if (rb != null) {
                 workspace.notifyListeners(new WorkspaceEvent(workspace, rb.getParentWidget(), blockID, WorkspaceEvent.BLOCK_RENAMED));
+              
+            	
             }
             
-        }
+        
+      }
     }
 
     protected void genusChanged(String genus) {
@@ -276,6 +280,7 @@ public class BlockLabel implements MouseListener, MouseMotionListener, KeyListen
             RenderableBlock rb = workspace.getEnv().getRenderableBlock(blockID);
             rb.repaintBlock();
             workspace.notifyListeners(new WorkspaceEvent(workspace, rb.getParentWidget(), blockID, WorkspaceEvent.BLOCK_GENUS_CHANGED));
+
         }
     }
 
@@ -341,16 +346,36 @@ public class BlockLabel implements MouseListener, MouseMotionListener, KeyListen
     public void keyPressed(KeyEvent e) {
         switch (e.getKeyCode()) {
             case KeyEvent.VK_ESCAPE:
+                System.out.println("escape");
                 workspace.getEnv().getRenderableBlock(blockID).requestFocus();
                 return;
             case KeyEvent.VK_ENTER:
-                workspace.getEnv().getRenderableBlock(blockID).requestFocus();
+            	System.out.println("enter");
+            	 workspace.getEnv().getRenderableBlock(blockID).processKeyPressed(e);
+            	 
+            	 OpenblocksFrame tt=((OpenblocksFrame) SwingUtilities.getWindowAncestor(workspace.getEnv().getRenderableBlock(blockID)));
+         		try {
+         			tt.genererCode(
+         					workspace,
+         					Context.getContext(),
+         					tt,
+         					ResourceBundle.getBundle("com/unibot/block/unibot"),
+         					false);;
+         		} catch (Exception e1) {
+         			// TODO fix tix
+         			//rien a generer
+         		}	
+                workspace.getEnv().getRenderableBlock(blockID).requestFocus2();
               
                 return;
             case KeyEvent.VK_TAB:
+            	System.out.println("tab");
+                
                 workspace.getEnv().getRenderableBlock(blockID).processKeyPressed(e);
                 return;
         }
+        System.out.println(e.getKeyCode());
+        
         if (workspace.getEnv().getBlock(this.blockID).getGenusName().equals("number")) {
             if (e.getKeyChar() == '-' && widget.canProcessNegativeSign()) {
                 return;
@@ -367,6 +392,8 @@ public class BlockLabel implements MouseListener, MouseMotionListener, KeyListen
 
     @Override
     public void keyReleased(KeyEvent e) {
+    	System.out.println("yesss");
+    
     }
 
     @Override

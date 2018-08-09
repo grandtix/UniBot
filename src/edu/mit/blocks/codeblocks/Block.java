@@ -6,14 +6,20 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.ResourceBundle;
 import java.util.Map.Entry;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import javax.swing.SwingUtilities;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+
+import com.unibot.core.Context;
+import com.unibot.ui.OpenblocksFrame;
 
 import edu.mit.blocks.codeblocks.BlockConnector.PositionType;
 import edu.mit.blocks.renderable.BlockImageIcon;
@@ -263,6 +269,7 @@ public class Block implements ISupportMemento {
             BlockStub.parentNameChanged(workspace, this.label, newLabel, this.blockID);
         }
         label = newLabel;
+      
     }
 
     /**

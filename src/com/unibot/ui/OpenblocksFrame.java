@@ -81,6 +81,8 @@ import edu.mit.blocks.codeblocks.BlockGenus;
 import edu.mit.blocks.controller.WorkspaceController;
 import edu.mit.blocks.renderable.RenderableBlock;
 import edu.mit.blocks.workspace.PageDrawerLoadingUtils;
+import edu.mit.blocks.workspace.SearchBar;
+import edu.mit.blocks.workspace.SearchableContainer;
 import edu.mit.blocks.workspace.Workspace;
 
 import java.awt.event.ActionListener;
@@ -107,6 +109,8 @@ public class OpenblocksFrame extends JFrame {
 	private RSyntaxTextArea code;
 
 	public File savedFile;
+
+	private Workspace workspace;
 
 	// JTextArea code;
 
@@ -183,7 +187,7 @@ public class OpenblocksFrame extends JFrame {
 			code.setSyntaxEditingStyle(RSyntaxDocument.SYNTAX_STYLE_CPLUSPLUS);
 		}
 
-		Workspace workspace = context.getWorkspace();
+		workspace = context.getWorkspace();
 
 		// WTF I can't add worksapcelistener by workspace contrller
 		workspace.addWorkspaceListener(new UniBotWorkspaceListener(this));
@@ -281,15 +285,28 @@ public class OpenblocksFrame extends JFrame {
 		split.setResizeWeight(0.7);
 		split.setOneTouchExpandable(true);
 		split.setContinuousLayout(true);
-
+/*
+        final SearchBar sb = new SearchBar("Search blocks",
+                "Search for blocks in the drawers and workspace", workspace);
+        for (final SearchableContainer con : getAllSearchableContainers()) {
+            sb.addSearchableContainer(con);
+        }
+        final JPanel topPane = new JPanel();
+        sb.getComponent().setPreferredSize(new Dimension(130, 23));
+        topPane.add(sb.getComponent());
+	*/	
 		un.add(workspace);
 		deux.add(code == null ? new RSyntaxTextArea() : code);
 		getContentPane().add(buttons, BorderLayout.NORTH);
 		getContentPane().add(split, BorderLayout.CENTER);
+	//	getContentPane().add(topPane, BorderLayout.SOUTH);
 		pack();
 
 	}
-
+	  public Iterable<SearchableContainer> getAllSearchableContainers() {
+	        return workspace.getAllSearchableContainers();
+	    }
+	  
 	public void loadLibs() {
 		BufferedReader br;
 		try {

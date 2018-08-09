@@ -530,7 +530,7 @@
 
 		<BlockGenus name="declareData" kind="command" color="235 97 61"
 			initlabel="bg.declareData" is-starter="yes" is-terminator="yes"
-			label-unique="yes" editable-label="yes">
+			label-unique="yes" editable-label="no">
 			<description>
 				<text>declaration des données</text>
 			</description>
@@ -540,7 +540,7 @@
 		</BlockGenus>
 		<BlockGenus name="setupData" kind="command" color="235 57 61"
 			initlabel="bg.setupData" is-starter="yes" is-terminator="yes"
-			label-unique="yes" editable-label="yes">
+			label-unique="yes" editable-label="no">
 			<description>
 				<text>initialisation des données</text>
 			</description>
@@ -550,7 +550,7 @@
 		</BlockGenus>
 		<BlockGenus name="loop" kind="command" color="255 51 102"
 			initlabel="bg.loop" is-starter="yes" is-terminator="yes"
-			label-unique="yes">
+			label-unique="yes" editable-label="no">
 			<description>
 				<text>boucle principale arduino loop()</text>
 			</description>

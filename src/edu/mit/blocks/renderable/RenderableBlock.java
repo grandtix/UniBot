@@ -72,6 +72,18 @@ import edu.mit.blocks.workspace.WorkspaceWidget;
 public class RenderableBlock extends JComponent implements SearchableElement,
 		MouseListener, MouseMotionListener, ISupportMemento, CommentSource {
 
+	@Override
+	public boolean requestFocus(boolean temporary) {
+		// TODO Auto-generated method stub
+		return super.requestFocus(temporary);
+	}
+
+	public void requestFocus2() {
+		// TODO Auto-generated method stub
+		super.requestFocus(false);
+		
+	}
+
 	private static final long serialVersionUID = 1L;
 	// The following may be null: parent, lastdragwidget, comment
 
@@ -1349,6 +1361,7 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 			}
 			label.update(getSocketAbstractPoint(socket));
 		}
+		
 	}
 
 	/**
@@ -1850,6 +1863,8 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 	 */
 	public void processMouseEvent(MouseEvent e) {
 		super.processMouseEvent(e);
+		
+       
 	}
 
 	public void mouseReleased(MouseEvent e) {
@@ -2023,6 +2038,7 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 				&& !blockArea.contains(e.getPoint())) {
 			blockLabel.showMenuIcon(false);
 		}
+		
 	}
 
 	public void mouseMoved(MouseEvent e) {
@@ -2037,6 +2053,7 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 						WorkspaceEvent.BLOCK_STACK_COMPILED));
 			}
 		}
+		
 	}
 
 	public void mousePressed(MouseEvent e) {
@@ -2378,7 +2395,6 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 		for (KeyListener l : this.getKeyListeners()) {
 			l.keyPressed(e);
 		}
-		 System.out.println("key typed heeeeeeere");
 	}
 
 	// ///////////////
@@ -2405,6 +2421,18 @@ public class RenderableBlock extends JComponent implements SearchableElement,
 		case KeyEvent.VK_RIGHT:
 			return false;
 		case KeyEvent.VK_ENTER:
+			OpenblocksFrame tt=((OpenblocksFrame) SwingUtilities.getWindowAncestor(this));
+			try {
+				tt.genererCode(
+						workspace,
+						Context.getContext(),
+						tt,
+						ResourceBundle.getBundle("com/unibot/block/unibot"),
+						false);;
+			} catch (Exception e1) {
+				// TODO fix tix
+				//rien a generer
+			}
 			return false;
 		default:
 			return super.processKeyBinding(ks, e, condition, pressed);

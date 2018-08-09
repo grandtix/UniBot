@@ -110,7 +110,7 @@ public class MiniMap extends JPanel implements WorkspaceWidget, MouseListener, M
         this.setPreferredSize(new Dimension(MAPHEIGHT, MAPHEIGHT));
         this.setLayout(null);
         this.setOpaque(false);
-        this.setFont(new Font("Ariel", Font.PLAIN, 9));
+        this.setFont(new Font("Arial", Font.PLAIN, 9));
         this.addMouseListener(this);
         this.addMouseMotionListener(this);
         this.enlarger = new MiniMapEnlargerTimer();

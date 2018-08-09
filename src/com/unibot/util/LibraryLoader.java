@@ -443,6 +443,8 @@ public class LibraryLoader {
 						line += br.readLine();
 
 					// do nothing
+				} else if (line.startsWith("typedef")) {
+					// do nothing
 				} else if (line.startsWith("class ")) {
 
 					if (!line.contains("{"))
