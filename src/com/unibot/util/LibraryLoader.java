@@ -16,6 +16,8 @@ import java.util.Properties;
 
 import org.jfree.util.StringUtils;
 
+import com.unibot.ui.OpenblocksFrame;
+
 /*
 
  <BlockGenus name="setter_variable_string" kind="command"
@@ -136,7 +138,8 @@ public class LibraryLoader {
 
 	private ArrayList<Boolean> useNoInstance = new ArrayList<Boolean>();
 
-	private ArrayList<String> listNames;
+	private OpenblocksFrame parent;
+
 
 	ArrayList<String> getTypes(String text) {
 		ArrayList<String> liste = new ArrayList<String>();
@@ -342,7 +345,7 @@ public class LibraryLoader {
 		contenuFichier.append("\n");
 		int countContainers = 0;
 		int curentCountC = -1;
-		listNames = new ArrayList<String>();
+		
 		BufferedReader br;
 		try {
 			br = new BufferedReader(new FileReader(file));
@@ -536,7 +539,7 @@ public class LibraryLoader {
 						int i = 0;
 						name = line.substring(0, line.indexOf('('));
 						String nametemp = findDoublon(name);
-						listNames.add(nametemp);
+						parent.listNames.add(nametemp);
 						ArrayList<String> typesInput = new ArrayList<String>();
 						// prepare string to parse args
 						line = cleanArgs(line);
@@ -573,7 +576,7 @@ public class LibraryLoader {
 
 						name = line.substring(0, line.indexOf('(')).replaceFirst("void ", "").trim();
 						String nametemp = findDoublon(name);
-						listNames.add(nametemp);
+						parent.listNames.add(nametemp);
 						line = cleanArgs(line);
 
 						line = line.replace("void", "");
@@ -598,7 +601,7 @@ public class LibraryLoader {
 
 						name = (line.split(" ")[1]).split("\\(")[0];
 						String nametemp = findDoublon(name);
-						listNames.add(nametemp);
+						parent.listNames.add(nametemp);
 						line = cleanArgs(line);
 	//					//System.out.println("line after !" + line);
 
@@ -666,7 +669,7 @@ public class LibraryLoader {
 	private String findDoublon(String name) {
 		// TODO Auto-generated method stub
 		boolean ok = true;
-		for (String str : listNames) {
+		for (String str : parent.listNames) {
 			if (str.trim().equals(name)) {
 				ok = false;
 			}
@@ -675,7 +678,7 @@ public class LibraryLoader {
 		int i = 0;
 		while (!ok) {
 			ok = true;
-			for (String str : listNames) {
+			for (String str : parent.listNames) {
 				if (str.trim().equals(nametemp)) {
 					ok = false;
 				}
@@ -774,9 +777,9 @@ public class LibraryLoader {
 		return new ByteArrayInputStream(bytes);
 	}
 
-	public LibraryLoader() {
+	public LibraryLoader(OpenblocksFrame _parent) {
 		// TODO Auto-generated constructor stub
-
+this.parent=_parent;
 	}
 
 }

@@ -36,6 +36,7 @@ public class Main
 		openblocksFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		openblocksFrame.setVisible(true);	
 			openblocksFrame.loadLibs();
+		//	openblocksFrame.loadFile();
 			context.setInArduino(true);
 	}
 	

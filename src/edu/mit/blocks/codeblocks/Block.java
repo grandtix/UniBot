@@ -1411,7 +1411,7 @@ public class Block implements ISupportMemento {
 
         if (node.getNodeName().equals("Block")) {
             //load attributes
-        	System.out.println("in load attributes :"+node.getAttributes().toString());
+        //	System.out.println("in load attributes :"+node.getAttributes().toString());
             nameMatcher = attrExtractor.matcher(node.getAttributes().getNamedItem("id").toString());
             if (nameMatcher.find()) {
                 id = translateLong(workspace, Long.parseLong(nameMatcher.group(1)), idMapping);

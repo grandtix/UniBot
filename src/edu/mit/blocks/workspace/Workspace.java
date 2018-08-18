@@ -433,6 +433,16 @@ public class Workspace extends JLayeredPane implements ISupportMemento, RBParent
         return blocks;
     }
 
+    public RenderableBlock getRenderableBlocksFromGenusID(long genusid) {
+        //TODO: performance issue, must iterate through all blocks
+        ArrayList<RenderableBlock> blocks = new ArrayList<RenderableBlock>();
+        for (RenderableBlock block : getRenderableBlocks()) {
+            if (getEnv().getBlock(block.getBlockID()).equals(genusid)) {
+                return block;
+            }
+        }
+        return null;
+    }
     /**
      * Returns all the Blocks of the specified genus.
      * Include all live blocks on all pages.  Does NOT include:

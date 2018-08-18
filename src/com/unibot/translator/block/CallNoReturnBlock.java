@@ -17,9 +17,10 @@ public class CallNoReturnBlock extends TranslatorBlock
 		
 		TranslatorBlock tb = this.getRequiredTranslatorBlockAtSocket(0);
 		String ret ="";
-
+if (tb!=null)
 		ret = tb.toCode()+";\n";
-		return ret;
+
+return ret;
 		}
 
 }

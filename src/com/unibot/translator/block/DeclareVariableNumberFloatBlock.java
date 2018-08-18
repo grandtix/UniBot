@@ -16,18 +16,18 @@ public class DeclareVariableNumberFloatBlock extends TranslatorBlock
 	{
 		
 		TranslatorBlock tb = this.getRequiredTranslatorBlockAtSocket(0);
-		String nom=tb.toCode();
-		
+		String ret = "float ";
+		if (!(tb instanceof VariableBlock)) {
+			ret += " = ";
+			// throw new BlockException(blockId, "digital var must be digital var");
+		} else
+			ret += tb.toCode();
 
-		if (!(tb instanceof VariableBlock))
-		{
-			throw new BlockException(blockId, "float var must be float var");
-		}
-
-		String ret ="";
 		tb = this.getRequiredTranslatorBlockAtSocket(1);
-		ret ="float "+ nom + " = " + tb.toCode() + " ;\n";
-		
+		if (tb != null)
+			ret += "="+tb.toCode() + " ;\n";
+		else
+			ret += ";\n";
 		return ret;
 	}
 

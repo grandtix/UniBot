@@ -2,6 +2,7 @@ package com.unibot.ui;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.TextArea;
@@ -14,6 +15,7 @@ import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -77,6 +79,7 @@ import com.unibot.ui.listener.UniBotWorkspaceListener;
 import com.unibot.util.LibraryLoader;
 
 import edu.mit.blocks.codeblocks.Block;
+import edu.mit.blocks.codeblocks.BlockConnector;
 import edu.mit.blocks.codeblocks.BlockGenus;
 import edu.mit.blocks.controller.WorkspaceController;
 import edu.mit.blocks.renderable.RenderableBlock;
@@ -112,6 +115,11 @@ public class OpenblocksFrame extends JFrame {
 
 	private Workspace workspace;
 
+	private boolean codeHasErrors=false;
+
+	private HashMap<String, String> listeBlocksError=new HashMap<>();
+	public ArrayList<String> listNames;
+
 	// JTextArea code;
 
 	public String getPathConf() {
@@ -141,6 +149,7 @@ public class OpenblocksFrame extends JFrame {
 
 			}
 		});
+		listNames = new ArrayList<String>();
 		this.editor = editor;
 		saveFilePath = null;
 		saveFileName = "sans titre";
@@ -285,28 +294,27 @@ public class OpenblocksFrame extends JFrame {
 		split.setResizeWeight(0.7);
 		split.setOneTouchExpandable(true);
 		split.setContinuousLayout(true);
-/*
-        final SearchBar sb = new SearchBar("Search blocks",
-                "Search for blocks in the drawers and workspace", workspace);
-        for (final SearchableContainer con : getAllSearchableContainers()) {
-            sb.addSearchableContainer(con);
-        }
-        final JPanel topPane = new JPanel();
-        sb.getComponent().setPreferredSize(new Dimension(130, 23));
-        topPane.add(sb.getComponent());
-	*/	
+		/*
+		 * final SearchBar sb = new SearchBar("Search blocks",
+		 * "Search for blocks in the drawers and workspace", workspace); for (final
+		 * SearchableContainer con : getAllSearchableContainers()) {
+		 * sb.addSearchableContainer(con); } final JPanel topPane = new JPanel();
+		 * sb.getComponent().setPreferredSize(new Dimension(130, 23));
+		 * topPane.add(sb.getComponent());
+		 */
 		un.add(workspace);
 		deux.add(code == null ? new RSyntaxTextArea() : code);
 		getContentPane().add(buttons, BorderLayout.NORTH);
 		getContentPane().add(split, BorderLayout.CENTER);
-	//	getContentPane().add(topPane, BorderLayout.SOUTH);
+		// getContentPane().add(topPane, BorderLayout.SOUTH);
 		pack();
 
 	}
-	  public Iterable<SearchableContainer> getAllSearchableContainers() {
-	        return workspace.getAllSearchableContainers();
-	    }
-	  
+
+	public Iterable<SearchableContainer> getAllSearchableContainers() {
+		return workspace.getAllSearchableContainers();
+	}
+
 	public void loadLibs() {
 		BufferedReader br;
 		try {
@@ -394,7 +402,7 @@ public class OpenblocksFrame extends JFrame {
 		if (file != null) {
 			this.setTitle(makeFrameTitle());
 			editor.getCurrentTab().removeAll();
-			
+
 		}
 	}
 
@@ -494,14 +502,15 @@ public class OpenblocksFrame extends JFrame {
 			WorkspaceController workspaceController = context.getWorkspaceController();
 			String saveString = workspaceController.getSaveString();
 			//
-			System.out.println(editor.getSketch().getFile(0).getFile().getAbsolutePath() + " " + saveFilePath);
+			// System.out.println(editor.getSketch().getFile(0).getFile().getAbsolutePath()
+			// + " " + saveFilePath);
 			if (saveFilePath == null) {
-				System.out.println("nouvel enregistrement");
+				// System.out.println("nouvel enregistrement");
 				editor.handleSaveAs();
 
 			} else if (!editor.getSketch().getFile(0).getFile().getAbsolutePath()
 					.equals(saveFilePath.replace(".abp", ".ino")) || saveFilePath == null) {
-				System.out.println("autre fichier arduino OU 'save as'  ");
+				// System.out.println("autre fichier arduino OU 'save as' ");
 				editor.handleSaveAs();
 			} else
 				editor.handleSave(true);
@@ -525,8 +534,13 @@ public class OpenblocksFrame extends JFrame {
 
 	public void genererCode(Workspace workspace, Context context, JFrame parentFrame, ResourceBundle uiMessageBundle,
 			boolean toTeleverser) {
+
+		// context.highlightBlock(renderableBlock);
+
 		boolean success;
 		success = true;
+		codeHasErrors=false;
+		listeBlocksError.clear();
 		Translator translator = new Translator(workspace);
 		try {
 			translator.setSketchFolderName(editor.getName().replace("robot", "").replace(".pde", ""));
@@ -604,6 +618,7 @@ public class OpenblocksFrame extends JFrame {
 		 * uiMessageBundle.getString("unibot.translator.exception.title"),
 		 * JOptionPane.ERROR_MESSAGE); return; }
 		 */
+
 		try {
 
 			for (RenderableBlock renderableBlock : declareBlockSet) {
@@ -611,6 +626,13 @@ public class OpenblocksFrame extends JFrame {
 					code.append("/*\n code généré pour PROCESSING par UniBot!!! \n*/\n\n");
 
 				Block declareBlock = renderableBlock.getBlock();
+
+				// RenderableBlock
+				// tt=renderableBlocks.(declareBlock.getInitPlug().getBlockID());
+
+				BlockConnector tmp = declareBlock.getSocketAt(0);
+				checkConnectors(tmp, renderableBlocks, "global");
+
 				code.append("//declaration des variables\n");
 				code.append(translator.translate(declareBlock.getBlockID(), true));
 			}
@@ -618,6 +640,8 @@ public class OpenblocksFrame extends JFrame {
 			StringBuilder tmp = new StringBuilder();
 			for (RenderableBlock renderableBlock : loopBlockSet) {
 				Block loopBlock = renderableBlock.getBlock();
+				checkConnectors(loopBlock.getSocketAt(0), renderableBlocks, "loop");
+
 				if (!translator.isFromArduino()) {
 					// System.out.println();
 					// tmp.append("void draw()\n{\n");
@@ -629,6 +653,8 @@ public class OpenblocksFrame extends JFrame {
 			}
 			for (RenderableBlock renderableBlock : setupBlockSet) {
 				Block setBlock = renderableBlock.getBlock();
+				checkConnectors(setBlock.getSocketAt(0), renderableBlocks, "setup");
+
 				if (translator.isFromArduino()) {
 					code.append("//initialisation des données du programme\n");
 					code.append("void setup(){\n");
@@ -684,16 +710,21 @@ public class OpenblocksFrame extends JFrame {
 			success = false;
 			Long blockId = e2.getBlockId();
 			Iterable<RenderableBlock> blocks = workspace.getRenderableBlocks();
+			Block block2 = new Block(workspace, "");
 			for (RenderableBlock renderableBlock2 : blocks) {
-				Block block2 = renderableBlock2.getBlock();
+				block2 = renderableBlock2.getBlock();
 				if (block2.getBlockID().equals(blockId)) {
 					context.highlightBlock(renderableBlock2);
 					break;
 				}
 			}
-			JOptionPane.showMessageDialog(parentFrame,
-					uiMessageBundle.getString("unibot.translator.exception.subroutineNameDuplicated"),
-					uiMessageBundle.getString("unibot.translator.exception.title"), JOptionPane.ERROR_MESSAGE);
+			/*
+			 * JOptionPane.showMessageDialog(parentFrame, uiMessageBundle.getString(
+			 * "unibot.translator.exception.subroutineNameDuplicated"),
+			 * uiMessageBundle.getString("unibot.translator.exception.title"),
+			 * JOptionPane.ERROR_MESSAGE);
+			 */
+			System.err.println("il manque un bloc conncté à " + block2.getBlockLabel());
 		} catch (SubroutineNotDeclaredException e3) {
 			e3.printStackTrace();
 			success = false;
@@ -734,12 +765,79 @@ public class OpenblocksFrame extends JFrame {
 					// TODO Auto-generated catch block
 					System.out.println(code.toString());
 				}
-			if (toTeleverser) {
+			if (toTeleverser && !codeHasErrors) {
 				context.didGenerate(code.toString());
 
 			}
+			else if (codeHasErrors)
+				JOptionPane.showMessageDialog(parentFrame,
+						uiMessageBundle.getString("unibot.translator.exception.blockErrorCompile")+"\n"+getListeBlocksError(), "Error",
+						JOptionPane.WARNING_MESSAGE);
+		}
+		
+	}
+
+	private String getListeBlocksError() {
+		// TODO Auto-generated method stub
+		String ret="";
+		
+		if (listeBlocksError.get("global")!=null)
+			ret+="   Dans \"déclaration des variables\"    \n"+listeBlocksError.get("global")+"\n";
+		if (listeBlocksError.get("setup")!=null)
+			ret+="   Dans \"initialisation\"    \n"+listeBlocksError.get("setup")+"\n";
+		if (listeBlocksError.get("loop")!=null)
+			ret+="   Dans \"boucle principale\"   \n"+listeBlocksError.get("loop")+"\n";
+		
+		
+	return ret;
+	}
+
+	private void recursSockets(Block block, BlockConnector blockConnector, Iterable<RenderableBlock> renderableBlocks, String mainmethod) {
+		if (!blockConnector.hasBlock())
+			for (RenderableBlock renderableBlock2 : renderableBlocks) {
+				Block block2 = renderableBlock2.getBlock();
+				if (block.getBlockID().compareTo(block2.getBlockID()) == 0) {
+				context.highlightBlock(renderableBlock2);
+				codeHasErrors=true;
+				if (listeBlocksError.get(mainmethod)==null)
+				listeBlocksError.put(mainmethod, "          - Bloc '"+(block.getBlockLabel().length()>0?block.getBlockLabel():block.getGenusName())+"', connecteur : "+(blockConnector.getLabel().length()>0?blockConnector.getLabel():blockConnector.getKind()));
+				else
+					listeBlocksError.put(mainmethod, listeBlocksError.get(mainmethod)+"\n          - Bloc '"+(block.getBlockLabel().length()>0?block.getBlockLabel():block.getGenusName())+"', connecteur : "+(blockConnector.getLabel().length()>0?blockConnector.getLabel():blockConnector.getKind()));
+				}
+			}
+		else {
+			for (RenderableBlock renderableBlock3 : renderableBlocks) {
+				Block block3 = renderableBlock3.getBlock();
+				if (block3.getBlockID().compareTo(blockConnector.getBlockID()) == 0) {
+				//	System.out.println("recurs "+block3.getBlockLabel());
+					for (int i = 0; i < block3.getNumSockets(); i++)
+						recursSockets(block3, block3.getSocketAt(i), renderableBlocks, mainmethod);
+			}
+			}
 		}
 
+	}
+
+	private void checkConnectors(BlockConnector tmp, Iterable<RenderableBlock> renderableBlocks, String mainmethod) {
+		// TODO Auto-generated method stub
+		Block bb = null;
+		if (tmp != null)
+			while (tmp.hasBlock()) {
+				for (RenderableBlock renderableBlock2 : renderableBlocks) {
+					Block block2 = renderableBlock2.getBlock();
+			//		System.out.println("***" + block2.getBlockID() + "***" + tmp.getBlockID() + "***");
+					if (block2.getBlockID().compareTo(tmp.getBlockID()) == 0) {
+						bb = block2;
+		//				System.out.println("oueeeeee");
+						for (int i = 0; i < block2.getNumSockets(); i++) {
+							recursSockets(block2, block2.getSocketAt(i), renderableBlocks, mainmethod);
+
+						}
+					}
+				}
+
+				tmp = bb.getAfterConnector();
+			}
 	}
 
 	public void getFile(String path) {
@@ -755,10 +853,10 @@ public class OpenblocksFrame extends JFrame {
 			int result = fileChooser.showOpenDialog(this);
 			if (result == JFileChooser.APPROVE_OPTION) {
 				File savedFile = fileChooser.getSelectedFile();
-				stream = new LibraryLoader().toInputStream(savedFile.getAbsolutePath());
+				stream = new LibraryLoader(this).toInputStream(savedFile.getAbsolutePath());
 			}
 		} else
-			stream = new LibraryLoader().toInputStream(path);
+			stream = new LibraryLoader(this).toInputStream(path);
 
 		if (stream != null) {
 			final DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();

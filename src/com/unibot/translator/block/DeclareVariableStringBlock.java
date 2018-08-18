@@ -16,21 +16,19 @@ public class DeclareVariableStringBlock extends TranslatorBlock
 	{
 		
 		TranslatorBlock tb = this.getRequiredTranslatorBlockAtSocket(0);
-		if (!(tb instanceof VariableBlock))
-		{
-			throw new BlockException(blockId, "string var must be string var");
-		}
+		String ret = "String ";
+		if (!(tb instanceof VariableBlock)) {
+			ret += " = ";
+			// throw new BlockException(blockId, "digital var must be digital var");
+		} else
+			ret += tb.toCode();
 
-		String ret ="";
-		
-			ret ="String "+tb.toCode();
-			
-
-			
 		tb = this.getRequiredTranslatorBlockAtSocket(1);
-		ret =ret +" = " + tb.toCode() + " ;\n";
-		
+		if (tb != null)
+			ret += "="+tb.toCode() + " ;\n";
+		else
+			ret += ";\n";
 		return ret;
-		}
+	}
 
 }

@@ -15,7 +15,14 @@ public class CustomCommandBlock extends TranslatorBlock {
 	@Override
 	public String toCode() throws SocketNullException, SubroutineNotDeclaredException {
 
-		String stb0 = this.getRequiredTranslatorBlockAtSocket(0).toCode();
+		String stb0;
+		try {
+			stb0 = this.getRequiredTranslatorBlockAtSocket(0).toCode();
+		} catch (Exception e1) {
+			// TODO Auto-generated catch block
+			//e1.printStackTrace();
+			return "";
+		}
 		String stb = "";
 
 		try {

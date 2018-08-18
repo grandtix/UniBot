@@ -16,19 +16,20 @@ public class DeclareVariableNumberIntBlock extends TranslatorBlock
 	{
 		
 		TranslatorBlock tb = this.getRequiredTranslatorBlockAtSocket(0);
-		String nom=tb.toCode();
-		
-		if (!(tb instanceof VariableBlock))
-		{
-			throw new BlockException(blockId, "int var must be int var");
-		}
+		String ret = "int ";
+		if (!(tb instanceof VariableBlock)) {
+			ret += " = ";
+			// throw new BlockException(blockId, "digital var must be digital var");
+		} else
+			ret += tb.toCode();
 
-		
-		String ret ="";
 		tb = this.getRequiredTranslatorBlockAtSocket(1);
-		ret ="int "+ nom + " = " + tb.toCode() + " ;\n";
-		
+		if (tb != null)
+			ret += "="+tb.toCode() + " ;\n";
+		else
+			ret += ";\n";
 		return ret;
 	}
+	
 
 }
