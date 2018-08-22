@@ -1,7 +1,9 @@
 package com.unibot.core;
 
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -197,12 +199,21 @@ public class Context
 	{
 		if (!saveFile.exists())
 		{
+			if (!saveFile.getParentFile().exists())
+				saveFile.getParentFile().mkdirs();
+			
 			saveFile.createNewFile();
 		}
-		FileOutputStream fos = new FileOutputStream(saveFile, false);
-		fos.write(saveString.getBytes("UTF8"));
-		fos.flush();
-		fos.close();
+		BufferedWriter bwr = new BufferedWriter(new FileWriter(saveFile));
+		
+		//write contents of StringBuffer to a file
+		bwr.write(saveString);
+		
+		//flush the stream
+		bwr.flush();
+		
+		//close the stream
+		bwr.close();
 		didSave();
 	}
 	

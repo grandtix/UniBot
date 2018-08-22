@@ -2,6 +2,7 @@ package edu.mit.blocks.renderable;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Event;
 import java.awt.Font;
 import java.awt.Point;
 import java.awt.event.KeyEvent;
@@ -39,7 +40,13 @@ import edu.mit.blocks.workspace.WorkspaceEvent;
  */
 public class BlockLabel implements MouseListener, MouseMotionListener, KeyListener {
 
-    /**Enum for the differnt types of labels in codeblocks */
+    public boolean lostFocus(Event arg0, Object arg1) {
+		widget.lostFocus(arg0, arg1);
+    	return widget.lostFocus(arg0, arg1);
+		
+	}
+
+	/**Enum for the differnt types of labels in codeblocks */
     public enum Type {
         NAME_LABEL, PAGE_LABEL, PORT_LABEL, DATA_LABEL
     }
