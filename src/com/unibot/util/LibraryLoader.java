@@ -630,7 +630,10 @@ public class LibraryLoader {
 
 		Exception e) {
 			// TODO: handle exception
-			e.printStackTrace();
+			contenuFichier.append("</GenusMembers>");
+			contenuFichier.append("\n");
+		System.err.println("Le fichier '"+file+"' est introuvable");
+			//	e.printStackTrace();
 		}
 		return "";
 	}

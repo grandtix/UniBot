@@ -934,13 +934,14 @@ public class OpenblocksFrame extends JFrame {
 				 * IOException { return new InputSource(context
 				 * .getWorkspaceController().getLangDefDtd()); } }); }
 				 * 
-				 */ doc = builder.parse(stream);
+				 */
+				doc = builder.parse(stream);
 				// TODO modify the L10N text and style here
 				try {
 					context.getWorkspaceController().ardublockLocalize(doc);
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
-					e.printStackTrace();
+				//	e.printStackTrace();
 				}
 				context.getWorkspaceController().ardublockStyling(doc);
 
@@ -952,13 +953,13 @@ public class OpenblocksFrame extends JFrame {
 
 			} catch (ParserConfigurationException e1) {
 				// TODO Auto-generated catch block
-				e1.printStackTrace();
+			//	e1.printStackTrace();
 			} catch (SAXException e1) {
 				// TODO Auto-generated catch block
-				e1.printStackTrace();
+			//	e1.printStackTrace();
 			} catch (Exception e1) {
 				// TODO Auto-generated catch block
-				e1.printStackTrace();
+			//	e1.printStackTrace();
 			}
 
 		}
