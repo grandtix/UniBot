@@ -667,6 +667,7 @@ public class LibraryLoader {
 		_line = _line.replace("uint8_t *", "int ");
 		_line = _line.replace("  ", " ");
 	_line=_line.replace("&","");
+	
 		//System.out.println("apres: "+_line);
 		return _line;
 
