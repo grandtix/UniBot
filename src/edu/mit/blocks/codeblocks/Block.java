@@ -1511,7 +1511,20 @@ public class Block implements ISupportMemento {
             //create block or block stub instance
             if (!isStubBlock) {
                 if (label == null) {
-                    block = new Block(workspace, id, genusName, workspace.getEnv().getGenusWithName(genusName).getInitialLabel(), true);
+                	boolean isok=false;
+                	while (!isok)
+                	{
+                	try {
+                        block = new Block(workspace, id, genusName, workspace.getEnv().getGenusWithName(genusName).getInitialLabel(), true);
+                		isok=true;
+                	}
+                	catch (NullPointerException e)
+                	{
+                    	genusName=genusName.replace("0(", "(").replace("1(", "(").replace("2(", "(").replace("3(", "(");
+                        block = new Block(workspace, id, genusName, workspace.getEnv().getGenusWithName(genusName).getInitialLabel(), true);
+                                    		isok=false;
+                	}
+                	}
                 } else {
                     block = new Block(workspace, id, genusName, label, true);
                 }

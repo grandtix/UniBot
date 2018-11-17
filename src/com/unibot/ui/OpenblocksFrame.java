@@ -114,6 +114,7 @@ public class OpenblocksFrame extends JFrame {
 	private RSyntaxTextArea code;
 
 	public File savedFile;
+	
 
 	private Workspace workspace;
 
@@ -338,8 +339,8 @@ public class OpenblocksFrame extends JFrame {
 				if (line.split("=")[2].equals("true"))
 				
 					addClassTypeFile(new File(line.split("=")[0]).getName().replace(".h", ""));
-					System.out.println("ici!!!!!");
-					System.out.println(new File( line.split("=")[0]).getName().replace(".h", ""));
+			//		System.out.println("ici!!!!!");
+			//		System.out.println(new File( line.split("=")[0]).getName().replace(".h", ""));
 			
 
 			}
@@ -357,7 +358,7 @@ public class OpenblocksFrame extends JFrame {
 			File file = new File(getPathConf());
 			if (!file.exists())
 				file.createNewFile();
-			 System.out.println(file.getAbsolutePath());
+		//	 System.out.println(file.getAbsolutePath());
 			br = new BufferedReader(new FileReader(getPathConf()));
 			String line;
 
@@ -370,8 +371,8 @@ public class OpenblocksFrame extends JFrame {
 		//			libsloaded.put(new File(line).getName(), new Boolean(true));
 				
 				addClassTypeFile(new File(line.split("=")[0]).getName().replace(".h", ""));
-				System.out.println("ici!!!!!");
-		 System.out.println(new File( line.split("=")[0]).getName().replace(".h", ""));
+		//		System.out.println("ici!!!!!");
+	//	 System.out.println(new File( line.split("=")[0]).getName().replace(".h", ""));
 			}
 			br.close();
 			context.setWorkspaceChanged(false);
@@ -544,8 +545,8 @@ public class OpenblocksFrame extends JFrame {
 			String saveString = workspaceController.getSaveString();
 			//
 			//
-			System.out.println(editor.getSketch().getFile(0).getFile().getAbsolutePath()
-			 + " " + saveFilePath);
+	//		System.out.println(editor.getSketch().getFile(0).getFile().getAbsolutePath()
+	//		 + " " + saveFilePath);
 			File saveFile = null;
 			if (as) {
 				// if (!editor.getSketch().getFile(0).getFile().getAbsolutePath()

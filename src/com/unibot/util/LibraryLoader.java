@@ -549,8 +549,8 @@ public class LibraryLoader {
 						String nametemp = findDoublon(name);
 						parent.listNames.add(nametemp);
 						parent.libsloaded.put(nametemp,filename);
-System.out.println("OKAYYYYYY");
-						System.out.println(parent.libsloaded.toString());
+//System.out.println("OKAYYYYYY");
+	//					System.out.println(parent.libsloaded.toString());
 						//parent.
 						ArrayList<String> typesInput = new ArrayList<String>();
 						// prepare string to parse args

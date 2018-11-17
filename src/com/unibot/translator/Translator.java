@@ -131,10 +131,10 @@ public class Translator
 		{
 			headerCommand.append("// déclaration des librairies utilisées");
 			headerCommand.append("\n");
-			System.out.println(classTypeList.toString());
+		//	System.out.println(classTypeList.toString());
 			for (String file:classTypeSet)
 			{
-				System.out.println(">>>>>"+file);
+			//	System.out.println(">>>>>"+file);
 				if (libsloaded.containsKey(file) && !headerCommand.toString().contains("#include <" +libsloaded.get(file)+".h>\n"))
 				headerCommand.append("#include <" +libsloaded.get(file)+".h>\n");
 			}
