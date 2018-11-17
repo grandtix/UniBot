@@ -25,7 +25,16 @@ public class Translator
 	private Set<String> headerFileSet;
 	private Set<String> definitionSet;
 	private Set<String> setupSet;
+	private Set<String> classTypeSet;
 	
+	public Set<String> getClassTypeSet() {
+		return classTypeSet;
+	}
+
+	public void setClassTypeSet(Set<String> classTypeSet) {
+		this.classTypeSet = classTypeSet;
+	}
+
 	private Set<String> drawSet;
 	
 //	private Set<String> initSet;
@@ -57,6 +66,8 @@ public class Translator
 	private Map<String, String> stringVariableSet;
 	
 	boolean fromArduino=true;
+
+	private boolean handleSerial=false;
 	//true =arduino
 	//false =processing	
 	
@@ -109,21 +120,23 @@ public class Translator
 		}
 		return st.toString();
 	}
-	public String genreateHeaderCommand()
+	public String genreateHeaderCommand(Set<String> classTypeList, HashMap<String, String>libsloaded)
 	{
 		StringBuilder headerCommand = new StringBuilder();
 //		StringBuilder headerCommandDeclaration = new StringBuilder();
 
 	
 
-		if (!headerFileSet.isEmpty())
+		if (!classTypeSet.isEmpty())
 		{
-			headerCommand.append("// declaration des librairies utilisÃ©es");
+			headerCommand.append("// déclaration des librairies utilisées");
 			headerCommand.append("\n");
-			
-			for (String file:headerFileSet)
+			System.out.println(classTypeList.toString());
+			for (String file:classTypeSet)
 			{
-				headerCommand.append( file);
+				System.out.println(">>>>>"+file);
+				if (libsloaded.containsKey(file) && !headerCommand.toString().contains("#include <" +libsloaded.get(file)+".h>\n"))
+				headerCommand.append("#include <" +libsloaded.get(file)+".h>\n");
 			}
 			headerCommand.append("\n");
 		}
@@ -165,6 +178,7 @@ public class Translator
 	{
 		headerFileSet = new HashSet<String>();
 		definitionSet = new HashSet<String>();
+		classTypeSet  = new HashSet<String>();
 		setupSet = new HashSet<String>();
 		drawSet = new HashSet<String>();
 		methodCustomSet = new HashSet<String>();
@@ -189,6 +203,11 @@ public class Translator
 	public void addHeaderFile(String headerFile)
 	{
 		headerFileSet.add(headerFile);
+	}
+	
+	public void addClassTypeFile(String classname)
+	{
+		classTypeSet.add(classname);
 	}
 	
 	public void addSetupCommand(String command)
@@ -295,5 +314,14 @@ public class Translator
 	{
 		stringVariableSet.put(userVarName, internalName);
 		
+	}
+
+	public void setHandleSerial(boolean b) {
+		// TODO Auto-generated method stub
+		handleSerial=b;
+	}
+	public boolean doHandleSerial()
+	{
+		return handleSerial;
 	}
 }

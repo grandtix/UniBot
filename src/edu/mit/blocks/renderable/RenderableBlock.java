@@ -1829,7 +1829,7 @@ public class RenderableBlock extends JComponent
 		} catch (Exception e1) {
 			// TODO fix tix
 			// rien a generer
-			e1.printStackTrace();
+		//	e1.printStackTrace();
 		}
 
 	}

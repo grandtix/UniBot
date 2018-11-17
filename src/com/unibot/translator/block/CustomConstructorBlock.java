@@ -54,8 +54,7 @@ public class CustomConstructorBlock extends TranslatorBlock {
 			if (stb.length() > 0)
 				t += "(" + stb + ")";
 			t += ";\n";
-
-			translator.addHeaderFile("#include<" + nomclass + ".h>\n");
+			translator.addClassTypeFile(nomclass);
 	//		translator.addHeaderFile(new HeaderIncludeGetter().getIncludes(getComment()));
 
 		}

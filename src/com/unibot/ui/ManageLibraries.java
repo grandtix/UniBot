@@ -153,6 +153,7 @@ public class ManageLibraries extends JDialog {
 	}
 
 	void fillTable() {
+		((OpenblocksFrame) parentFrame).emptyClassTypeList();
 		DefaultTableModel model = (DefaultTableModel) table.getModel();
 
 		BufferedReader br;
@@ -171,7 +172,6 @@ public class ManageLibraries extends JDialog {
 				model.addRow(new Object[] { line.split("=")[0],
 						line.split("=")[1],
 						line.split("=")[2].equals("true") ? true : false });
-
 			}
 			br.close();
 		} catch (Exception e) {

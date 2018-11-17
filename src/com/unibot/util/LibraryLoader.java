@@ -124,6 +124,9 @@ public class LibraryLoader {
 			put("uint8_t", "number");
 			put("uint16_t", "number");
 			put("uint32_t", "number");
+			put("int8_t", "number");
+			put("int16_t", "number");
+			put("int32_t", "number");
 			put("object", "object");
 			put ("size_t", "number");
 		}
@@ -335,6 +338,9 @@ public class LibraryLoader {
 
 	String readFile2(String file) {
 		className = new File(file).getName().replace(".h", "");
+		
+		String filename=className;
+		parent.libsloaded.put(filename, filename);
 
 		current = 0;
 		String imagePath = "";
@@ -367,6 +373,7 @@ public class LibraryLoader {
 				if (curentCountC == countContainers) {
 					// on cree la NOinstance de l'objet precedent qui n'a pas de constructeur
 					if (isClass && !hasContructor) {
+						parent.libsloaded.put(className, filename);
 						contenuFichier.append(
 								createBlockGenus("instanceClasse", className, className, "data", "poly", null, false,
 										true, idLine == currentIdBalise + 1 ? ("objet de type " + className) : "", ""));
@@ -404,6 +411,7 @@ public class LibraryLoader {
 						externObjectGenius.put(line.split(" ")[1], line.split(" ")[2].replaceAll(";", ""));
 						PropertiesReader.addValue(externObjectGenius.get(line.split(" ")[1]),
 								"com.unibot.translator.block.CustomVariableBlock");
+
 					}
 				} else if (line.startsWith("#define")
 						&& !className.toLowerCase().replace(".", "_").equals(line.split(" ")[1].toLowerCase())) {
@@ -540,6 +548,10 @@ public class LibraryLoader {
 						name = line.substring(0, line.indexOf('('));
 						String nametemp = findDoublon(name);
 						parent.listNames.add(nametemp);
+						parent.libsloaded.put(nametemp,filename);
+System.out.println("OKAYYYYYY");
+						System.out.println(parent.libsloaded.toString());
+						//parent.
 						ArrayList<String> typesInput = new ArrayList<String>();
 						// prepare string to parse args
 						line = cleanArgs(line);

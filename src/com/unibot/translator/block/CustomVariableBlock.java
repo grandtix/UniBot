@@ -47,6 +47,8 @@ public class CustomVariableBlock extends TranslatorBlock {
 				// TODO Auto-generated catch block
 				// e.printStackTrace();
 			}
+		System.out.println("YES ON Y EST");
+		translator.addClassTypeFile(stb0);
 	//	System.out.println(translator.getBlock(blockId).getGenusName()+" "+translator.getBlock(blockId).getSocketAt(0).getPositionType());
 		if (translator.getBlock(blockId).getSocketAt(0).getPositionType().equals(PositionType.BOTTOM)) {
 			if (stb1 != null)

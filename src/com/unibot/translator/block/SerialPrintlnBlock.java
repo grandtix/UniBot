@@ -25,6 +25,7 @@ public class SerialPrintlnBlock extends TranslatorBlock
 		
 
 		translator.addSetupCommand("Serial.begin(9600);\n");
+		translator.setHandleSerial(true);
 		ret = "Serial.println("+ret+");\n";
 		}
 		else
