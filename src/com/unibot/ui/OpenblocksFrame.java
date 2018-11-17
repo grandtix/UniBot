@@ -821,7 +821,7 @@ public class OpenblocksFrame extends JFrame {
 			 */
 			System.err.println("il manque un bloc conncté à " + block2.getBlockLabel());
 		} catch (SubroutineNotDeclaredException e3) {
-			e3.printStackTrace();
+		//	e3.printStackTrace();
 			success = false;
 			Long blockId = e3.getBlockId();
 			Iterable<RenderableBlock> blocks = workspace.getRenderableBlocks();
@@ -832,10 +832,10 @@ public class OpenblocksFrame extends JFrame {
 					break;
 				}
 			}
-			JOptionPane.showOptionDialog(parentFrame,
+		/*	JOptionPane.showOptionDialog(parentFrame,
 					uiMessageBundle.getString("unibot.translator.exception.subroutineNotDeclared"), "Error",
 					JOptionPane.OK_OPTION, JOptionPane.ERROR_MESSAGE, null, null, JOptionPane.OK_OPTION);
-
+*/
 		}
 
 		if (success) {
@@ -898,7 +898,7 @@ public class OpenblocksFrame extends JFrame {
 				Block block2 = renderableBlock2.getBlock();
 				if (block.getBlockID().compareTo(block2.getBlockID()) == 0) {
 					context.highlightBlock(renderableBlock2);
-					System.out.println("on allume " + renderableBlock2.getGenus());
+				//	System.out.println("on allume " + renderableBlock2.getGenus());
 					codeHasErrors = true;
 					if (listeBlocksError.get(mainmethod) == null)
 						listeBlocksError.put(mainmethod,
