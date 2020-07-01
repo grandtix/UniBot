@@ -19,7 +19,7 @@ public class SoundManager {
     public static Sound loadSound(String soundFileName) {
         final URL url = SoundManager.class.getResource(soundFileName);
         if (url == null) {
-            System.out.println("Could not find resource " + soundFileName);
+            //System.out.println("Could not find resource " + soundFileName);
             return null;
         }
 
@@ -41,7 +41,7 @@ public class SoundManager {
             clip = (Clip) AudioSystem.getLine(info);
             clip.open(audioInputStream);
         } catch (LineUnavailableException e) {
-            System.out.println("Sorry, sound is not available");
+            //System.out.println("Sorry, sound is not available");
             return null;
         } catch (IOException e) {
             return null;

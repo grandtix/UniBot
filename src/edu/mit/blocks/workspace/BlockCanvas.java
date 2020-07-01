@@ -300,7 +300,7 @@ public class BlockCanvas implements PageChangeListener, ISupportMemento {
         if (page == null) {
             throw new RuntimeException("Invariant Violated: May not add null Pages");
         } else if (position < 0 || position > pages.size()) {
-            System.out.println(position + ", " + pages.size());
+            //System.out.println(position + ", " + pages.size());
             throw new RuntimeException("Invariant Violated: Specified position out of bounds");
         }
         pages.add(position, page);

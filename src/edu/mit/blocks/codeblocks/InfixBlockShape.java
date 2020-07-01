@@ -87,9 +87,9 @@ public class InfixBlockShape extends BlockShape {
                     //draw first socket - up left side
                     Point2D leftSocket = BCS.addDataSocketUp(gpBottom, curSocket.getKind(), true);
                     rb.updateSocketPoint(curSocket, leftSocket);
-                    //System.out.println("socket poitn: "+rb.getSocketPoint(curSocket));
+                    ////System.out.println("socket poitn: "+rb.getSocketPoint(curSocket));
 
-                    //System.out.println("socket poitn leftsocket: "+leftSocket);
+                    ////System.out.println("socket poitn leftsocket: "+leftSocket);
 
                     //draw left standard empty socket space - top side
                     gpBottom.lineTo(
@@ -142,9 +142,9 @@ public class InfixBlockShape extends BlockShape {
 						
 						 Point2D leftSocket = BCS.addDataSocketUp(gpBottom, curSocket.getKind(), true);
 		                    rb.updateSocketPoint(curSocket, leftSocket);
-		                    //System.out.println("socket poitn: "+rb.getSocketPoint(curSocket));
+		                    ////System.out.println("socket poitn: "+rb.getSocketPoint(curSocket));
 
-		                    //System.out.println("socket poitn leftsocket: "+leftSocket);
+		                    ////System.out.println("socket poitn leftsocket: "+leftSocket);
 
 		                    //draw left standard empty socket space - top side
 		                    gpBottom.lineTo(
@@ -168,7 +168,7 @@ public class InfixBlockShape extends BlockShape {
                 //bump down so bevel doesn't screw up
                 BlockShapeUtil.lineToRelative(gpBottom, 0, 0.1f);
 
-                //System.out.println("gpbottom starting point: "+gpBottom.getCurrentPoint());
+                ////System.out.println("gpbottom starting point: "+gpBottom.getCurrentPoint());
 
                 //// draw RIGHT to create divider ////
                 if (socketCounter < block.getNumSockets() - 1) {
@@ -258,7 +258,7 @@ public class InfixBlockShape extends BlockShape {
     @Override
     protected int determineBlockWidth() {
 
-        //System.out.println("determining block width");
+        ////System.out.println("determining block width");
 
         int width = super.determineBlockWidth();
 

@@ -77,7 +77,7 @@ public class BlockShape {
             this.blockID = rb.getBlockID();
             this.block = rb.getWorkspace().getEnv().getBlock(blockID);
         } else {
-            System.out.println("Cannot create shape of null RenderableBlock.");
+            //System.out.println("Cannot create shape of null RenderableBlock.");
         }
 
         //initialize gernal path segements around the block shape
@@ -116,7 +116,7 @@ public class BlockShape {
         ///CHECK FOR CUSTOM SHAPES///
         //for every customBlockShapes
         Point2D[] cornerPoints = new Point2D[4];
-        //System.out.println(block.getGenusName() + " custom size: " + customBlockShapeSets.size());
+        ////System.out.println(block.getGenusName() + " custom size: " + customBlockShapeSets.size());
         for (CustomBlockShapeSet customBlockShapeSet : customBlockShapeSets) {
             //returns if custom shape is within this set, break for first one found
             if (customBlockShapeSet.checkCustomShapes(block, cornerPoints, rb.accomodateLabelsWidth(), getTotalHeightOfSockets())) {
@@ -268,7 +268,7 @@ public class BlockShape {
         //determine and add socket heights
         heightSum += getTotalHeightOfSockets();
 
-        //System.out.println("height sum after getting total height of sockets: "+heightSum);
+        ////System.out.println("height sum after getting total height of sockets: "+heightSum);
 
         //ensure at least height of one data plug
         if (heightSum < BlockConnectorShape.DATA_PLUG_HEIGHT) {
@@ -283,7 +283,7 @@ public class BlockShape {
             heightSum += (rb.accomodateImagesHeight() - heightSum) + 10;
         }
 
-        //System.out.println("returned heightSum: "+heightSum);
+        ////System.out.println("returned heightSum: "+heightSum);
 
         if (block.isInfix()) {
             heightSum += BOTTOM_SOCKET_UPPER_SPACER;
@@ -404,7 +404,7 @@ public class BlockShape {
             }
         }
 
-        //if (block.getPlug() != null) System.out.println(block.getPlug().getPositionType());
+        //if (block.getPlug() != null) //System.out.println(block.getPlug().getPositionType());
 
 
 

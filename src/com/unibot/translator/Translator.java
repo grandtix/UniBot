@@ -250,7 +250,7 @@ public class Translator
 		{
 			throw new SubroutineNameDuplicatedException(blockId);
 		}
-	//	System.out.println("in add function name: "+functionName);
+	//	//System.out.println("in add function name: "+functionName);
 		functionNameSet.add(functionName);
 	}
 	

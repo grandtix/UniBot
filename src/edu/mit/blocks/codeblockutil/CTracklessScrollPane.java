@@ -161,7 +161,7 @@ public class CTracklessScrollPane extends CScrollPane implements KeyListener {
                     case KeyEvent.VK_RIGHT:
                         return false;
                     case KeyEvent.VK_TAB:
-                        System.out.println("bl.enter tab");
+                        //System.out.println("bl.enter tab");
                         return false;
                     default:
                         return super.processKeyBinding(ks, e, condition, pressed);

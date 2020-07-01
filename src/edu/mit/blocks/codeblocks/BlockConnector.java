@@ -249,8 +249,8 @@ public class BlockConnector implements ISupportMemento {
         //checks if connector has a def arg or if connector already has a block
         if (hasDefArg && connBlockID == Block.NULL) {
             Block block = new Block(workspace, arg.getGenusName(), arg.label);
-   //         System.out.println("okk");
-//System.out.println( arg.getGenusName()+" "+block.getInitialLabel());
+   //         //System.out.println("okk");
+////System.out.println( arg.getGenusName()+" "+block.getInitialLabel());
             connBlockID = block.getBlockID();
             return connBlockID;
         }

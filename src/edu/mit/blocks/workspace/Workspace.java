@@ -300,14 +300,14 @@ public class Workspace extends JLayeredPane implements ISupportMemento, RBParent
         int treeLevel = 0;
         double depth = 0;
         Container p = c.getParent();
-        //System.out.println("getting drawer depth for: "+c);
+        ////System.out.println("getting drawer depth for: "+c);
         if (p != null) { //ria added this condition (when removing widgets while resetting, they must have a parent, but by then they have none.
             // figure out how far down the tree this component is
             while (p != this && p != null) {
                 p = p.getParent();
                 treeLevel++;
             }
-            //System.out.println("tree level for "+c+": "+treeLevel);
+            ////System.out.println("tree level for "+c+": "+treeLevel);
             // now walk up the tree, assigning small fractions for distant children,
             // and getting more important closer to the top level.
             p = c.getParent();
@@ -324,7 +324,7 @@ public class Workspace extends JLayeredPane implements ISupportMemento, RBParent
                 p = p.getParent();
             }
 
-            //System.out.println("returned depth "+depth);
+            ////System.out.println("returned depth "+depth);
             return depth;
         }
         return Double.MAX_VALUE;
@@ -715,7 +715,7 @@ public class Workspace extends JLayeredPane implements ISupportMemento, RBParent
     public void removePage(Page page) {
         boolean success = workspaceWidgets.remove(page);
         if (!success) {
-            System.out.println("Page: " + page + ", was NOT removed successfully");
+            //System.out.println("Page: " + page + ", was NOT removed successfully");
         }
         notifyListeners(new WorkspaceEvent(this, page, WorkspaceEvent.PAGE_REMOVED));
         blockCanvas.removePage(page);

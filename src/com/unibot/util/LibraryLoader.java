@@ -145,12 +145,12 @@ public class LibraryLoader {
 		ArrayList<String> liste = new ArrayList<String>();
 		text = text.replace(", ", ",");
 		String[] types = text.trim().split(",");
-		// //System.out.println("text :" + text);
+		//System.out.println("text :" + text);
 		if (text.trim().length() > 0)
 			for (String t : types) {
 				String tmp = t.trim().split(" ")[0];
 				String lbl = "";
-				// //System.out.println("tmp1 :" + tmp);
+				//System.out.println("tmp1 :" + tmp);
 				if (!tmp.startsWith("void")) {
 					if (t.contains(" "))
 						lbl = t.trim().split(" ")[1];
@@ -171,7 +171,7 @@ public class LibraryLoader {
 					ty += connectorMap.get(aliasGeniusTypeMap.get(tmp)) != null
 							? connectorMap.get(aliasGeniusTypeMap.get(tmp))
 							: "poly";
-					// //System.out.println("--->" + ty);
+					//System.out.println("--->" + ty);
 					liste.add(ty);
 				}
 			}
@@ -194,7 +194,7 @@ public class LibraryLoader {
 				+ (((int) (groups.get(current).get(0).charAt(1)) * 10 + 127) % 256) + " "
 				+ (((int) (groups.get(current).get(0).charAt(0)) * 10 + 127) % 256);
 
-		// //System.out.println("in create block genus :"+groups.get(current).get(0));
+		//System.out.println("in create block genus :"+groups.get(current).get(0));
 
 		// contenuFamily.append("<BlockGenusMember>");
 		// contenuFamily.append(typename+name);
@@ -204,7 +204,7 @@ public class LibraryLoader {
 
 		if (template_type.equals("constructeur")) {
 			typename = "nouveau ";
-			// //System.out.println(typename +
+			//System.out.println(typename +
 			// name+"=com.unibot.translator.block.CustomConstructorBlock");
 			PropertiesReader.addValue(typename + name, "com.unibot.translator.block.CustomConstructorBlock");
 			string.append("<BlockGenus name=\"" + typename + name + "\" kind=\"" + typeGenus + "\"   color=\"" + couleur
@@ -212,7 +212,7 @@ public class LibraryLoader {
 
 	
 		} else if (template_type.equals("method")) {
-			// //System.out.println(typename +
+			//System.out.println(typename +
 			// name+"=com.unibot.translator.block.CustomCommandBlock");
 			PropertiesReader.addValue(name, "com.unibot.translator.block.CustomCommandBlock");
 			string.append("<BlockGenus name=\"" + name + "\" kind=\"" + typeGenus + "\"   color=\"" + couleur
@@ -220,16 +220,16 @@ public class LibraryLoader {
 
 	
 		} else if (template_type.equals("variable") || template_type.equals("instanceClasse")) {
-			// //System.out.println(typename +
-			// name+"=com.unibot.translator.block.CustomVariableBlock");
+			//System.out.println(typename +
+		//	 name+"=com.unibot.translator.block.CustomVariableBlock");
 			PropertiesReader.addValue(name, "com.unibot.translator.block.CustomVariableBlock");
 			string.append("<BlockGenus name=\"" + name + "\" kind=\"" + typeGenus + "\"   color=\"" + couleur
 					+ "\" initlabel=\"" + label + "\" editable-label=\"yes\"  label-unique=\"no\">");
 
 	
 		} else if (template_type.equals("methodreturn")) {
-			// //System.out.println(typename +
-			// name+"=com.unibot.translator.block.CustomVariableBlock");
+			//System.out.println(typename +
+		//	 name+"=com.unibot.translator.block.CustomVariableBlock");
 			PropertiesReader.addValue(name, "com.unibot.translator.block.CustomVariableBlock");
 			string.append("<BlockGenus name=\"" + name + "\" kind=\"" + typeGenus + "\"   color=\"" + couleur
 					+ "\" initlabel=\"" + label + "\" editable-label=\"no\" label-unique=\"no\">");
@@ -413,7 +413,7 @@ public class LibraryLoader {
 					}
 
 					if (line.split(" ").length == 3) {
-						// //System.out.println("line :"+line);
+						//System.out.println("line :"+line);
 						String type = "number";
 						name = line.split(" ")[1];
 						isDefine = true;
@@ -433,7 +433,7 @@ public class LibraryLoader {
 
 					isClass = false;
 					hasContructor = false;
-					// //System.out.println(PropertiesReader.p.toString());
+					//System.out.println(PropertiesReader.p.toString());
 
 				} else if (line.startsWith("namespace")) {
 					// do nothing
@@ -603,7 +603,7 @@ public class LibraryLoader {
 						String nametemp = findDoublon(name);
 						parent.listNames.add(nametemp);
 						line = cleanArgs(line);
-	//					//System.out.println("line after !" + line);
+	//					////System.out.println("line after !" + line);
 
 						ArrayList<String> typesInput = getTypes(line);
 
@@ -617,7 +617,7 @@ public class LibraryLoader {
 				if (line.trim().contains("*/"))
 					inComment = false;
 
-				// //System.out.println("last :"+lastname +" name :"+name);
+				//System.out.println("last :"+lastname +" name :"+name);
 				lastname = name;
 				idLine++;
 			}
@@ -638,7 +638,7 @@ public class LibraryLoader {
 	private String prepareLine(String line) {
 		// TODO Auto-generated method stub
 		// clean the the line.
-		//System.out.println("avant :"+line);
+		////System.out.println("avant :"+line);
 		
 		String _line = line.trim();
 		_line = _line.replace("unsigned ", "");
@@ -651,7 +651,7 @@ public class LibraryLoader {
 		_line = _line.replace("String &", "String ");
 		_line = _line.replace("uint8_t *", "int ");
 		_line = _line.replace("  ", " ");
-		//System.out.println("apres: "+_line);
+		////System.out.println("apres: "+_line);
 		return _line;
 
 	}
@@ -687,7 +687,9 @@ public class LibraryLoader {
 				nametemp = name + "" + i;
 			i++;
 		}
-		return nametemp;
+		
+		//fix tix, stop recherche doublon
+		return name;
 	}
 
 	void setEntete() {
@@ -711,12 +713,12 @@ public class LibraryLoader {
 		while (it.hasNext()) {
 			ArrayList<String> liste = (ArrayList<String>) it.next();
 			if (liste != null && liste.size() > 1) {
-				// //System.out.println(groups.get(i).get(0).toLowerCase().charAt(0));
+				//System.out.println(groups.get(i).get(0).toLowerCase().charAt(0));
 
 				String couleur = (((int) (liste.get(0).charAt(0))) % 256) + " "
 						+ (((int) (liste.get(0).charAt(1)) * 10 + 127) % 256) + " "
 						+ (((int) (liste.get(0).charAt(0)) * 10 + 127) % 256);
-				// //System.out.println("couleur :"+couleur);
+				//System.out.println("couleur :"+couleur);
 				i++;
 
 				contenuFichier.append("<BlockDrawer button-color=\"" + couleur + "\" name=\"" + liste.get(0) + "\">");
@@ -766,14 +768,14 @@ public class LibraryLoader {
 
 		}
 
-		//System.out.println(xml);
+		//System.out.println("XML\n"+xml);
 
 		byte[] bytes = xml.getBytes();
 
 		/*
 		 * Get ByteArrayInputStream from byte array.
 		 */
-		// //System.out.println(contenuFichier.toString());
+		//System.out.println("\n\ncontenu fichier:"+contenuFichier.toString());
 		return new ByteArrayInputStream(bytes);
 	}
 

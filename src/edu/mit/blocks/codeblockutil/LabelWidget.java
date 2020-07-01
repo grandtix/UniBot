@@ -469,7 +469,7 @@ public abstract class LabelWidget extends JComponent {
         }
 
         public void focusLost(FocusEvent e) {
-        	System.out.println("on perd le focus");
+        	//System.out.println("on perd le focus");
             setEditingState(false);
         }
 

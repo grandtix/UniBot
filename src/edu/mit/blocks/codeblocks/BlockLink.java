@@ -74,7 +74,7 @@ public class BlockLink {
         try {
             clickSound = SoundManager.loadSound("/edu/mit/blocks/codeblocks/click.wav");
         } catch (Exception e) {
-            System.out.println("Error initializing sounds.  Continuing...");
+            //System.out.println("Error initializing sounds.  Continuing...");
         }
     }
 
@@ -161,7 +161,7 @@ public class BlockLink {
         socketRB.blockConnected(socket, plugBlockID);
 
         if (clickSound != null) {
-            //System.out.println("playing click sound");
+            ////System.out.println("playing click sound");
             clickSound.play();
         }
     }

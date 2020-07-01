@@ -759,7 +759,7 @@ public class Page implements WorkspaceWidget, SearchableContainer, ISupportMemen
                 //add graphically
                 getRBParent().addToBlockLayer(rb);
                 rb.setHighlightParent(this.getRBParent());
-                //System.out.println("loading rb to canvas: "+rb+" at: "+rb.getBounds());
+                ////System.out.println("loading rb to canvas: "+rb+" at: "+rb.getBounds());
                 //add internallly
                 workspace.notifyListeners(new WorkspaceEvent(workspace, this, rb.getBlockID(), WorkspaceEvent.BLOCK_ADDED));
                 if (importingPage) {

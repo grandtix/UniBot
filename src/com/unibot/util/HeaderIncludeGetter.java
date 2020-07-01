@@ -15,7 +15,7 @@ public class HeaderIncludeGetter {
 	
 	public String getIncludes(String file)
 	{
-		//System.out.println(file);
+		////System.out.println(file);
 		String res="";
 		try {
 			br = new BufferedReader(new FileReader(file));
@@ -25,7 +25,7 @@ public class HeaderIncludeGetter {
 				line = line.trim();
 				if (line.startsWith("#include"))
 					res+=line+"\n";
-			//	System.out.println(res+" "+line);
+			//	//System.out.println(res+" "+line);
 			}
 		}
 		

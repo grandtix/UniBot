@@ -21,7 +21,7 @@ public class PropertiesReader
 	//	p = new Properties();
 		if (is == null)
 		{
-		//	System.out.println("no file found: " + this.filename);
+		//	//System.out.println("no file found: " + this.filename);
 		}
 		else
 		try

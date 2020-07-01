@@ -21,12 +21,12 @@ public class ImageManager {
         Toolkit toolkit = Toolkit.getDefaultToolkit();
         URL u = ImageManager.class.getResource(file);
         if (u == null) {
-            System.out.println("Could not find resource " + file);
+            //System.out.println("Could not find resource " + file);
             return null;
         }
         Image img = toolkit.createImage(u);
         if (img == null) {
-            System.out.println("Couldn't load image " + file);
+            //System.out.println("Couldn't load image " + file);
             return null;
         }
 
@@ -36,12 +36,12 @@ public class ImageManager {
             mt.addImage(img, 0);
             mt.waitForAll();
         } catch (Exception e) {
-            System.out.println("Couldn't load image " + file);
-            System.out.println(e);
+            //System.out.println("Couldn't load image " + file);
+            //System.out.println(e);
             return null;
         }
         if (mt.isErrorAny()) {
-            System.out.println("Couldn't load image " + file);
+            //System.out.println("Couldn't load image " + file);
             return null;
         }
 
@@ -60,10 +60,10 @@ public class ImageManager {
 //             }
 //         }
 //         catch (InterruptedException e) {
-//             System.out.println("Couldn't load image "+file);
+//             //System.out.println("Couldn't load image "+file);
 //             return null;
 //         }
-        //System.out.println("image width "+ img.getWidth(comp) +
+        ////System.out.println("image width "+ img.getWidth(comp) +
         //		   " height " + img.getHeight(comp));
         BufferedImage bimg =
                 comp.getGraphicsConfiguration().createCompatibleImage(img.getWidth(comp),

@@ -158,7 +158,7 @@ public class ManageLibraries extends JDialog {
 		BufferedReader br;
 		try {
 			File file = new File(((OpenblocksFrame) parentFrame).getPathConf());
-			//System.out.println(file.getName());
+			////System.out.println(file.getName());
 			if (!file.exists())
 				file.createNewFile();
 
@@ -214,7 +214,7 @@ public class ManageLibraries extends JDialog {
 
 				BufferedWriter output = new BufferedWriter(new FileWriter(
 						((OpenblocksFrame) parentFrame).getPathConf(), false));
-			//	System.out.println(" a la suppression " + alllines);
+			//	//System.out.println(" a la suppression " + alllines);
 				output.append(alllines);
 				output.close();
 
@@ -335,12 +335,12 @@ public class ManageLibraries extends JDialog {
 						false));
 				for (int i = 0; i < table.getRowCount(); i++) {
 /*
-					System.out.println(table.getValueAt(i, 0) + "="
+					//System.out.println(table.getValueAt(i, 0) + "="
 							+ table.getValueAt(i, 1) + "="
 							+ table.getValueAt(i, 2));
-					System.out.println("----" + table.getValueAt(i, 0));
-					System.out.println("----" + table.getValueAt(i, 1));
-					System.out.println("----" + table.getValueAt(i, 2));*/
+					//System.out.println("----" + table.getValueAt(i, 0));
+					//System.out.println("----" + table.getValueAt(i, 1));
+					//System.out.println("----" + table.getValueAt(i, 2));*/
 					output.append(table.getValueAt(i, 0) + "="
 							+ table.getValueAt(i, 1) + "="
 							+ table.getValueAt(i, 2));

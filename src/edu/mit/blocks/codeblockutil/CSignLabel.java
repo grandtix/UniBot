@@ -56,7 +56,7 @@ public class CSignLabel extends JPanel {
         Graphics2D g2 = (Graphics2D) g;
         for (int j = 0; j < charSet.length; j++) {
             String c = charSet[j];
-            System.out.println(c);
+            //System.out.println(c);
             int x = 5;
             int y = (j + 1) * (FONT_SIZE + 3);
             g.setColor(Color.black);

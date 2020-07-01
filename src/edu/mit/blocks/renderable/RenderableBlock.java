@@ -786,7 +786,7 @@ public class RenderableBlock extends JComponent
 			return tag.getPixelLocation();
 		}
 
-		System.out.println("Error, Socket has no connector tag: " + socket);
+		//System.out.println("Error, Socket has no connector tag: " + socket);
 		return new Point(0, -100); // JBT hopefully this doesn't hurt anything,
 									// this is masking a bug that needs to be
 									// tracked down, why is the connector tag
@@ -1001,7 +1001,7 @@ public class RenderableBlock extends JComponent
 	 *            the connectedSocket
 	 */
 	private void updateSocketSpace(BlockConnector connectedSocket, long connectedToBlockID, boolean isConnected) {
-		// System.out.println("updating socket space of :" +
+		// //System.out.println("updating socket space of :" +
 		// connectedSocket.getLabel() +" of rb: "+this);
 		if (!isConnected) {
 			// remove the mapping
@@ -1054,7 +1054,7 @@ public class RenderableBlock extends JComponent
 		long curBlockID = socket.getBlockID();
 		while (curBlockID != Block.NULL) {
 			Block curBlock = workspace.getEnv().getBlock(curBlockID);
-			// System.out.println("evaluating block :" +
+			// //System.out.println("evaluating block :" +
 			// curBlock.getBlockLabel());
 			RenderableBlock curRenderableBlock = workspace.getEnv().getRenderableBlock(curBlockID);
 			Dimension curRBSize = curRenderableBlock.getBlockSize();
@@ -1119,7 +1119,7 @@ public class RenderableBlock extends JComponent
 				// TODO: this is a patch, but we need to fix the root of the
 				// problem!
 				if (workspace.getEnv().getRenderableBlock(curBlockID) == null) {
-					System.out.println("does not exist yet, block: " + curBlockID);
+					//System.out.println("does not exist yet, block: " + curBlockID);
 					continue;
 				}
 
@@ -1610,7 +1610,7 @@ public class RenderableBlock extends JComponent
 	 */
 	public void moveConnectedBlocks() {
 		if (DEBUG) {
-			System.out.println("move connected blocks of this: " + this);
+			//System.out.println("move connected blocks of this: " + this);
 		}
 
 		// if this hasn't been added anywhere, asking its location will break
@@ -1633,7 +1633,7 @@ public class RenderableBlock extends JComponent
 				// TODO: djwendel - this is a patch, but the root of the problem
 				// needs to be found and fixed!!
 				if (rb == null) {
-					// System.out.println("Block doesn't exist yet: "+ b.getGenusName()+"
+					// //System.out.println("Block doesn't exist yet: "+ b.getGenusName()+"
 					// "+b.getInitialLabel());
 					continue;
 				}
@@ -1999,7 +1999,8 @@ public class RenderableBlock extends JComponent
 
 		if (isBlock || isBlockStub) {
 			RenderableBlock rb = new RenderableBlock(workspace, parent,
-					Block.loadBlockFrom(workspace, blockNode, idMapping).getBlockID(), true);
+					Block.loadBlockFrom(workspace, blockNode, idMapping).getBlockID()
+					, true);
 
 			if (isBlockStub) {
 				// need to get actual block node
@@ -2007,6 +2008,7 @@ public class RenderableBlock extends JComponent
 				for (int j = 0; j < stubchildren.getLength(); j++) {
 					Node node = stubchildren.item(j);
 					if (node.getNodeName().equals("Block")) {
+						//System.out.println("in rdblock loadBlockNode ****************"+node.getTextContent());
 						blockNode = node;
 						break;
 					}

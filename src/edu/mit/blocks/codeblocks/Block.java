@@ -546,7 +546,7 @@ public class Block implements ISupportMemento {
      * @return the socket (BlockConnector instance) at the specified index
      */
     public BlockConnector getSocketAt(int index) {
-    //    System.out.println("in block, getsocketat :"+ genusName+" "+index);
+    //    //System.out.println("in block, getsocketat :"+ genusName+" "+index);
         assert index < sockets.size() : "Index " + index + " is greater than the num of sockets: " + sockets.size() + " of " + this;
         return sockets.get(index);
     }
@@ -1271,6 +1271,7 @@ public class Block implements ISupportMemento {
     	Element blockElement = document.createElement("Block");
 
     	blockElement.setAttribute("id", Long.toString(blockID));
+    	//System.out.println("genus-name ---->>>>>"+ getGenusName());
     	blockElement.setAttribute("genus-name", getGenusName());
     	if (hasFocus) {
     		blockElement.setAttribute("has-focus", "yes");
@@ -1411,7 +1412,7 @@ public class Block implements ISupportMemento {
 
         if (node.getNodeName().equals("Block")) {
             //load attributes
-        //	System.out.println("in load attributes :"+node.getAttributes().toString());
+        	////System.out.println("in load attributes :"+node.getAttributes().toString());
             nameMatcher = attrExtractor.matcher(node.getAttributes().getNamedItem("id").toString());
             if (nameMatcher.find()) {
                 id = translateLong(workspace, Long.parseLong(nameMatcher.group(1)), idMapping);
@@ -1421,13 +1422,15 @@ public class Block implements ISupportMemento {
                 /*
                 WorkspaceEnvironment workspaceEnv = workspace.getEnv();
                 id = workspaceEnv.getNextBlockID();
-                System.out.println(id);
+                //System.out.println(id);
                 */
             }
+            //System.out.println("avant la grosse merde "+node.getAttributes().getNamedItem("genus-name").toString());
             nameMatcher = attrExtractor.matcher(node.getAttributes().getNamedItem("genus-name").toString());
             if (nameMatcher.find()) {
                 genusName = nameMatcher.group(1);
             }
+            //System.out.println("ici c'est deja la merdeeeeeeeeeee!!!!!!!!!§§§§§§§§§§§§§§§§§§§§§§§§§§" + genusName);
             //load optional items
             Node opt_item = node.getAttributes().getNamedItem("has-focus");
             if (opt_item != null) {
@@ -1509,9 +1512,22 @@ public class Block implements ISupportMemento {
 
             assert genusName != null && id != null : "Block did not contain required info id: " + id + " genus: " + genusName;
             //create block or block stub instance
+            //System.out.println("isStubBlock :"+isStubBlock);
+            //System.out.println(genusName);
+            boolean stockBlock=true;
+            if (workspace.getEnv().getGenusWithName(genusName)==null)
+            	stockBlock=false;
+            
             if (!isStubBlock) {
                 if (label == null) {
+                //tix if else
+                	if (stockBlock)
                     block = new Block(workspace, id, genusName, workspace.getEnv().getGenusWithName(genusName).getInitialLabel(), true);
+            //tix
+                	else
+                        block = new Block(workspace, id, genusName, genusName, true);
+
+                		
                 } else {
                     block = new Block(workspace, id, genusName, label, true);
                 }

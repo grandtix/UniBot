@@ -152,7 +152,7 @@ public class JComponentDragHandler implements MouseListener, MouseMotionListener
      * other words, "drags" the JComponent.
      */
     public void mouseDragged(MouseEvent e) {
-        //System.out.println("mouse dragged: "+this.getLocation());
+        ////System.out.println("mouse dragged: "+this.getLocation());
         myComponent.setCursor(closedHandCursor);
         mCurrentX = e.getX();
         mCurrentY = e.getY();

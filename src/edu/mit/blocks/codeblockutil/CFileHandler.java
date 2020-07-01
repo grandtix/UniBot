@@ -65,14 +65,14 @@ public final class CFileHandler {
                 if (f.getPath().length() > 4) {
                     String extension = f.getPath().substring(f.getPath().length() - 4, f.getPath().length());
                     if (extension.equals(".csv")) {
-                        System.out.println("Saving with default extension: " + extension);
+                        //System.out.println("Saving with default extension: " + extension);
                         //do nothing
                     } else {
-                        System.out.println("Generating extension: " + extension);
+                        //System.out.println("Generating extension: " + extension);
                         f = new File(f.getPath() + ".csv");
                     }
                 } else {
-                    System.out.println("Filename too short");
+                    //System.out.println("Filename too short");
                     f = new File(f.getPath() + ".csv");
                 }
                 Writer output = null;
@@ -99,14 +99,14 @@ public final class CFileHandler {
                     String extension2 = f.getPath().substring(f.getPath().length() - 5, f.getPath().length());
                     if (extension.equals(".jpg") || extension.equals(".gif") || extension.equals(".tif")
                             || extension.equals(".png") || extension2.equals(".jpeg") || extension2.equals(".tiff")) {
-                        System.out.println("Saving with default extension: " + extension);
+                        //System.out.println("Saving with default extension: " + extension);
                         //do nothing
                     } else {
-                        System.out.println("Generating extension: " + extension);
+                        //System.out.println("Generating extension: " + extension);
                         f = new File(f.getPath() + ".jpg");
                     }
                 } else {
-                    System.out.println("Filename too short");
+                    //System.out.println("Filename too short");
                     f = new File(f.getPath() + ".jpg");
                 }
                 ImageIO.write(image, "jpg", f);

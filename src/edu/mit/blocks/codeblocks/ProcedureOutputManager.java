@@ -121,7 +121,7 @@ public class ProcedureOutputManager
             
         case WorkspaceEvent.BLOCK_REMOVED:
             if (b != null && b.isProcedureDeclBlock()) {
-            	// System.out.println("procedure of type "+myProcInfo.get(b.getBlockID()).type+" removed.");
+            	// //System.out.println("procedure of type "+myProcInfo.get(b.getBlockID()).type+" removed.");
                 // Remove our entry.
                 myProcInfo.remove(b.getBlockID());
                 if (link != null) {
@@ -162,7 +162,7 @@ public class ProcedureOutputManager
     		// Only handle the output blocks that are connected to a procedure.
     		Long top = getTopBlockID(b.getBlockID());
     		if (top != null && workspace.getEnv().getBlock(top).isProcedureDeclBlock()) {
-    			//System.out.println("procedure (top) number "+top);
+    			////System.out.println("procedure (top) number "+top);
     			OutputInfo info = myProcInfo.get(top);
     			
     			// Check that the output hasn't already been visited (shouldn't have but just to be safe...)
@@ -184,7 +184,7 @@ public class ProcedureOutputManager
    					info.outputs.add(b.getBlockID());
    					
     			}
-    			//System.out.println("numtyped "+info.numTyped+" type "+info.type);
+    			////System.out.println("numtyped "+info.numTyped+" type "+info.type);
     		}
     	}
     }

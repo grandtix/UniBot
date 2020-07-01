@@ -47,7 +47,7 @@ public class CustomVariableBlock extends TranslatorBlock {
 				// TODO Auto-generated catch block
 				// e.printStackTrace();
 			}
-	//	System.out.println(translator.getBlock(blockId).getGenusName()+" "+translator.getBlock(blockId).getSocketAt(0).getPositionType());
+	//	//System.out.println(translator.getBlock(blockId).getGenusName()+" "+translator.getBlock(blockId).getSocketAt(0).getPositionType());
 		if (translator.getBlock(blockId).getSocketAt(0).getPositionType().equals(PositionType.BOTTOM)) {
 			if (stb1 != null)
 				return (stb0 + "." + translator.getBlock(blockId).getInitialLabel() + "(" + stb1 + args + ")");

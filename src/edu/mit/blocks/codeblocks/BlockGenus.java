@@ -814,7 +814,7 @@ public class BlockGenus {
                 if (nameMatcher.find()) {
                     //implied that it is global, but it may be redefined
                     newGenus.initLabel = nameMatcher.group(1);
-               //     System.out.println("in block genus genusname/label: "+newGenus.genusName+" "+newGenus.initLabel);
+               //     //System.out.println("in block genus genusname/label: "+newGenus.genusName+" "+newGenus.initLabel);
                 }
                 nameMatcher = attrExtractor.matcher(genusNode.getAttributes().getNamedItem("editable-label").toString());
                 if (nameMatcher.find()) {
@@ -913,7 +913,7 @@ public class BlockGenus {
                     newGenus.after = new BlockConnector(workspace, BlockConnectorShape.getCommandShapeName(), BlockConnector.PositionType.BOTTOM, "", false, false, Block.NULL);
                 }
 
-                //System.out.println("Added "+newGenus.toString());
+                ////System.out.println("Added "+newGenus.toString());
                 env.addBlockGenus(newGenus);
             }
 
@@ -941,7 +941,7 @@ public class BlockGenus {
             }
             if (famList.size() > 0) {
                 for (String memName : famList) {
-           //     	System.out.println("memName :"+memName);
+           //     	//System.out.println("memName :"+memName);
                     ArrayList<String> newFamList = new ArrayList<String>(famList);
                     newFamList.remove(memName); //filter out current memName, so that only
                     //sibling names are included

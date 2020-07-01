@@ -144,11 +144,11 @@ public class StackExplorer extends JLayeredPane implements Explorer, ActionListe
      */
     public void actionPerformed(ActionEvent e) {
         if (count < 0) {
-            //System.out.println("Ending Stack Sliding: "+count);
+            ////System.out.println("Ending Stack Sliding: "+count);
             timer.stop();
             count = 5;
         } else {
-            //System.out.println("Animating Stack Sliding: "+count);
+            ////System.out.println("Animating Stack Sliding: "+count);
             for (StackCard d : this.drawers) {
                 d.animate();
             }

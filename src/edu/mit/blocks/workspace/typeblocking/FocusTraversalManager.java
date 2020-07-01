@@ -239,7 +239,7 @@ public class FocusTraversalManager implements MouseListener, KeyListener, Worksp
         //set focusblock
         this.focusBlock = blockID;
 
-        //System.out.println("FocusManager: Setting focus to block: " + this.focusBlock+", "+this.blockFocusPoint+", "+this.canvasFocusPoint);
+        ////System.out.println("FocusManager: Setting focus to block: " + this.focusBlock+", "+this.blockFocusPoint+", "+this.canvasFocusPoint);
     }
 
     /**
@@ -263,7 +263,7 @@ public class FocusTraversalManager implements MouseListener, KeyListener, Worksp
             //set block focus point to null
             this.blockFocusPoint = null;
 
-            //System.out.println("FocusManager: Setting focus to canvas: " + this.focusBlock+", "+this.blockFocusPoint+", "+this.canvasFocusPoint);
+            ////System.out.println("FocusManager: Setting focus to canvas: " + this.focusBlock+", "+this.blockFocusPoint+", "+this.canvasFocusPoint);
         } else {
             throw new RuntimeException("Invariant Violated:"
                     + "may not set new focus point if focus is on a block");
@@ -698,7 +698,7 @@ public class FocusTraversalManager implements MouseListener, KeyListener, Worksp
      * 			is instance of BlockCanvas and RenderableBlock
      */
     private void grabFocus(MouseEvent e) {
-        //System.out.println("FocusManager: Mouse Event at ("+ e.getX()+", "+e.getY()+") on "+e.getSource());
+        ////System.out.println("FocusManager: Mouse Event at ("+ e.getX()+", "+e.getY()+") on "+e.getSource());
         if (e.getSource() instanceof Canvas) {
             //get canvas point
             Point canvasPoint = e.getPoint();
@@ -760,7 +760,7 @@ public class FocusTraversalManager implements MouseListener, KeyListener, Worksp
     public void workspaceEventOccurred(WorkspaceEvent event) {
         switch (event.getEventType()) {
             case WorkspaceEvent.BLOCK_ADDED:
-                //System.out.println("FocusManager: Block_Added Event at of "+event.getSourceBlockID()+" on "+event.getSourceWidget());
+                ////System.out.println("FocusManager: Block_Added Event at of "+event.getSourceBlockID()+" on "+event.getSourceWidget());
                 //only add focus manager as listener to blocks added to pages
                 if (!(event.getSourceWidget() instanceof Page)) {
                     break;

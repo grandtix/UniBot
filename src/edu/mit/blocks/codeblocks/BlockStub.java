@@ -289,7 +289,7 @@ public class BlockStub extends Block {
             BlockStub blockStub = ((BlockStub) workspace.getEnv().getBlock(stub));
             if (blockStub.stubGenus.startsWith(CALLER_STUB)) {
                 blockStub.updateConnectors();
-                //System.out.println("updated connectors of: "+blockStub);
+                ////System.out.println("updated connectors of: "+blockStub);
                 blockStub.notifyRenderable();
             }
         }

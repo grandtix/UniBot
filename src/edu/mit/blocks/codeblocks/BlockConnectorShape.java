@@ -493,7 +493,7 @@ public class BlockConnectorShape {
             //look for additional 3rd party shapes here...
 
             default:
-                //System.out.println("Connection Type Not Identified: " + connectionShape);
+                ////System.out.println("Connection Type Not Identified: " + connectionShape);
                 break;
         }
 

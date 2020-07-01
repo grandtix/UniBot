@@ -9,6 +9,9 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.net.URISyntaxException;
+import java.util.ResourceBundle;
+
+import javax.swing.SwingUtilities;
 
 import processing.app.Editor;
 import processing.app.Preferences;
@@ -16,6 +19,7 @@ import processing.app.tools.Tool;
 import processing.mode.java.JavaEditor;
 
 import com.unibot.core.Context;
+import com.unibot.ui.OpenblocksFrame;
 import com.unibot.ui.UniBotToolFrame;
 import com.unibot.ui.listener.OpenblocksFrameListener;
 
@@ -40,7 +44,7 @@ public class UniBot implements Tool, OpenblocksFrameListener
 		
 		if (UniBot.editor == null )
 		{
-		//	System.out.println("ehooooo "+editor.getClass().toString());
+		//	//System.out.println("ehooooo "+editor.getClass().toString());
 			UniBot.editor = editor;
 			UniBot.openblocksFrame = new UniBotToolFrame(editor);
 			UniBot.openblocksFrame.addListener(this);
@@ -49,7 +53,7 @@ public class UniBot implements Tool, OpenblocksFrameListener
 			
 						context.setInArduino(true);
 			context.setArduinoVersionString(arduinoVersion);
-		//	System.out.println("Arduino Version: " + arduinoVersion);
+		//	//System.out.println("Arduino Version: " + arduinoVersion);
 		}
 	}
 	
@@ -71,9 +75,11 @@ public class UniBot implements Tool, OpenblocksFrameListener
 				{
 				openblocksFrame.savedFile=new File(fichier);
 				openblocksFrame.loadFile();
+				
+				
 				}
-		} catch (Exception e) {
-			e.printStackTrace();
+		}catch (Exception e) {
+			// TODO: handle exception
 		}
 	}
 
@@ -90,9 +96,9 @@ public class UniBot implements Tool, OpenblocksFrameListener
 	}
 	
 	public void didGenerate(String source) {
-	//	System.out.println(source);
+	//	//System.out.println(source);
 		UniBot.editor.getCurrentTab().setText(source);
-	//	System.out.println(UniBot.editor.getClass().toString());
+	//	//System.out.println(UniBot.editor.getClass().toString());
 		if (UniBot.editor.getClass().toString().equals("class processing.app.Editor"))
 				UniBot.editor.handleExport(false);
 		

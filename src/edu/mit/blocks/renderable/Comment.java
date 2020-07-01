@@ -391,7 +391,7 @@ public class Comment extends JPanel {
             } else if (commentChild.getNodeName().equals("Collapsed")) {
                 commentCollapsed = true;
             } else {
-                System.out.println("Uknown Comment Node: " + commentChild.getNodeName());
+                //System.out.println("Uknown Comment Node: " + commentChild.getNodeName());
             }
         }
 

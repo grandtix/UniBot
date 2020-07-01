@@ -226,7 +226,7 @@ public class PolyRule implements LinkRule, WorkspaceListener {
 		}
 		// Calls POM to deal with changes in output block types.
 		if (link != null){
-		//System.out.println(link.toString());
+		////System.out.println(link.toString());
 		}
 		ProcedureOutputManager.procedureUpdateInfo(e);
 	}

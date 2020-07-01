@@ -214,14 +214,14 @@ public class WorkspaceController {
      */
     public void ardublockLocalize(Document doc) {
         if (langResourceBundle != null) {
-       // 	System.out.println("in localize :"+doc.toString());
+       // 	//System.out.println("in localize :"+doc.toString());
         	NodeList nodes = doc.getElementsByTagName("BlockGenus");
         	for (int i = 0 ; i < nodes.getLength(); i++) {
         		Element elm = (Element)nodes.item(i);
         		String name = elm.getAttribute("name");
         		String initlabel = elm.getAttribute("initlabel");
 				
-        		// System.out.println("Translating BlockGenu:" + name);
+        		// //System.out.println("Translating BlockGenu:" + name);
 				
         		String altName;
 				try {
@@ -255,7 +255,7 @@ public class WorkspaceController {
 				for (int j = 0 ; j < arg_descs.getLength(); j++) {
 					Element arg_desc = (Element)arg_descs.item(j);
 					String arg_name = arg_desc.getAttribute("name");
-					// System.out.println("bg." + name + ".arg_desc." + arg_name);
+					// //System.out.println("bg." + name + ".arg_desc." + arg_name);
 				}
 			}
         	nodes = doc.getElementsByTagName("BlockDrawer");

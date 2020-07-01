@@ -311,6 +311,7 @@ public class OpenblocksFrame extends JFrame {
 		// getContentPane().add(topPane, BorderLayout.SOUTH);
 		pack();
 
+
 	}
 
 	public Iterable<SearchableContainer> getAllSearchableContainers() {
@@ -324,7 +325,7 @@ public class OpenblocksFrame extends JFrame {
 			File file = new File(getPathConf());
 			if (!file.exists())
 				file.createNewFile();
-			// System.out.println(file.getAbsolutePath());
+			// //System.out.println(file.getAbsolutePath());
 			br = new BufferedReader(new FileReader(getPathConf()));
 			String line;
 
@@ -390,23 +391,7 @@ public class OpenblocksFrame extends JFrame {
 		}
 	}
 
-	public void doOpenUniBotFile() {
-		if (context.isWorkspaceChanged()) {
-			int optionValue = JOptionPane.showOptionDialog(this,
-					uiMessageBundle.getString("message.content.open_unsaved"),
-					uiMessageBundle.getString("message.title.question"), JOptionPane.YES_NO_CANCEL_OPTION,
-					JOptionPane.QUESTION_MESSAGE, null, null, JOptionPane.YES_OPTION);
-			if (optionValue == JOptionPane.YES_OPTION)
-				doSaveUniBotFile();
-
-		}
-		File file = this.loadFile();
-		if (file != null) {
-			this.setTitle(makeFrameTitle());
-			editor.getCurrentTab().removeAll();
-
-		}
-	}
+	
 
 	public void doBlankUniBotFile() {
 		if (context.isWorkspaceChanged()) {
@@ -480,7 +465,7 @@ public class OpenblocksFrame extends JFrame {
 					null, null, JOptionPane.OK_OPTION);
 			e.printStackTrace();
 		}
-
+genererCode(workspace, context, this,  uiMessageBundle, false);
 		toFront();
 		repaint();
 		return savedFile;
@@ -488,90 +473,40 @@ public class OpenblocksFrame extends JFrame {
 
 	public void doSaveAsUniBotFile() {
 		saveFilePath = null;
-		save();
+		save(false);
 
 	}
 
 	public void doSaveUniBotFile() {
 		if (context.isWorkspaceChanged()) {
-			save();
+			save(true);
 		}
 	}
 
-	private void save() {
+	private void save(boolean sameFile) {
 
-		try {
-			WorkspaceController workspaceController = context.getWorkspaceController();
-			String saveString = workspaceController.getSaveString();
-			//
-			// System.out.println(editor.getSketch().getFile(0).getFile().getAbsolutePath()
-			// + " " + saveFilePath);
-			File saveFile = null;
-			if (editor != null) {
-				if (!editor.getSketch().getFile(0).getFile().getAbsolutePath()
-						.equals(saveFilePath.replace(".abp", ".ino")) || saveFilePath == null) {
-					// System.out.println("autre fichier arduino OU 'save as' ");
-					editor.handleSaveAs();
-				} else
-					editor.handleSave(true);
-
-				saveFilePath = editor.getSketch().getFile(0).getFile().getAbsolutePath().replace(".ino", ".abp");
-			} else {
-				
-				if (saveFilePath==null)
-				{
-				JFileChooser fileChooser = new JFileChooser();
-				fileChooser.addChoosableFileFilter(new FileFilter()// adds new filter into list
-				{
-					String description = "Fichiers UniBot (*.abp)";// the filter you see
-					String extension = "abp";// the filter passed to program
-
-					public String getDescription() {
-						return description;
-					}
-
-					public boolean accept(File f) {
-						if (f == null)
-							return false;
-						if (f.isDirectory())
-							return true;
-						return f.getName().toLowerCase().endsWith(extension);
-					}
-				});
-
-				fileChooser.setDialogTitle("Enregistrer sous...");
-
-				int userSelection = fileChooser.showSaveDialog(this);
-
-				if (userSelection == JFileChooser.APPROVE_OPTION) {
-					saveFile = fileChooser.getSelectedFile().getName().endsWith(".abp") ? new File(fileChooser.getSelectedFile().getAbsolutePath()+"/"+fileChooser.getSelectedFile().getName())
-							: new File(fileChooser.getSelectedFile().getAbsolutePath()+"/"+fileChooser.getSelectedFile().getName() + ".abp");
-				}
-				}
-				else
-					
-				{
-					saveFile=new File (saveFilePath);
-				}
-			}
-			if (saveFile != null) {
-				if (editor==null) {
-				
-					File ardufile= new File(saveFile.getAbsolutePath().replace(".abp", ".ino"));
-					context.saveUniBotFile(ardufile, code.getText());
-				}
-				
-				context.saveUniBotFile(saveFile, saveString);
-				saveFilePath = saveFile.getAbsolutePath();
-				saveFileName = saveFile.getName();
-				context.setWorkspaceChanged(false);
-				this.setTitle(this.makeFrameTitle());
-			}
-
-		} catch (Exception ex) {
-			ex.printStackTrace();
+		
+		if (sameFile && saveFilePath!=null)
+		{
+			
+			editor.handleSave(true);
 		}
-
+		else
+			editor.handleSaveAs();
+		
+		saveFilePath=editor.getSketch().getMainFilePath();
+		//System.out.println(saveFilePath);
+		//System.out.println(editor.getSketch().getMainFilePath());
+		File ardufile= new File(saveFilePath.replace(".ino", ".abp"));
+		try {
+			context.saveUniBotFile(ardufile, context.getWorkspaceController().getSaveString());
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		context.setWorkspaceChanged(false);
+		this.setTitle(ardufile.getName());	
+		saveFileName=ardufile.getName();
 		toFront();
 		repaint();
 
@@ -621,7 +556,7 @@ public class OpenblocksFrame extends JFrame {
 					loopBlockSet.add(renderableBlock);
 				}
 
-				// System.out.println("block genus name :"+block.getGenusName());
+				// //System.out.println("block genus name :"+block.getGenusName());
 				if (block.getGenusName().equals("subroutine")) {
 
 					String functionName = translator.getBlock(block.getSocketAt(0).getBlockID()).getBlockLabel().trim();
@@ -688,7 +623,7 @@ public class OpenblocksFrame extends JFrame {
 				checkConnectors(loopBlock.getSocketAt(0), renderableBlocks, "loop");
 
 				if (!translator.isFromArduino()) {
-					// System.out.println();
+					// //System.out.println();
 					// tmp.append("void draw()\n{\n");
 					tmp.append(translator.generateDrawCustomCode());
 					// tmp.append("\n}\n}\n");
@@ -708,14 +643,14 @@ public class OpenblocksFrame extends JFrame {
 
 					code.append("void programme" + translator.getRobotName() + "()\n{\n");
 				}
-				// System.out.println("*****************");
-				// System.out.println("1"+editor.getSketch().getPrimaryFile().getName());
-				// System.out.println("2" +
+				// //System.out.println("*****************");
+				// //System.out.println("1"+editor.getSketch().getPrimaryFile().getName());
+				// //System.out.println("2" +
 				// editor.getSketch().getMainFilePath());
-				// System.out.println("3"+editor.getSketch().getPrimaryFile().getName());
-				// System.out.println("4"
+				// //System.out.println("3"+editor.getSketch().getPrimaryFile().getName());
+				// //System.out.println("4"
 				// + editor.getSketch().getCurrentCode().getFileName());
-				// System.out.println("*****************");
+				// //System.out.println("*****************");
 				code.append(translator.generateSetupCustomCode());
 
 				code.append(translator.translate(setBlock.getBlockID(), true));
@@ -800,7 +735,7 @@ public class OpenblocksFrame extends JFrame {
 					this.code.setText(code.toString());
 				}
 			else {
-				System.out.println(code.toString());
+				//System.out.println(code.toString());
 			}
 			if (!translator.isFromArduino())
 				try {
@@ -808,7 +743,7 @@ public class OpenblocksFrame extends JFrame {
 					// tix2018 editor.getCurrentTab().gete;
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
-					System.out.println(code.toString());
+					//System.out.println(code.toString());
 				}
 			if (toTeleverser) {
 				if (!codeHasErrors) {
@@ -846,7 +781,7 @@ public class OpenblocksFrame extends JFrame {
 				Block block2 = renderableBlock2.getBlock();
 				if (block.getBlockID().compareTo(block2.getBlockID()) == 0) {
 					context.highlightBlock(renderableBlock2);
-					System.out.println("on allume " + renderableBlock2.getGenus());
+					//System.out.println("on allume " + renderableBlock2.getGenus());
 					codeHasErrors = true;
 					if (listeBlocksError.get(mainmethod) == null)
 						listeBlocksError.put(mainmethod,
@@ -870,7 +805,7 @@ public class OpenblocksFrame extends JFrame {
 			for (RenderableBlock renderableBlock3 : renderableBlocks) {
 				Block block3 = renderableBlock3.getBlock();
 				if (block3.getBlockID().compareTo(blockConnector.getBlockID()) == 0) {
-					// System.out.println("recurs "+block3.getBlockLabel());
+					// //System.out.println("recurs "+block3.getBlockLabel());
 					for (int i = 0; i < block3.getNumSockets(); i++)
 						recursSockets(block3, block3.getSocketAt(i), renderableBlocks, mainmethod);
 				}
@@ -886,11 +821,11 @@ public class OpenblocksFrame extends JFrame {
 			while (tmp.hasBlock()) {
 				for (RenderableBlock renderableBlock2 : renderableBlocks) {
 					Block block2 = renderableBlock2.getBlock();
-					// System.out.println("***" + block2.getBlockID() + "***" + tmp.getBlockID() +
+					// //System.out.println("***" + block2.getBlockID() + "***" + tmp.getBlockID() +
 					// "***");
 					if (block2.getBlockID().compareTo(tmp.getBlockID()) == 0) {
 						bb = block2;
-						// System.out.println("oueeeeee");
+						// //System.out.println("oueeeeee");
 						for (int i = 0; i < block2.getNumSockets(); i++) {
 							recursSockets(block2, block2.getSocketAt(i), renderableBlocks, mainmethod);
 
@@ -903,7 +838,7 @@ public class OpenblocksFrame extends JFrame {
 	}
 
 	public void getFile(String path) {
-		// System.out.println(path);
+		// //System.out.println(path);
 		InputStream stream = null;
 		if (path == null) {
 			context.getWorkspaceController()

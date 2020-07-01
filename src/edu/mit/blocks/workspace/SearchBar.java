@@ -90,7 +90,7 @@ public class SearchBar {
             }
 
             public void insertUpdate(DocumentEvent e) {
-                //System.out.println("Called insertUpdate, offset = " + e.getOffset() + ", query length = " + searchBar.getText().length());
+                ////System.out.println("Called insertUpdate, offset = " + e.getOffset() + ", query length = " + searchBar.getText().length());
                 if (searchBar.getText().equals(SearchBar.this.defaultText)) {
                     return;
                 }
@@ -107,7 +107,7 @@ public class SearchBar {
             }
 
             public void removeUpdate(DocumentEvent e) {
-                //System.out.println("Called removeUpdate, offset = " + e.getOffset() + ", query length = " + searchBar.getText().length());
+                ////System.out.println("Called removeUpdate, offset = " + e.getOffset() + ", query length = " + searchBar.getText().length());
                 if (searchBar.getText().equals("")) {
                     performSearch(SearchRange.CHECK_ALL);
                 } else if (e.getOffset() == 0 || e.getOffset() == searchBar.getText().length()) {
@@ -268,7 +268,7 @@ public class SearchBar {
     }
 
     private void performSearchTimerHandler() {
-        //System.out.println("performing search... range = " + searchRange);
+        ////System.out.println("performing search... range = " + searchRange);
         if (searchBar.getText().equals("")) {
             clearSearchResults();
             return;
