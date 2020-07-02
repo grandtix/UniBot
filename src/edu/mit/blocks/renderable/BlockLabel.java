@@ -360,6 +360,7 @@ public class BlockLabel implements MouseListener, MouseMotionListener, KeyListen
             	 
             	 OpenblocksFrame tt=((OpenblocksFrame) SwingUtilities.getWindowAncestor(workspace.getEnv().getRenderableBlock(blockID)));
          		try {
+
          			tt.genererCode(
          					workspace,
          					Context.getContext(),

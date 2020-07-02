@@ -26,6 +26,7 @@
             <zipfileset excludes="META-INF/*.SF" src="${dir.buildfile}/lib/batik-transcoder-1.8.jar"/>
         </jar>
     	<copy file="${dir.jarfile}/UniBot.jar" tofile="C:/Users/grandtix/Documents/Arduino/tools/Unibot/tool/UniBot.jar"/>
+    	<copy file="${dir.jarfile}/UniBot.jar" tofile="C:/Users/grandtix/git/UniBot/UniBot.jar"/>
     	<property name="prog" location="C:/Program Files (x86)/Arduino/arduino.exe"/>
 
    <!-- 	<exec executable="${prog}" spawn="true"> 

@@ -188,12 +188,9 @@ public class RenderableBlock extends JComponent
 	 * Constructs a new RenderableBlock instance with the specified parent
 	 * WorkspaceWidget and Long blockID of its associated Block
 	 * 
-	 * @param workspace
-	 *            The workspace in use
-	 * @param parent
-	 *            the WorkspaceWidget containing this
-	 * @param blockID
-	 *            Long Block id of associated with this
+	 * @param workspace The workspace in use
+	 * @param parent    the WorkspaceWidget containing this
+	 * @param blockID   Long Block id of associated with this
 	 */
 	public RenderableBlock(Workspace workspace, WorkspaceWidget parent, Long blockID) {
 		this(workspace, parent, blockID, false);
@@ -203,15 +200,11 @@ public class RenderableBlock extends JComponent
 	 * Constructs a new RenderableBlock instance with the specified parent
 	 * WorkspaceWidget and Long blockID of its associated Block
 	 * 
-	 * @param workspace
-	 *            The workspace in use
-	 * @param parent
-	 *            the WorkspaceWidget containing this
-	 * @param blockID
-	 *            Long Block id of associated with this
-	 * @param isLoading
-	 *            indicates if this block is still waiting for all information
-	 *            needed to properly construct it
+	 * @param workspace The workspace in use
+	 * @param parent    the WorkspaceWidget containing this
+	 * @param blockID   Long Block id of associated with this
+	 * @param isLoading indicates if this block is still waiting for all information
+	 *                  needed to properly construct it
 	 */
 	private RenderableBlock(Workspace workspace, WorkspaceWidget parent, Long blockID, boolean isLoading) {
 		super();
@@ -352,8 +345,7 @@ public class RenderableBlock extends JComponent
 	}
 
 	/**
-	 * @param abstractBlockArea
-	 *            the abstractBlockArea to set
+	 * @param abstractBlockArea the abstractBlockArea to set
 	 */
 	void setAbstractBlockArea(Area abstractBlockArea) {
 		this.abstractBlockArea = abstractBlockArea;
@@ -364,12 +356,10 @@ public class RenderableBlock extends JComponent
 	 * location is specified by the <code>x</code> and <code>y</code> parameters in
 	 * the coordinate space of this component's parent.
 	 * 
-	 * @param x
-	 *            the <i>x</i>-coordinate of the new location's top-left corner in
-	 *            the parent's coordinate space
-	 * @param y
-	 *            the <i>y</i>-coordinate of the new location's top-left corner in
-	 *            the parent's coordinate space
+	 * @param x the <i>x</i>-coordinate of the new location's top-left corner in the
+	 *          parent's coordinate space
+	 * @param y the <i>y</i>-coordinate of the new location's top-left corner in the
+	 *          parent's coordinate space
 	 */
 	@Override
 	public void setLocation(int x, int y) {
@@ -391,9 +381,8 @@ public class RenderableBlock extends JComponent
 	 * location is specified by point <code>p</code>. Point <code>p</code> is given
 	 * in the parent's coordinate space.
 	 * 
-	 * @param p
-	 *            the point defining the top-left corner of the new location, given
-	 *            in the coordinate space of this component's parent
+	 * @param p the point defining the top-left corner of the new location, given in
+	 *          the coordinate space of this component's parent
 	 */
 	@Override
 	public void setLocation(Point p) {
@@ -428,8 +417,7 @@ public class RenderableBlock extends JComponent
 	 * traverses through the entire stack of the specified RenderableBlock rb and
 	 * calculates the bounds.
 	 * 
-	 * @param rb
-	 *            the RenderableBlock to calculate the stack bounds of
+	 * @param rb the RenderableBlock to calculate the stack bounds of
 	 * @return Dimensions of the stack of the specified rb
 	 */
 	private Dimension calcStackDimensions(RenderableBlock rb) {
@@ -506,8 +494,7 @@ public class RenderableBlock extends JComponent
 	 * Returns the BlockImageIcon instance at the specified location; null if no
 	 * BlockImageIcon exists at that location
 	 * 
-	 * @param location
-	 *            the ImageLocation of the desired BlockImageIcon
+	 * @param location the ImageLocation of the desired BlockImageIcon
 	 * @return the BlockImageIcon instance at the specified location; null if no
 	 *         BlockImageIcon exists at that location
 	 */
@@ -775,8 +762,7 @@ public class RenderableBlock extends JComponent
 	 * getSocketPoint; that is, this method clones a new Point object. The new Point
 	 * object MAY NOT BE NULL.
 	 * 
-	 * @param socket
-	 *            - the socket whose point we want. socket MAY NOT BE NULL.
+	 * @param socket - the socket whose point we want. socket MAY NOT BE NULL.
 	 * @return a Point representing the socket's center
 	 * @requires socket != null and socket is one of this block's socket
 	 */
@@ -786,7 +772,7 @@ public class RenderableBlock extends JComponent
 			return tag.getPixelLocation();
 		}
 
-		//System.out.println("Error, Socket has no connector tag: " + socket);
+		// System.out.println("Error, Socket has no connector tag: " + socket);
 		return new Point(0, -100); // JBT hopefully this doesn't hurt anything,
 									// this is masking a bug that needs to be
 									// tracked down, why is the connector tag
@@ -799,8 +785,7 @@ public class RenderableBlock extends JComponent
 	 * getSocketPoint; that is, this method clones a new Point object. The new Point
 	 * object MAY NOT BE NULL.
 	 * 
-	 * @param socket
-	 *            - the socket whose point we want. socket MAY NOT BE NULL.
+	 * @param socket - the socket whose point we want. socket MAY NOT BE NULL.
 	 * @return a Point representing the socket's center
 	 * @requires socket != null and socket is one of this block's socket
 	 */
@@ -812,10 +797,9 @@ public class RenderableBlock extends JComponent
 	/**
 	 * Updates the center point location of this socket
 	 * 
-	 * @param socket
-	 *            - the socket whose point we will update. Socket MAY NOT BE NULL
-	 * @param point
-	 *            - the ABSTRACT location of socket's center. ABSTRACT LOCATION!!!
+	 * @param socket - the socket whose point we will update. Socket MAY NOT BE NULL
+	 * @param point  - the ABSTRACT location of socket's center. ABSTRACT
+	 *               LOCATION!!!
 	 * 
 	 * @requires socket != null and there exist a matching tag for the socket
 	 */
@@ -854,8 +838,7 @@ public class RenderableBlock extends JComponent
 	/**
 	 * Sets the parent WorkspaceWidget containing this
 	 * 
-	 * @param widget
-	 *            the desired WorkspaceWidget
+	 * @param widget the desired WorkspaceWidget
 	 */
 	public void setParentWidget(WorkspaceWidget widget) {
 		parent = widget;
@@ -991,14 +974,13 @@ public class RenderableBlock extends JComponent
 	 * these dimensions to determine the appropriate bounds to stretch the
 	 * connectedSocket by.
 	 * 
-	 * @param connectedSocket
-	 *            BlockConnector which block connection/disconnection occurred
-	 * @param connectedToBlockID
-	 *            the Long block ID of the block connected/disconnected to the
-	 *            specified connectedSocket
-	 * @param isConnected
-	 *            boolean flag to determine if a block connected or disconnected to
-	 *            the connectedSocket
+	 * @param connectedSocket    BlockConnector which block connection/disconnection
+	 *                           occurred
+	 * @param connectedToBlockID the Long block ID of the block
+	 *                           connected/disconnected to the specified
+	 *                           connectedSocket
+	 * @param isConnected        boolean flag to determine if a block connected or
+	 *                           disconnected to the connectedSocket
 	 */
 	private void updateSocketSpace(BlockConnector connectedSocket, long connectedToBlockID, boolean isConnected) {
 		// //System.out.println("updating socket space of :" +
@@ -1045,8 +1027,7 @@ public class RenderableBlock extends JComponent
 	/**
 	 * Calculates the dimensions at the specified socket
 	 * 
-	 * @param socket
-	 *            BlockConnector to calculate the dimension of
+	 * @param socket BlockConnector to calculate the dimension of
 	 * @return Dimension of the specified socket
 	 */
 	private Dimension calcDimensionOfSocket(BlockConnector socket) {
@@ -1119,7 +1100,7 @@ public class RenderableBlock extends JComponent
 				// TODO: this is a patch, but we need to fix the root of the
 				// problem!
 				if (workspace.getEnv().getRenderableBlock(curBlockID) == null) {
-					//System.out.println("does not exist yet, block: " + curBlockID);
+					// System.out.println("does not exist yet, block: " + curBlockID);
 					continue;
 				}
 
@@ -1142,8 +1123,7 @@ public class RenderableBlock extends JComponent
 	 * Helper method for updateSocketSpace and calcStackDim. Returns the maximum
 	 * width of the specified blockID's socket blocks
 	 * 
-	 * @param blockID
-	 *            the Long blockID of the desired block
+	 * @param blockID the Long blockID of the desired block
 	 */
 	public int getMaxWidthOfSockets(Long blockID) {
 		int width = 0;
@@ -1358,10 +1338,8 @@ public class RenderableBlock extends JComponent
 	/**
 	 * Draws the BlockImageIcon instances of this onto itself
 	 * 
-	 * @param width
-	 *            the current width of the buffered image
-	 * @param height
-	 *            the current height of the buffered image
+	 * @param width  the current width of the buffered image
+	 * @param height the current height of the buffered image
 	 */
 	private void repositionBlockImages(int width, int height) {
 		int margin = 5;
@@ -1407,8 +1385,7 @@ public class RenderableBlock extends JComponent
 	 * when those states are no longer active, the color is set back to the
 	 * specified hlColor, if resetHightlight() was not called in the meantime.
 	 * 
-	 * @param color
-	 *            the desired highlight Color
+	 * @param color the desired highlight Color
 	 */
 	public void setBlockHighlightColor(Color color) {
 		highlighter.setHighlightColor(color);
@@ -1425,8 +1402,7 @@ public class RenderableBlock extends JComponent
 	 * Tells this RenderableBlock to move its highlight handler to a new parent
 	 * (should be called after this RB is moved to a new parent)
 	 * 
-	 * @param parent
-	 *            the RBParent that is the RB's new parent
+	 * @param parent the RBParent that is the RB's new parent
 	 */
 	public void setHighlightParent(RBParent parent) {
 		highlighter.setParent(parent);
@@ -1610,7 +1586,7 @@ public class RenderableBlock extends JComponent
 	 */
 	public void moveConnectedBlocks() {
 		if (DEBUG) {
-			//System.out.println("move connected blocks of this: " + this);
+			// System.out.println("move connected blocks of this: " + this);
 		}
 
 		// if this hasn't been added anywhere, asking its location will break
@@ -1676,8 +1652,8 @@ public class RenderableBlock extends JComponent
 	 * This method is called when this RenderableBlock is plugged into another
 	 * RenderableBlock that has finished dragging.
 	 * 
-	 * @param widget
-	 *            the WorkspaceWidget where this RenderableBlock is being dropped.
+	 * @param widget the WorkspaceWidget where this RenderableBlock is being
+	 *               dropped.
 	 */
 	public static void stopDragging(RenderableBlock renderable, WorkspaceWidget widget) {
 		if (!renderable.dragging) {
@@ -1822,7 +1798,9 @@ public class RenderableBlock extends JComponent
 		}
 		workspace.getMiniMap().repaint();
 		OpenblocksFrame tt = ((OpenblocksFrame) SwingUtilities.getWindowAncestor(this));
+
 		try {
+
 			tt.genererCode(workspace, Context.getContext(), tt, ResourceBundle.getBundle("com/unibot/block/unibot"),
 					false);
 			;
@@ -1982,13 +1960,10 @@ public class RenderableBlock extends JComponent
 	 * Loads a RenderableBlock and its related Block instance from the specified
 	 * blockNode; returns null if no RenderableBlock was loaded.
 	 * 
-	 * @param workspace
-	 *            The workspace to use
-	 * @param blockNode
-	 *            Node containing information to load into a RenderableBlock
-	 *            instance
-	 * @param parent
-	 *            WorkspaceWidget to contain the block to load
+	 * @param workspace The workspace to use
+	 * @param blockNode Node containing information to load into a RenderableBlock
+	 *                  instance
+	 * @param parent    WorkspaceWidget to contain the block to load
 	 * @return RenderableBlock instance holding the information in blockNode; null
 	 *         if no RenderableBlock loaded
 	 */
@@ -1999,8 +1974,7 @@ public class RenderableBlock extends JComponent
 
 		if (isBlock || isBlockStub) {
 			RenderableBlock rb = new RenderableBlock(workspace, parent,
-					Block.loadBlockFrom(workspace, blockNode, idMapping).getBlockID()
-					, true);
+					Block.loadBlockFrom(workspace, blockNode, idMapping).getBlockID(), true);
 
 			if (isBlockStub) {
 				// need to get actual block node
@@ -2008,7 +1982,8 @@ public class RenderableBlock extends JComponent
 				for (int j = 0; j < stubchildren.getLength(); j++) {
 					Node node = stubchildren.item(j);
 					if (node.getNodeName().equals("Block")) {
-						//System.out.println("in rdblock loadBlockNode ****************"+node.getTextContent());
+						// System.out.println("in rdblock loadBlockNode
+						// ****************"+node.getTextContent());
 						blockNode = node;
 						break;
 					}
@@ -2053,17 +2028,17 @@ public class RenderableBlock extends JComponent
 	}
 
 	public static String getTextValue(Node node) {
-	    StringBuffer textValue = new StringBuffer();
-	    int length = node.getChildNodes().getLength();
-	    for (int i = 0; i < length; i ++) {
-	      Node c = node.getChildNodes().item(i);
-	      if (c.getNodeType() == Node.TEXT_NODE) {
-	        textValue.append(c.getNodeValue());
-	      }
-	    }
-	    return textValue.toString().trim();
-	  }
-	
+		StringBuffer textValue = new StringBuffer();
+		int length = node.getChildNodes().getLength();
+		for (int i = 0; i < length; i++) {
+			Node c = node.getChildNodes().item(i);
+			if (c.getNodeType() == Node.TEXT_NODE) {
+				textValue.append(c.getNodeValue());
+			}
+		}
+		return textValue.toString().trim();
+	}
+
 	/**
 	 * Read Location Node change loc to location in Node
 	 * 
@@ -2216,8 +2191,7 @@ public class RenderableBlock extends JComponent
 	/**
 	 * calculates the x when the zoom is 1.0
 	 * 
-	 * @param x
-	 *            of the current position
+	 * @param x of the current position
 	 * @return the x when the zoom is 1.0
 	 */
 	public int calculateUnzoomedX(int x) {
@@ -2227,8 +2201,7 @@ public class RenderableBlock extends JComponent
 	/**
 	 * calculates the y when the zoom is 1.0
 	 * 
-	 * @param y
-	 *            of the current position
+	 * @param y of the current position
 	 * @return the y when the zoom is 1.0
 	 */
 	public int calculateUnzoomedY(int y) {
@@ -2302,6 +2275,7 @@ public class RenderableBlock extends JComponent
 		case KeyEvent.VK_ENTER:
 			OpenblocksFrame tt = ((OpenblocksFrame) SwingUtilities.getWindowAncestor(this));
 			try {
+
 				tt.genererCode(workspace, Context.getContext(), tt, ResourceBundle.getBundle("com/unibot/block/unibot"),
 						false);
 				;

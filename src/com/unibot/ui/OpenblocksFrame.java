@@ -173,7 +173,7 @@ public class OpenblocksFrame extends JFrame {
 		ffilter = new FileNameExtensionFilter(uiMessageBundle.getString("unibot.file.suffix"), "abp");
 		fileChooser.setFileFilter(ffilter);
 		fileChooser.addChoosableFileFilter(ffilter);
-		context.setWorkspaceChanged(true);
+		context.setWorkspaceChanged(false);
 
 		initOpenBlocks();
 		repaint();
@@ -311,7 +311,6 @@ public class OpenblocksFrame extends JFrame {
 		// getContentPane().add(topPane, BorderLayout.SOUTH);
 		pack();
 
-
 	}
 
 	public Iterable<SearchableContainer> getAllSearchableContainers() {
@@ -354,7 +353,6 @@ public class OpenblocksFrame extends JFrame {
 				// System.exit(0);
 				saveFilePath = null;
 				saveFileName = "sans titre";
-				context.setWorkspaceChanged(true);
 				this.setTitle(this.makeFrameTitle());
 				setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 			} else {
@@ -370,7 +368,6 @@ public class OpenblocksFrame extends JFrame {
 				OpenblocksFrame.this.context.getWorkspaceController().loadFreshWorkspace();
 				// System.exit(0);
 				saveFilePath = null;
-				saveFileName = "sans titre";
 				context.setWorkspaceChanged(true);
 				this.setTitle(this.makeFrameTitle());
 				setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -382,7 +379,6 @@ public class OpenblocksFrame extends JFrame {
 				OpenblocksFrame.this.context.getWorkspaceController().loadFreshWorkspace();
 				// System.exit(0);
 				saveFilePath = null;
-				saveFileName = "sans titre";
 				context.setWorkspaceChanged(true);
 				this.setTitle(this.makeFrameTitle());
 				setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -391,7 +387,15 @@ public class OpenblocksFrame extends JFrame {
 		}
 	}
 
-	
+	private void doBlank() {
+		context.getWorkspaceController().resetWorkspace();
+		context.getWorkspaceController().loadFreshWorkspace();
+		saveFilePath = null;
+		saveFileName = "sans titre";
+		this.setTitle(makeFrameTitle());
+		loadLibs();
+			context.setWorkspaceChanged(false);
+}
 
 	public void doBlankUniBotFile() {
 		if (context.isWorkspaceChanged()) {
@@ -401,41 +405,18 @@ public class OpenblocksFrame extends JFrame {
 					JOptionPane.QUESTION_MESSAGE, null, null, JOptionPane.YES_OPTION);
 			if (optionValue == JOptionPane.YES_OPTION) {
 				doSaveUniBotFile();
-				context.getWorkspaceController().resetWorkspace();
-				context.getWorkspaceController().loadFreshWorkspace();
-				saveFilePath = null;
-				saveFileName = "sans titre";
-				context.setWorkspaceChanged(true);
-				this.setTitle(makeFrameTitle());
-				loadLibs();
+				doBlank();
 
 			} else {
-				if (optionValue == JOptionPane.NO_OPTION) {
-					context.getWorkspaceController().resetWorkspace();
-					context.getWorkspaceController().loadFreshWorkspace();
-					saveFilePath = null;
-					saveFileName = "sans titre";
-					context.setWorkspaceChanged(true);
-					this.setTitle(this.makeFrameTitle());
-					loadLibs();
-
-				} else {
-					if (optionValue == JOptionPane.CANCEL_OPTION) {
-
-					}
-				}
+				if (optionValue == JOptionPane.NO_OPTION)
+					doBlank();
 			}
-		} else {
-			context.getWorkspaceController().resetWorkspace();
-			context.getWorkspaceController().loadFreshWorkspace();
-			saveFilePath = null;
-			saveFileName = "sans titre";
-			context.setWorkspaceChanged(true);
-			this.setTitle(this.makeFrameTitle());
-			loadLibs();
+		} else
+			doBlank();
 
-		}
 		this.setTitle(makeFrameTitle());
+		genererCode(workspace, context, this, uiMessageBundle, false);
+
 	}
 
 	public File loadFile() {
@@ -456,7 +437,6 @@ public class OpenblocksFrame extends JFrame {
 		saveFileName = savedFile.getName();
 		try {
 			context.loadUniBotFile(savedFile);
-			context.setWorkspaceChanged(false);
 			loadLibs();
 
 		} catch (IOException e) {
@@ -465,9 +445,13 @@ public class OpenblocksFrame extends JFrame {
 					null, null, JOptionPane.OK_OPTION);
 			e.printStackTrace();
 		}
-genererCode(workspace, context, this,  uiMessageBundle, false);
+		genererCode(workspace, context, this, uiMessageBundle, false);
+
 		toFront();
-		repaint();
+		repaint();	
+		context.setWorkspaceChanged(false);
+		this.setTitle(makeFrameTitle());
+
 		return savedFile;
 	}
 
@@ -478,6 +462,7 @@ genererCode(workspace, context, this,  uiMessageBundle, false);
 	}
 
 	public void doSaveUniBotFile() {
+		System.out.println("context.isWorkspaceChanged( )   "+context.isWorkspaceChanged());
 		if (context.isWorkspaceChanged()) {
 			save(true);
 		}
@@ -485,19 +470,16 @@ genererCode(workspace, context, this,  uiMessageBundle, false);
 
 	private void save(boolean sameFile) {
 
-		
-		if (sameFile && saveFilePath!=null)
-		{
-			
+		if (sameFile && saveFilePath != null) {
+
 			editor.handleSave(true);
-		}
-		else
+		} else
 			editor.handleSaveAs();
-		
-		saveFilePath=editor.getSketch().getMainFilePath();
-		//System.out.println(saveFilePath);
-		//System.out.println(editor.getSketch().getMainFilePath());
-		File ardufile= new File(saveFilePath.replace(".ino", ".abp"));
+
+		saveFilePath = editor.getSketch().getMainFilePath();
+		// System.out.println(saveFilePath);
+		// System.out.println(editor.getSketch().getMainFilePath());
+		File ardufile = new File(saveFilePath.replace(".ino", ".abp"));
 		try {
 			context.saveUniBotFile(ardufile, context.getWorkspaceController().getSaveString());
 		} catch (IOException e) {
@@ -505,8 +487,8 @@ genererCode(workspace, context, this,  uiMessageBundle, false);
 			e.printStackTrace();
 		}
 		context.setWorkspaceChanged(false);
-		this.setTitle(ardufile.getName());	
-		saveFileName=ardufile.getName();
+		this.setTitle(ardufile.getName());
+		saveFileName = ardufile.getName();
 		toFront();
 		repaint();
 
@@ -735,7 +717,7 @@ genererCode(workspace, context, this,  uiMessageBundle, false);
 					this.code.setText(code.toString());
 				}
 			else {
-				//System.out.println(code.toString());
+				// System.out.println(code.toString());
 			}
 			if (!translator.isFromArduino())
 				try {
@@ -743,7 +725,7 @@ genererCode(workspace, context, this,  uiMessageBundle, false);
 					// tix2018 editor.getCurrentTab().gete;
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
-					//System.out.println(code.toString());
+					// System.out.println(code.toString());
 				}
 			if (toTeleverser) {
 				if (!codeHasErrors) {
@@ -781,7 +763,7 @@ genererCode(workspace, context, this,  uiMessageBundle, false);
 				Block block2 = renderableBlock2.getBlock();
 				if (block.getBlockID().compareTo(block2.getBlockID()) == 0) {
 					context.highlightBlock(renderableBlock2);
-					//System.out.println("on allume " + renderableBlock2.getGenus());
+					// System.out.println("on allume " + renderableBlock2.getGenus());
 					codeHasErrors = true;
 					if (listeBlocksError.get(mainmethod) == null)
 						listeBlocksError.put(mainmethod,

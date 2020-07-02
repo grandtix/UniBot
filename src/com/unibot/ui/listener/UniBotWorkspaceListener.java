@@ -18,6 +18,7 @@ public class UniBotWorkspaceListener implements WorkspaceListener
 	
 	public void workspaceEventOccurred(WorkspaceEvent event)
 	{
+		System.out.println(2);
 		if (!context.isWorkspaceChanged())
 		{
 			context.setWorkspaceChanged(true);
@@ -27,6 +28,9 @@ public class UniBotWorkspaceListener implements WorkspaceListener
 				frame.setTitle(title);
 			}
 		}
+		else
+		
+
 		context.resetHightlightBlock();
 		
 		
