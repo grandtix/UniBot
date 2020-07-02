@@ -462,7 +462,6 @@ public class OpenblocksFrame extends JFrame {
 	}
 
 	public void doSaveUniBotFile() {
-		System.out.println("context.isWorkspaceChanged( )   "+context.isWorkspaceChanged());
 		if (context.isWorkspaceChanged()) {
 			save(true);
 		}
