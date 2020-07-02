@@ -155,7 +155,7 @@ public class OpenblocksFrame extends JFrame {
 		this.editor = editor;
 		saveFilePath = null;
 		saveFileName = "sans titre";
-		System.setProperty("user.dir", "C:\\Users\\grandtix\\git\\UniBot");
+	//	System.setProperty("user.dir", "C:\\Users\\grandtix\\git\\UniBot");
 
 		context = Context.getContext();
 		this.setTitle("UniBot");
